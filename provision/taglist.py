@@ -1,4 +1,4 @@
-import settings
+import provision.settings as settings
 from .service import Provision
 
 

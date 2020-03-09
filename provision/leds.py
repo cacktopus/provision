@@ -1,6 +1,6 @@
 from typing import List, Dict
 
-import settings
+import provision.settings as settings
 from .service import Service
 
 

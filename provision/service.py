@@ -6,7 +6,7 @@ import requests
 import yaml
 
 import provision.packages as packages
-import settings
+import provision.settings as settings
 from .consul_health_checks import check_http
 from .context import Context
 from .run_remote_script import Runner
