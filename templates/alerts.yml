@@ -1,0 +1,45 @@
+# note: this file should be processed by changing the interpolation delimiters to something other than {{ and }}
+
+groups:
+- name: alerts
+  rules:
+
+  - alert: InstanceDown
+    expr: >-
+      (1 - up) > 0
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: "{{ $labels.instance }} Instance down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+
+  - alert: LowMemory
+    expr: >-
+      node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.25
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: "{{ $labels.instance }} low memory"
+      description: "{{ $labels.instance }} low memory"
+
+  - alert: LowDisk
+    expr: >-
+      node_filesystem_avail_bytes{mountpoint="/",job="node-exporter"} < 1000000000
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: "{{ $labels.instance }} low disk"
+      description: "{{ $labels.instance }} low disk"
+
+  - alert: FirewallDown
+    expr: >-
+      node_systemd_unit_state{state!="active",name="firewall.service"} > 0
+    for: 60m
+    labels:
+      severity: page
+    annotations:
+      summary: "Firewall ({{ $labels.host }}) is down"
+      description: "Firewall ({{ $labels.host }}) is down"

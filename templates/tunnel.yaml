@@ -1,0 +1,7 @@
+gateway: "{{gateway}}:22"
+listen: "127.0.0.1:{{port}}"
+dial: "127.0.0.1:22"
+keyfile: $HOME/.ssh/tunnel.id_rsa
+stdout: $HOME/tunnel.log
+metrics: ":8050"
+

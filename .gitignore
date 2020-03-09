@@ -1,0 +1,8 @@
+.idea/
+.swp
+*.retry
+*.pyc
+env/
+secrets.yaml
+remote_scripts.pyz
+vaults/*/data/sys/counters/*/*

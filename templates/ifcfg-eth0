@@ -1,0 +1,10 @@
+BOOTPROTO='static'
+MTU=''
+REMOTE_IPADDR=''
+STARTMODE='auto'
+BROADCAST=''
+ETHTOOL_OPTIONS=''
+IPADDR='{{ipaddr}}'
+NAME=''
+NETWORK=''
+

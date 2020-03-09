@@ -1,0 +1,20 @@
+global:
+  resolve_timeout: 5m
+  {{slack_api_url}}
+
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 12h
+  receiver: email-me
+
+receivers:
+{{receivers}}
+
+inhibit_rules:
+- source_match:
+    severity: 'critical'
+  target_match:
+    severity: 'warning'
+  equal: ['alertname', 'dev', 'instance']

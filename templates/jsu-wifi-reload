@@ -1,0 +1,5 @@
+Cmnd_Alias UNLOAD_WIFI_MODULE=/sbin/modprobe -r 8192cu
+Cmnd_Alias LOAD_WIFI_MODULE=/sbin/modprobe 8192cu
+
+jsu 	ALL=(root) NOPASSWD: UNLOAD_WIFI_MODULE,LOAD_WIFI_MODULE
+

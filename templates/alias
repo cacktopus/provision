@@ -1,0 +1,9 @@
+alias l="ls -lrt --color"
+
+alias stop="sudo systemctl stop"
+alias status="systemctl status"
+alias start="sudo systemctl start"
+alias restart="sudo systemctl restart"
+
+alias reboot="sudo shutdown -r now"
+alias halt="sudo shutdown -h now"

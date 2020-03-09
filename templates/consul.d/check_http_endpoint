@@ -1,0 +1,9 @@
+{
+  id = "{{id}}"
+  name = "{{name}}"
+  http = "{{url}}"
+  method = "{{method}}"
+  interval = "10s"
+  timeout = "5s"
+  status = "success"
+}
