@@ -9,8 +9,8 @@
 /sbin/iptables -A OUTPUT -o lo -j ACCEPT
 
 ### Local network
-/sbin/iptables -A INPUT  -p all -s 10.0.0.0/8 -j ACCEPT
-/sbin/iptables -A OUTPUT -p all -d 10.0.0.0/8 -j ACCEPT
+/sbin/iptables -A INPUT  -p all -s {{network}} -j ACCEPT
+/sbin/iptables -A OUTPUT -p all -d {{network}} -j ACCEPT
 
 ### Established connections
 /sbin/iptables -A INPUT  -m state --state ESTABLISHED,RELATED -j ACCEPT

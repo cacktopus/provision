@@ -3,7 +3,7 @@ from typing import List, Dict, Any
 from jinja2 import Template
 
 from .service import Service
-from .settings import inventory
+from .settings import inventory, settings
 
 
 class Consul(Service):
@@ -37,9 +37,10 @@ class Consul(Service):
 
         server = kind == "server"
 
-        lookup = r'"{{ GetPrivateInterfaces | include \"network\" \"10.0.0.0/8\" | attr \"address\" }}"'
-        consul_ip = f'"{self.ctx.record["consul_ip"]}"'
-        bind_addr = consul_ip if server else lookup
+        network = settings['network']
+
+        lookup = r'"{{ GetPrivateInterfaces | include \"network\" \"%s\" | attr \"address\" }}"' % network
+        bind_addr = f'"{self.ctx.record["consul_ip"]}"' if server else lookup
 
         client_addr = '"0.0.0.0"'
 
@@ -75,8 +76,9 @@ class Consul(Service):
             group=self.group,
         )
 
-        # TODO!! systemctl disable systemd-resolved
-        # TODO!! systemctl stop systemd-resolved
+        self.runner.run_remote_rpc("systemctl_disable", params=dict(
+            service_name="systemd-resolved"
+        ))
 
     def consul_health_checks(self) -> List[Dict[str, Any]]:
         return []

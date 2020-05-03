@@ -23,7 +23,12 @@ def run(cmd: List[str]) -> Tuple[int, str, str]:
 
 def check(cmd: List[str], env: Optional[Dict[str, str]] = None) -> str:
     log(" ".join(cmd))
-    return subprocess.check_output(cmd, env=env).decode().rstrip()
+    try:
+        result = subprocess.check_output(cmd, env=env).decode().rstrip()
+        return result
+    except subprocess.CalledProcessError as e:
+        log(f"error: {e.output}")
+        raise
 
 
 def has_user(username: str) -> bool:
@@ -296,6 +301,12 @@ def systemctl_enable(service_name: str) -> None:
     check(["systemctl", "enable", service_name])
 
 
+def systemctl_disable(service_name: str) -> None:
+    # enables, but does not run now
+    check(["systemctl", "disable", service_name])
+    check(["systemctl", "stop", service_name])
+
+
 def systemctl_restart_if_running(service_name: str) -> None:
     output = check(["systemctl", "show", "--no-page", service_name])
     lines = output.splitlines(keepends=False)
@@ -446,7 +457,11 @@ def install_packages(packages: List[str]) -> None:
         check(["apt-get", "update"], env={"DEBIAN_FRONTEND": "noninteractive"})
         check(
             ["apt-get", "install", "-y", "--autoremove=no", *to_install],
-            env={"DEBIAN_FRONTEND": "noninteractive"}
+            env={
+                "DEBIAN_FRONTEND": "noninteractive",
+                "PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            },
+
         )
 
 

@@ -13,6 +13,7 @@ from setup_user import ensure_file
 from setup_user import ensure_dir
 from setup_user import ensure_line_in_file
 from setup_user import systemctl_reload
+from setup_user import systemctl_disable
 from setup_user import ensure_link
 from setup_user import install_deb
 from setup_user import setup_host

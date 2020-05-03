@@ -13,5 +13,5 @@ telemetry = {
 }
 retry_join = [{{retry_join}}]
 addresses = {
-    dns = "127.0.0.53"
+    dns = "0.0.0.0"
 }

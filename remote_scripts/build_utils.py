@@ -1,3 +1,4 @@
+import getpass
 import hashlib
 import os
 import tempfile
@@ -19,7 +20,9 @@ def cd(path: str) -> Iterator[Any]:
 def build_in_tmp_directory(app_name: str, digest: str, build_callback: Callable[[], None]) -> None:
     # TODO: have callbacks build into a build/ directory to avoid awkwardness
     os.umask(0o027)
-    builds = os.path.join(os.path.expanduser("~/builds"), app_name)
+
+    user = getpass.getuser()
+    builds = os.path.join(os.path.expanduser(f"~{user}/builds"), app_name)
 
     if not os.path.isdir(builds):
         os.makedirs(builds)

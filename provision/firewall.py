@@ -1,9 +1,15 @@
+from typing import Dict
+
 from .service import Provision
+from .settings import settings
 
 
 class Firewall(Provision):
     name = "firewall"
     deps = ["service-ready", "taglist"]
+
+    def template_vars(self) -> Dict[str, str]:
+        return {"network": settings['network']}
 
     def setup(self) -> None:
         self.template(

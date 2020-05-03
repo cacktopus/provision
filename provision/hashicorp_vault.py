@@ -20,7 +20,7 @@ class Client:
             }
         )
 
-        assert resp.status_code == 200, f"{resp.status_code}, {resp.text}"
+        assert resp.status_code == 200, f"{path} {resp.status_code}, {resp.text}"
 
         body = json.loads(resp.text)
         result: Dict[str, Any] = body['data']['data']
