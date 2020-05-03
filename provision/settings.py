@@ -29,7 +29,6 @@ def all_tags() -> Set[str]:
 
 mainuser = settings['mainuser']
 jsu = 'jsu'  # TODO
-versions = settings['versions']
 env = settings['env']
 
 git_build = settings['git']['build']
