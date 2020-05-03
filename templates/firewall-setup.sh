@@ -19,6 +19,10 @@
 ### SSH
 /sbin/iptables -A OUTPUT -o eth0 -p tcp --dport 22 -j ACCEPT
 
+### DNS
+/sbin/iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
+/sbin/iptables -A INPUT -p udp --dport 53 -j ACCEPT
+
 ### Alert-manager
 if [ $(getent group alertmanager) ]; then
     /sbin/iptables -A OUTPUT -m owner --gid-owner alertmanager -p tcp --dport 443 -j ACCEPT
