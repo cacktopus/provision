@@ -3,7 +3,7 @@ from typing import Dict, List
 from .service import Service
 
 
-class Leds(Service):
+class Timesync(Service):
     name = "timesync"
     description = "RTC and time syncing microservice"
     deps = ["service-ready"]
@@ -24,7 +24,7 @@ class Leds(Service):
         self.register_service_with_consul(self.name, self.port, tags=tags)
 
     def has_rtc(self) -> bool:
-        return 'rtc' in self.ctx.record['tags']
+        return 'rtc' in self.ctx.record.tags
 
     def capabilities(self) -> List[str]:
         return ["CAP_SYS_TIME"]

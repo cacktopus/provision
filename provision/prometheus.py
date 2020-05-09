@@ -2,8 +2,8 @@ from typing import Dict, List, Any, Optional
 
 import yaml
 
+from .settings import Settings
 from .service import Service
-from .settings import get_hosts, get_host_names_by_tag, all_tags
 
 
 class Prometheus(Service):
@@ -19,7 +19,7 @@ class Prometheus(Service):
 
     def template_vars(self) -> Dict[str, str]:
         services_cfg = self.home_for_user("consul-template", "etc", "prometheus-services.yml")
-        return dict(cfg=build_prom_config(services_cfg))
+        return dict(cfg=build_prom_config(self.ctx.settings, services_cfg))
 
     def command_line(self) -> str:
         prometheus_cfg = self.user_home("etc", "prometheus.yml")
@@ -57,14 +57,14 @@ class Prometheus(Service):
             user=self.user,
             group=self.group,
             vars=dict(
-                tags=all_tags(),
+                tags=self.ctx.settings.all_tags,
             ),
             template_delimiters=("((", "))"),
         )
 
 
-def static_config(job_name: str, targets: Optional[List[Any]] = None, **kw: Any) -> Dict[str, Any]:
-    targets = targets or get_hosts(job_name)
+def static_config(settings: Settings, job_name: str, targets: Optional[List[Any]] = None, **kw: Any) -> Dict[str, Any]:
+    targets = targets or settings.get_hosts(job_name)
     result = {
         "job_name": job_name,
         "static_configs": [
@@ -103,7 +103,7 @@ def config_header(alert_manager_targets: List[Any], scrape_configs: List[Any]) -
     return result
 
 
-def build_prom_config(services_cfg: str) -> str:
+def build_prom_config(settings: Settings, services_cfg: str) -> str:
     scrape_configs = [
         {
             "job_name": "dummy",
@@ -116,7 +116,7 @@ def build_prom_config(services_cfg: str) -> str:
     ]
 
     cfg = config_header(
-        alert_manager_targets=get_hosts("alertmanager"),
+        alert_manager_targets=settings.get_hosts("alertmanager"),
         scrape_configs=scrape_configs,
     )
     return cfg

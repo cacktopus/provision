@@ -1,6 +1,5 @@
 from typing import List, Dict
 
-import provision.settings as settings
 from .service import Service
 
 
@@ -16,11 +15,8 @@ class Leds(Service):
         return f"{self.prod_path()}/leds/leds"
 
     def env(self) -> Dict[str, str]:
-        result: Dict[str, str] = settings.settings['env']['leds']
-
-        host_env = self.ctx.record.get('env', {})
-        leds_env = host_env.get('leds', {})
-
+        result: Dict[str, str] = self.ctx.settings.env['leds']
+        leds_env = self.ctx.record.env.get('leds', {})
         result.update(leds_env)
         return result
 

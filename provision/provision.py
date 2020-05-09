@@ -5,8 +5,8 @@ import time
 from fabric import Connection  # type: ignore
 from networkx import topological_sort  # type: ignore
 
-import provision.settings as settings
 import provision.actions as actions
+from .settings import Settings
 from .context import Context
 from .info import Info
 # TODO: turn of automatic updates
@@ -63,31 +63,31 @@ def register() -> None:
     actions.add_dep("service-ready", "node-modules", "python-env", "opencv", "go", "buildbot")
 
 
-def main() -> None:
-    common_tags = frozenset(settings.settings['common_tags'])
-    blacklist_tags = frozenset(settings.settings['blacklist_tags'])
-    whitelist_tags = frozenset(settings.settings['whitelist_tags'])
+def main(settings: Settings) -> None:
+    common_tags = frozenset(settings.common_tags)
+    blacklist_tags = frozenset(settings.blacklist_tags)
+    whitelist_tags = frozenset(settings.whitelist_tags)
 
     # gateway = Connection("pi10-inet")
     gateway = None
 
     register()
 
-    for host in settings.settings['whitelist_hosts']:
-        record = settings.by_host[host]
+    for host in settings.whitelist_hosts:
+        record = settings.by_name[host]
         port = 22
 
-        initial_password = record.get("initial_password")
-        ip = record.get("initial_ip") or record['host'] + ".node.consul"
+        initial_password = record.initial_password
+        ip = record.initial_ip or record.host + ".node.consul"
 
-        print(" {} ({}:{}) ".format(record['host'], ip, port).center(80, "="))
+        print(" {} ({}:{}) ".format(record.host, ip, port).center(80, "="))
 
         kw = dict(password=initial_password) if initial_password else dict()
 
-        c = Connection(ip, user=record['sudo'], port=port, connect_kwargs=kw, gateway=gateway, forward_agent=True)
+        c = Connection(ip, user=record.sudo, port=port, connect_kwargs=kw, gateway=gateway, forward_agent=True)
         root_conn = Info(c)
 
-        tags = set(record['tags']) | common_tags
+        tags = set(record.tags) | common_tags
 
         all_actions = set(actions.actions.keys())
 
@@ -121,6 +121,7 @@ def main() -> None:
             record=record,
             tags=tags,
             host=host,
+            settings=settings,
         )
 
         order = list(topological_sort(actions.G))
@@ -139,7 +140,7 @@ def main() -> None:
         if missing_actions:
             raise Exception(f"Unknown action for tags: {missing_actions}")
 
-        start_at = settings.settings['start_at']
+        start_at = settings.start_at
         if start_at:
             first = order.index(start_at)
             order = order[first:]
@@ -169,7 +170,3 @@ def main() -> None:
         print("-" * 27)
         total: float = sum(times.values())
         print("{:20} {:.2f}s".format("total", total))
-
-
-if __name__ == '__main__':
-    main()

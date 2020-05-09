@@ -10,7 +10,7 @@ class BuildUser(Provision):
 
     def __call__(self, ctx: Context) -> None:
         runner = Runner(ctx.root_conn)
-        adduser(runner, "build", [])
+        adduser(ctx, runner, "build", [])
         runner.execute()
 
 
@@ -20,7 +20,7 @@ class PiUser(Provision):
 
     def __call__(self, ctx: Context) -> None:
         runner = Runner(ctx.root_conn)
-        adduser(runner, "pi", ["build"])
+        adduser(ctx, runner, "pi", ["build"])
         runner.execute()
 
 
@@ -31,7 +31,7 @@ class RootUser(Provision):
     def __call__(self, ctx: Context) -> None:
         self.runner = Runner(ctx.root_conn)
 
-        adduser(self.runner, "root", [])
+        adduser(ctx, self.runner, "root", [])
         self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
             filename=".profile",
             line=". .bash_aliases",

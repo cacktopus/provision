@@ -6,7 +6,6 @@ import requests
 import yaml
 
 import provision.packages as packages
-import provision.settings as settings
 from .consul_health_checks import check_http
 from .context import Context
 from .run_remote_script import Runner
@@ -57,7 +56,7 @@ class Provision:
 
     # TODO: This is perhaps deprecated
     def repo(self) -> str:
-        return settings.heads_repo  # TODO
+        return self.ctx.settings.repos['heads']
 
     def build(self) -> None:
         # TODO: share this consul code
@@ -215,7 +214,7 @@ class Service(Provision):
 
     @property
     def port(self) -> Optional[int]:
-        return settings.ports[self.name]
+        return self.ctx.settings.ports[self.name]
 
     def extra_groups(self) -> List[str]:
         return ["build", "systemd-journal"]
@@ -257,7 +256,7 @@ class Service(Provision):
         self.register_service_with_consul(self.name, self.port)
 
     def execute(self) -> List[Dict[str, Any]]:
-        adduser(self.runner, self.user, self.extra_groups())
+        adduser(self.ctx, self.runner, self.user, self.extra_groups())
 
         self.setup()
 
@@ -320,7 +319,7 @@ class Service(Provision):
         if port is None:
             return
 
-        host = self.ctx.record['host']
+        host = self.ctx.record.host
 
         filename = f"{self.name}.yml"
 

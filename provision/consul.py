@@ -2,8 +2,8 @@ from typing import List, Dict, Any
 
 from jinja2 import Template
 
+from .settings import Settings
 from .service import Service
-from .settings import inventory, settings
 
 
 class Consul(Service):
@@ -32,25 +32,25 @@ class Consul(Service):
         return {"format": "prometheus"}
 
     def template_vars(self) -> Dict[str, str]:
-        kind = self.ctx.record.get("consul", "client")
+        kind = self.ctx.record.consul or "client"
         assert kind in ("server", "client")
 
         server = kind == "server"
 
-        network = settings['network']
+        network = self.ctx.settings.network
 
         lookup = r'"{{ GetPrivateInterfaces | include \"network\" \"%s\" | attr \"address\" }}"' % network
-        bind_addr = f'"{self.ctx.record["consul_ip"]}"' if server else lookup
+        bind_addr = f'"{self.ctx.record.consul_ip}"' if server else lookup
 
         client_addr = '"0.0.0.0"'
 
-        hostname: str = self.ctx.record['host']
+        hostname: str = self.ctx.record.host
         return dict(
             hostname=hostname,
             bind_addr=bind_addr,
             client_addr=client_addr,
             server="true" if server else "false",
-            retry_join=retry_join(),
+            retry_join=retry_join(self.ctx.settings),
             bootstrap="bootstrap_expect = 3" if server else ""
         )
 
@@ -99,17 +99,18 @@ class ConsulBootstrap(Consul):
         pass
 
 
-def retry_join() -> str:
+def retry_join(settings: Settings) -> str:
     consul_hosts = [
         r for r
-        in inventory
-        if r.get('consul', 'client') == 'server' and ("consul" in r['tags'] or "consul-bootstrap" in r['tags'])
+        in settings.inventory
+        if r.consul == 'server' and ("consul" in r.tags or "consul-bootstrap" in r.tags)
     ]
 
     num_hosts = len(consul_hosts)
     assert num_hosts >= 3, f"Need at least 3 consul hosts, found {num_hosts}"
+    assert all(r.consul_ip != "" for r in consul_hosts)
 
-    return ", ".join('"{}"'.format(r['consul_ip']) for r in consul_hosts)
+    return ", ".join('"{}"'.format(r.consul_ip) for r in consul_hosts)
 
 
 def indent(spaces: int, s: str) -> str:
