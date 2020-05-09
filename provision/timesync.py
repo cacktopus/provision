@@ -20,6 +20,7 @@ class Leds(Service):
     def register_service(self) -> None:
         # TODO: have tags or extra_tags be a function rather than calling this
         tags = ['rtc'] if self.has_rtc() else []
+        assert self.port is not None
         self.register_service_with_consul(self.name, self.port, tags=tags)
 
     def has_rtc(self) -> bool:

@@ -1,5 +1,6 @@
 import sys
 from typing import List, Dict, Any, Set, Optional
+import attr
 
 import yaml
 
@@ -47,3 +48,18 @@ def get_hosts(*tags: str, port: Optional[int] = None) -> List[str]:
     result = sorted(f"{r['host']}.node.consul:{port}" for r in records)
 
     return result
+
+
+@attr.s(auto_attribs=True)
+class Settings:
+    mainuser: str
+    network: str
+
+    env: Dict[str, Dict[str, str]] = attr.Factory(dict)
+    whitelist_hosts: List[str] = attr.Factory(list)
+
+    whitelist_tags: List[str] = attr.Factory(list)
+    blacklist_tags: List[str] = attr.Factory(list)
+    start_at: str = ""
+
+    common_tags: List[str] = attr.Factory(list)

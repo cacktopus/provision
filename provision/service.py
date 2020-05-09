@@ -357,7 +357,7 @@ class Service(Provision):
 
         assert resp.status_code == 200, f"{resp.status_code} {resp.text}"
 
-    def service_level_monitoring(self):
+    def service_level_monitoring(self) -> None:
         port = self.metrics_port
 
         if port is None:

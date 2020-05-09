@@ -22,7 +22,7 @@ def template(
 
     vars = vars or {}
     assert isinstance(vars, dict)
-    t = Template(open("templates/{}".format(name)).read(), **kwargs)
+    t = Template(open("templates/{}".format(name)).read(), **kwargs)  # type: ignore
     content = t.render(**vars, )
 
     if fix_line_endings:
