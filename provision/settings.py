@@ -51,6 +51,18 @@ def get_hosts(*tags: str, port: Optional[int] = None) -> List[str]:
 
 
 @attr.s(auto_attribs=True)
+class Host:
+    host: str
+    sudo: str
+
+    consul: str = "client"
+    consul_ip: str = ""
+
+    tags: List[str] = attr.Factory(list)
+    kv: Dict[str, str] = attr.Factory(dict)
+
+
+@attr.s(auto_attribs=True)
 class Settings:
     mainuser: str
     network: str
@@ -63,3 +75,5 @@ class Settings:
     start_at: str = ""
 
     common_tags: List[str] = attr.Factory(list)
+
+    inventory: List[Host] = attr.Factory(list)
