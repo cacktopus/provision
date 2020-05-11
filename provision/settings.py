@@ -47,6 +47,12 @@ class Settings:
 
     inventory: List[Host] = attr.Factory(list)
 
+    def get_repo_by_name(self, name) -> Repo:
+        result = [r for r in self.repos if r.name == name]
+        if len(result) != 1:
+            raise AttributeError(f"Problem finding repo ({name})")
+        return result[0]
+
     @property
     def all_tags(self) -> Set[str]:
         tags = set(self.common_tags)

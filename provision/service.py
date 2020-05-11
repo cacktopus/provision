@@ -55,9 +55,9 @@ class Provision:
     def build_home(self, *other_paths: str) -> str:
         return self.home_for_user("build", *other_paths)
 
-    # TODO: This is perhaps deprecated
+    @property
     def repo(self) -> str:
-        return self.ctx.settings.repos['heads']
+        raise NotImplementedError
 
     def build(self) -> None:
         host = self.ctx.host
@@ -67,6 +67,19 @@ class Provision:
             path=f"buildbot/instances/{host}/{service}",
             data="",
         )
+
+        service_config_path = f"buildbot/service-config/{service}.yaml"
+        if not consul_kv.has(service_config_path):
+            repo_name = self.repo
+            repo = self.ctx.settings.get_repo_by_name(repo_name)
+
+            consul_kv.put(
+                path=service_config_path,
+                data=yaml.dump({
+                    "repo": repo.name,
+                    "version": repo.default_commit,
+                }, default_flow_style=False)
+            )
 
     def get_archive(self, kind: str) -> None:
         cmd = f"get_{kind}_archive"
