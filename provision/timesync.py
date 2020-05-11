@@ -7,6 +7,7 @@ class Timesync(Service):
     name = "timesync"
     description = "RTC and time syncing microservice"
     deps = ["service-ready"]
+    repo = "heads"
 
     def command_line(self) -> str:
         return f"{self.prod_path()}/timesync/timesync"
