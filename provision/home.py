@@ -7,6 +7,7 @@ class Home(Service):
     name = "home"
     description = "the home page (reverse proxy)"
     deps = ["service-ready"]
+    repo = "heads"
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups()  # + ["git"]  # TODO: only if git enabled on server

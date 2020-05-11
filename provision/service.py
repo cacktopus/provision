@@ -6,6 +6,7 @@ import requests
 import yaml
 
 import provision.packages as packages
+from .clients import consul_kv
 from .consul_health_checks import check_http
 from .context import Context
 from .run_remote_script import Runner
@@ -59,18 +60,13 @@ class Provision:
         return self.ctx.settings.repos['heads']
 
     def build(self) -> None:
-        # TODO: share this consul code
-        consul = "http://consul.service.consul:8500"
-
         host = self.ctx.host
         service = self.name
 
-        resp = requests.put(
-            url=f"{consul}/v1/kv/buildbot/instances/{host}/{service}",
+        consul_kv.put(
+            path=f"buildbot/instances/{host}/{service}",
             data="",
         )
-
-        assert resp.status_code == 200, f"{resp.status_code} {resp.text}"
 
     def get_archive(self, kind: str) -> None:
         cmd = f"get_{kind}_archive"
@@ -345,16 +341,10 @@ class Service(Provision):
 
         content = yaml.dump(cfg, default_flow_style=False)
 
-        consul = "http://consul.service.consul:8500"
-
-        # TODO: only write if different. Maybe it already handles this for us
-
-        resp = requests.put(
-            url=f"{consul}/v1/kv/prometheus/by-host/{host}/{filename}",
+        consul_kv.put(
+            path=f"prometheus/by-host/{host}/{filename}",
             data=content,
         )
-
-        assert resp.status_code == 200, f"{resp.status_code} {resp.text}"
 
     def service_level_monitoring(self) -> None:
         port = self.metrics_port
@@ -373,11 +363,7 @@ class Service(Provision):
 
         content = yaml.dump(cfg, default_flow_style=False)
 
-        consul = "http://consul.service.consul:8500"
-
-        resp = requests.put(
-            url=f"{consul}/v1/kv/prometheus/by-service/{filename}",
+        consul_kv.put(
+            path="prometheus/by-service/{filename}",
             data=content,
         )
-
-        assert resp.status_code == 200, f"{resp.status_code} {resp.text}"

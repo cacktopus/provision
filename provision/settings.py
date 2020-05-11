@@ -26,6 +26,7 @@ class Host:
 class Repo:
     name: str
     url: str
+    default_commit: str
 
 
 @attr.s(auto_attribs=True)
