@@ -1,5 +1,7 @@
 from typing import List, Dict, Any
 
+from urllib3.util import url
+
 import provision.consul_health_checks as consul_health_checks
 from .service import Service
 
@@ -27,12 +29,19 @@ class Git(Service):
             group=self.group,
         )
 
-        for repo in ["heads.git", "rtunneld.git", "provision.git"]:
-            path = self.home_for_user(self.user, "git", repo)
+        for repo in self.ctx.settings.repos:
+            parsed = url.parse_url(repo.url)
+            parts = parsed.path.lstrip("/").split("/")
+            assert len(parts) == 2
+            assert parts[0] == "git"
+            repo_name = parts[1]
+            assert repo_name.endswith(".git")
+
+            path = self.home_for_user(self.user, "git", repo_name)
             self.runner.run_remote_rpc("new_git_repo", params=dict(path=path), user=self.user)
 
             self.ensure_file(
-                path=self.user_home("git", repo, "git-daemon-export-ok"),
+                path=self.user_home("git", repo_name, "git-daemon-export-ok"),
                 mode=0o640,
                 user=self.user,
                 group=self.group,

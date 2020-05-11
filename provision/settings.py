@@ -23,11 +23,17 @@ class Host:
 
 
 @attr.s(auto_attribs=True)
+class Repo:
+    name: str
+    url: str
+
+
+@attr.s(auto_attribs=True)
 class Settings:
     mainuser: str
     network: str
 
-    repos: Dict[str, str] = attr.Factory(dict)
+    repos: List[Repo]
 
     env: Dict[str, Dict[str, str]] = attr.Factory(dict)
     whitelist_hosts: List[str] = attr.Factory(list)
