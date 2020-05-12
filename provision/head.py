@@ -7,6 +7,7 @@ class Head(Service):
     name = "head"
     description = "motor for head"
     deps = ["service-ready"]
+    repo = "heads"
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["i2c", "gpio"]

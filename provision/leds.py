@@ -7,6 +7,7 @@ class Leds(Service):
     name = "leds"
     description = "led animations"
     deps = ["service-ready"]
+    repo = "heads"
 
     def extra_groups(self) -> List[str]:
         return ["build", "spi", "input"]

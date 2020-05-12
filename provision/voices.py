@@ -7,6 +7,7 @@ class Voices(Service):
     name = "voices"
     description = "Do you sometimes hear voices?"
     deps = ["service-ready"]
+    repo = "heads"
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["audio"]
