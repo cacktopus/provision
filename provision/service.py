@@ -377,6 +377,6 @@ class Service(Provision):
         content = yaml.dump(cfg, default_flow_style=False)
 
         consul_kv.put(
-            path="prometheus/by-service/{filename}",
+            path=f"prometheus/by-service/{filename}",
             data=content,
         )
