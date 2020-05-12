@@ -24,6 +24,7 @@ class NodeModules(Provision):
     action_name = "node-modules"
     name = "node_modules"
     deps = ["nodejs"]
+    repo = "heads"
 
     def setup(self) -> None:
         self.build()
@@ -31,7 +32,8 @@ class NodeModules(Provision):
 
 class BossUI(Provision):
     name = "boss-ui"
-    deps = ["service-ready"]
+    deps = ["service-ready", "node-modules"]
+    repo = "heads"
 
     def setup(self) -> None:
         self.build()

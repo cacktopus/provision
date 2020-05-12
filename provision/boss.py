@@ -7,6 +7,7 @@ class Boss(Service):
     name = "boss"
     description = "The heads' boss"
     deps = ["service-ready"]
+    repo = "heads"
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["systemd-journal"]
