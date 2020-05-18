@@ -13,7 +13,7 @@ class Camera(Service):
         return super().extra_groups() + ["video"]
 
     def command_line(self) -> str:
-        instance = self.ctx.record.kv['head']
+        instance = self.ctx.record.kv['camera']
         return f"{self.prod_path()}/camera/camera --instance {instance}"
 
     def env(self) -> Dict[str, str]:
