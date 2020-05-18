@@ -45,6 +45,7 @@ def register() -> None:
         "provision.rtc",
         "provision.timesync",
         "provision.taglist",
+        "provision.opencv",
     ]:
         mod = importlib.import_module(m)
 
