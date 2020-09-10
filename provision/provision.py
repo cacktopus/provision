@@ -16,7 +16,7 @@ from .info import Info
 from .service import Service, Provision
 
 
-def register() -> None:
+def register_all() -> None:
     for m in [
         "provision.system_setup",
         "provision.setup_user",
@@ -49,19 +49,23 @@ def register() -> None:
     ]:
         mod = importlib.import_module(m)
 
-        for cls in mod.__dict__.values():
-            if not inspect.isclass(cls):
-                continue
-
-            if cls in (Service, Provision):
-                continue
-
-            if issubclass(cls, Provision):
-                target = cls()
-                print(f"{target.deps} -> {target.action_name}")
-                actions.Action(target.action_name, deps=target.deps)(target)
+        register(mod)
 
     actions.add_dep("service-ready", "node-modules", "python-env", "opencv", "go", "buildbot")
+
+
+def register(mod):
+    for cls in mod.__dict__.values():
+        if not inspect.isclass(cls):
+            continue
+
+        if cls in (Service, Provision):
+            continue
+
+        if issubclass(cls, Provision):
+            target = cls()
+            print(f"{target.deps} -> {target.action_name}")
+            actions.Action(target.action_name, deps=target.deps)(target)
 
 
 def main(settings: Settings) -> None:
@@ -72,7 +76,7 @@ def main(settings: Settings) -> None:
     # gateway = Connection("pi10-inet")
     gateway = None
 
-    register()
+    register_all()
 
     for host in settings.whitelist_hosts:
         record = settings.by_name[host]

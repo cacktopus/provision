@@ -33,6 +33,7 @@ class Repo:
 class Settings:
     mainuser: str
     network: str
+    build_storage_url: str
 
     repos: List[Repo]
 
@@ -46,6 +47,7 @@ class Settings:
     common_tags: List[str] = attr.Factory(list)
 
     inventory: List[Host] = attr.Factory(list)
+
 
     def get_repo_by_name(self, name) -> Repo:
         result = [r for r in self.repos if r.name == name]

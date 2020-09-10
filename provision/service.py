@@ -2,10 +2,11 @@ import json
 import os
 from typing import List, Dict, Optional, Any, Tuple
 
+import provision.packages as packages
 import requests
 import yaml
+from jinja2 import Template
 
-import provision.packages as packages
 from .clients import consul_kv
 from .consul_health_checks import check_http
 from .context import Context
@@ -86,9 +87,12 @@ class Provision:
         machine = self.info['machine']
         pkg, arch = packages.latest_semver(self.name, machine)
 
+        url = arch['url']
+        url = Template(url).render(builds=self.ctx.settings.build_storage_url)
+
         self.runner.run_remote_rpc(cmd, params=dict(
             app_name=pkg['name'],
-            url=arch['url'],
+            url=url,
             digest=arch['digest'],
         ), user="build")
 

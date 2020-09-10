@@ -130,11 +130,11 @@
   kind: tgz
   arch:
     aarch64:
-      url: https://theheads.sfo2.digitaloceanspaces.com/consul_template-0.24.0.linux-aarch64.tar.gz
+      url: '{{builds}}/consul_template-0.24.0.linux-aarch64.tar.gz'
       digest: 188bdba0d66af35a69edec78d45fa3d0ba8988065806685d10cfdbec1f71afde
 
     arm7:
-      url: https://theheads.sfo2.digitaloceanspaces.com/consul_template-0.24.0.linux-arm7.tar.gz
+      url: '{{builds}}/consul_template-0.24.0.linux-arm7.tar.gz'
       digest: 8e122c3411901eec2573d76340e1d5d05e06c173ba2bc32708fbcb18e11b2d3e
 
 
@@ -143,7 +143,7 @@
   kind: tgz
   arch:
     arm7:
-      url: https://theheads.sfo2.digitaloceanspaces.com/python-3.7.3.linux-armv7.tar.gz
+      url: '{{builds}}/python-3.7.3.linux-armv7.tar.gz'
       digest: 051bfde018beb3136b9be0bec86c3ead5d98e430df99173f5c3e4cb37c88a67b
 
 - name: openssl
@@ -151,7 +151,7 @@
   kind: tgz
   arch:
     arm7:
-      url: https://theheads.sfo2.digitaloceanspaces.com/openssl-1.0.2r.linux-arm7.tar.gz
+      url: '{{builds}}/openssl-1.0.2r.linux-arm7.tar.gz'
       digest: 26300068ae298a895c9b4db908e06628cb494863293ba3d3bfd18eab76419669
 
 - name: monerod
@@ -168,17 +168,33 @@
   kind: tgz
   arch:
     arm7:
-      url: https://theheads.sfo2.digitaloceanspaces.com/buildbot-0.4.0.linux-arm7.tar.gz
+      url: '{{builds}}/buildbot-0.4.0.linux-arm7.tar.gz'
       digest: ef408ecbfb230587a1f3f8865cc26e31a1a74b8a042dd953d6c70afff62e5c9a
 
     arm6:
-      url: https://theheads.sfo2.digitaloceanspaces.com/buildbot-0.4.0.linux-arm6.tar.gz
+      url: '{{builds}}/buildbot-0.4.0.linux-arm6.tar.gz'
       digest: a3434d84e37d5dc5684933bd05f1f674e6b53fd7e5c760122f9ce828589e88ae
+
+- name: camera
+  version: 1.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: '{{builds}}/camera_1.0.1_armhf.tar.bz2'
+      digest: 14191303f691b4b3e0ba01fadd1f89a03b53ee1f86b16ac2cb38ec68596d92a6
 
 - name: gitweb
   version: 0.1.0
   kind: tgz
   arch:
     arm7:
-      url: https://theheads.sfo2.digitaloceanspaces.com/gitweb-0.1.0.linux-arm7.tar.gz
+      url: '{{builds}}/gitweb-0.1.0.linux-arm7.tar.gz'
       digest: e72e1b334e9c24907b6b74d6e87790a52da9afd886b439521bd4312ad38f0e5c
+
+- name: minio
+  version: 1.0.0
+  kind: tgz
+  arch:
+    arm7:
+      url: '{{builds}}/minio-1.0.0.linux-arm7.tar.gz'
+      digest: 4e8a6f88b8ddb9955af9391454f4a7c695fd872c7ac3fa152b6a9724c84cecd1

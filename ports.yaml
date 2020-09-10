@@ -20,3 +20,5 @@ buildbot: 8084
 gitweb: 8085
 timesync: 8086
 git: 9418
+minio: 9000
+raftsync: 9000
