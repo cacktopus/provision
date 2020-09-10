@@ -5,7 +5,6 @@ import yaml
 from .service import Service
 
 from .hashicorp_vault import Client
-from .settings import get_hosts
 
 
 class Alertmanager(Service):
@@ -50,7 +49,7 @@ class Alertmanager(Service):
     def command_line(self) -> str:
         initial_peers = " ".join(
             f"--cluster.peer {peer}"
-            for peer in get_hosts("alertmanager", port=9094)  # 9094 used for cluster communication
+            for peer in self.ctx.settings.get_hosts("alertmanager", port=9094)  # 9094 used for cluster communication
         )
 
         config = self.user_home("etc", "alertmanager.yml")

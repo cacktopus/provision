@@ -34,8 +34,17 @@ def _get_tar_archive(url: str, digest: str, flags: str):
 
     files = glob.glob("./*")
     log(files)
-    assert len(files) == 1, "Expecting the tar archive to only contain one directory"
-    os.rename(files[0], "build")
+
+    assert len(files) == 1, "Expecting the tar archive to only contain one entry"
+
+    f = files[0]
+    if os.path.isdir(f):
+        os.rename(f, "build")
+    elif os.path.isfile(f):
+        os.mkdir("build")
+        os.rename(f, f"build/{f}")
+    else:
+        assert False, "unexpected file type"
 
 
 def get_tar_archive(app_name: str, url: str, digest: str):

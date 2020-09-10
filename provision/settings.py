@@ -1,49 +1,91 @@
-import sys
-from typing import List, Dict, Any, Set, Optional
+from typing import List, Dict, Set, Optional
 
+import attr
 import yaml
 
-settings_file = sys.argv[1]  # TODO: terrible
-
-settings: Dict[str, Any] = yaml.load(open(settings_file), Loader=yaml.FullLoader)
-ports: Dict[str, int] = yaml.load(open('ports.yaml'), Loader=yaml.FullLoader)
-inventory = settings['inventory']
-by_mac = {h['mac']: h for h in inventory if h.get('mac') is not None}
-by_host = {h['host']: h for h in inventory}
+_ports: Dict[str, int] = yaml.load(open('ports.yaml'), Loader=yaml.FullLoader)
 
 
-def get_host_names_by_tag(tag: str) -> List[str]:
-    return [
-        record['host']
-        for record in inventory
-        if tag in record['tags'] or tag in settings['common_tags']
-    ]
+@attr.s(auto_attribs=True)
+class Host:
+    host: str
+    sudo: str
+
+    initial_ip: str = ""
+    initial_password: str = ""
+
+    consul: str = "client"
+    consul_ip: str = ""
+
+    tags: List[str] = attr.Factory(list)
+    kv: Dict[str, str] = attr.Factory(dict)
+    env: Dict[str, Dict[str, str]] = attr.Factory(dict)
 
 
-def all_tags() -> Set[str]:
-    tags = set(settings['common_tags'])
-    for record in inventory:
-        tags |= set(record['tags'])
-    return tags
+@attr.s(auto_attribs=True)
+class Repo:
+    name: str
+    url: str
+    default_commit: str
 
 
-mainuser = settings['mainuser']
-jsu = 'jsu'  # TODO
-env = settings['env']
+@attr.s(auto_attribs=True)
+class Settings:
+    mainuser: str
+    network: str
+    build_storage_url: str
 
-git_build = settings['git']['build']
+    repos: List[Repo]
 
-heads_repo = f"{git_build}/heads.git"
+    env: Dict[str, Dict[str, str]] = attr.Factory(dict)
+    whitelist_hosts: List[str] = attr.Factory(list)
+
+    whitelist_tags: List[str] = attr.Factory(list)
+    blacklist_tags: List[str] = attr.Factory(list)
+    start_at: str = ""
+
+    common_tags: List[str] = attr.Factory(list)
+
+    inventory: List[Host] = attr.Factory(list)
 
 
-def get_hosts(*tags: str, port: Optional[int] = None) -> List[str]:
-    if port is None:
-        port = ports[tags[0]]
-    hosts: Set[str] = set()
-    for tag in tags:
-        hosts |= set(get_host_names_by_tag(tag))
+    def get_repo_by_name(self, name) -> Repo:
+        result = [r for r in self.repos if r.name == name]
+        if len(result) != 1:
+            raise AttributeError(f"Problem finding repo ({name})")
+        return result[0]
 
-    records = [by_host[h] for h in hosts]
-    result = sorted(f"{r['host']}.node.consul:{port}" for r in records)
+    @property
+    def all_tags(self) -> Set[str]:
+        tags = set(self.common_tags)
+        for host in self.inventory:
+            tags |= set(host.tags)
+        return tags
 
-    return result
+    def get_host_names_by_tag(self, tag: str) -> List[str]:
+        return [
+            h.host
+            for h in self.inventory
+            if tag in h.tags or tag in self.common_tags
+        ]
+
+    def get_hosts(self, *tags: str, port: Optional[int] = None) -> List[str]:
+        if port is None:
+            port = _ports[tags[0]]
+
+        host_names: Set[str] = set()
+        for tag in tags:
+            host_names |= set(self.get_host_names_by_tag(tag))
+
+        hosts = [self.by_name[h] for h in host_names]
+        result = sorted(f"{h.host}.node.consul:{port}" for h in hosts)
+
+        return result
+
+    @property
+    def by_name(self) -> Dict[str, Host]:
+        return {h.host: h for h in self.inventory}
+
+    @property
+    def ports(self) -> Dict[str, int]:
+        return _ports

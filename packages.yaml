@@ -14,21 +14,6 @@
       url: https://dl.grafana.com/oss/release/grafana-5.4.5.linux-arm64.tar.gz
       digest: dea72c833182f1b8556d1e623a9c25c2d24ed165a7ea2f92a1239b3a2e6f4061
 
-- name: go
-  version: 1.13.4
-  kind: tgz
-  arch:
-    arm6:
-      url: https://dl.google.com/go/go1.12.2.linux-armv6l.tar.gz
-      digest: 38d92116cd8c408e995972ff7fb0b6453c4f2214bde602d1772bd88f9d4d5c60
-
-    arm7:
-      url: https://dl.google.com/go/go1.12.2.linux-armv6l.tar.gz
-      digest: 38d92116cd8c408e995972ff7fb0b6453c4f2214bde602d1772bd88f9d4d5c60
-
-    aarch64:
-      url: https://dl.google.com/go/go1.13.4.linux-armv6l.tar.gz
-      digest: 9f76e6353c9ae2dcad1731b7239531eb8be2fe171f29f2a9c5040945a930fd41
 
 - name: go
   version: 1.13.5
@@ -37,6 +22,10 @@
     x86_64:
       url: https://dl.google.com/go/go1.13.5.linux-amd64.tar.gz
       digest: 512103d7ad296467814a6e3f635631bd35574cab3369a97a323c9a585ccaa569
+
+    arm6:
+      url: https://dl.google.com/go/go1.13.5.linux-armv6l.tar.gz
+      digest: 26259f61d52ee2297b1e8feef3a0fc82144b666a2b95512402c31cc49713c133
 
     arm7:
       url: https://dl.google.com/go/go1.13.5.linux-armv6l.tar.gz
@@ -50,10 +39,10 @@
   version: 1.6.2
   kind: zip
   arch:
-    #    arm6:
-    #      url: https://releases.hashicorp.com/consul/1.4.5/consul_1.4.5_linux_arm.zip
-    #      digest: acee88d022872a48d84dfe42bf3524b6a0f41a612a5ca789613abe05cbf0f183
-    #
+    arm6:
+      url: https://releases.hashicorp.com/consul/1.6.2/consul_1.6.2_linux_armelv5.zip
+      digest: 2180a7643259c91979eefa5179d5a73b9587ff3ae3d0213f3d6001a5347a547e
+
     arm7:
       url: https://releases.hashicorp.com/consul/1.6.2/consul_1.6.2_linux_armhfv6.zip
       digest: 0e7dd7f4a6ab9038d3fe2389962b05c1ac91fe80b4a3e9477d6d3213dcfc6ddd
@@ -76,44 +65,16 @@
       digest: a1d03512da3fd602f3ed28c0d36e41f9b532e1e6451784bd4499f8982400c7cc
 
 - name: node-exporter
-  version: 0.16.0
-  kind: tgz
-  arch:
-    arm6:
-      url: https://github.com/prometheus/node_exporter/releases/download/v0.16.0/node_exporter-0.16.0.linux-armv6.tar.gz
-      digest: f9518aea4fa7127122a6bf384ba8f70120deaaef75532749f1765cf6e25fd820
-
-- name: node-exporter
-  version: 0.17.0
-  kind: tgz
-  arch:
-    arm7:
-      url: https://github.com/prometheus/node_exporter/releases/download/v0.17.0/node_exporter-0.17.0.linux-armv7.tar.gz
-      digest: 052292878a664b02f464c85c2936decce600f73cf0ae8138dd026da532bcc352
-
-    aarch64:
-      url: https://github.com/prometheus/node_exporter/releases/download/v0.17.0/node_exporter-0.17.0.linux-arm64.tar.gz
-      digest: f0d9a8bfed735e93f49a4e8113e96af2dfc90db759164a785b862c704f633569
-
-- name: node-exporter
-  version: 0.18.0
-  kind: tgz
-  arch:
-    arm6:
-      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.0/node_exporter-0.18.0.linux-armv6.tar.gz
-      digest: 44cd3612a0e52a6e440eb29b0a708d50f9bdf424422b7d54ac6984a9c767072e
-
-    arm7:
-      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.0/node_exporter-0.18.0.linux-armv7.tar.gz
-      digest: f685fdb98f73cdd7c1c933cd547fa2cc13e64ec0cf1603b92f6ba0807a844f8f
-
-- name: node-exporter
   version: 0.18.1
   kind: tgz
   arch:
     x86_64:
       url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
       digest: b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424
+
+    arm6:
+      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-armv6.tar.gz
+      digest: 6f3cb593c15c12cdfaef20d7e1c61d28ef822af6fc8c85d670cb3f0a1212778a
 
     arm7:
       url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-armv7.tar.gz
@@ -169,11 +130,11 @@
   kind: tgz
   arch:
     aarch64:
-      url: https://theheads.sfo2.digitaloceanspaces.com/consul_template-0.24.0.linux-aarch64.tar.gz
+      url: '{{builds}}/consul_template-0.24.0.linux-aarch64.tar.gz'
       digest: 188bdba0d66af35a69edec78d45fa3d0ba8988065806685d10cfdbec1f71afde
 
     arm7:
-      url: https://theheads.sfo2.digitaloceanspaces.com/consul_template-0.24.0.linux-arm7.tar.gz
+      url: '{{builds}}/consul_template-0.24.0.linux-arm7.tar.gz'
       digest: 8e122c3411901eec2573d76340e1d5d05e06c173ba2bc32708fbcb18e11b2d3e
 
 
@@ -182,7 +143,7 @@
   kind: tgz
   arch:
     arm7:
-      url: https://theheads.sfo2.digitaloceanspaces.com/python-3.7.3.linux-armv7.tar.gz
+      url: '{{builds}}/python-3.7.3.linux-armv7.tar.gz'
       digest: 051bfde018beb3136b9be0bec86c3ead5d98e430df99173f5c3e4cb37c88a67b
 
 - name: openssl
@@ -190,7 +151,7 @@
   kind: tgz
   arch:
     arm7:
-      url: https://theheads.sfo2.digitaloceanspaces.com/openssl-1.0.2r.linux-arm7.tar.gz
+      url: '{{builds}}/openssl-1.0.2r.linux-arm7.tar.gz'
       digest: 26300068ae298a895c9b4db908e06628cb494863293ba3d3bfd18eab76419669
 
 - name: monerod
@@ -207,13 +168,33 @@
   kind: tgz
   arch:
     arm7:
-      url: https://theheads.sfo2.digitaloceanspaces.com/buildbot-0.4.0.linux-arm7.tar.gz
+      url: '{{builds}}/buildbot-0.4.0.linux-arm7.tar.gz'
       digest: ef408ecbfb230587a1f3f8865cc26e31a1a74b8a042dd953d6c70afff62e5c9a
+
+    arm6:
+      url: '{{builds}}/buildbot-0.4.0.linux-arm6.tar.gz'
+      digest: a3434d84e37d5dc5684933bd05f1f674e6b53fd7e5c760122f9ce828589e88ae
+
+- name: camera
+  version: 1.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: '{{builds}}/camera_1.0.1_armhf.tar.bz2'
+      digest: 14191303f691b4b3e0ba01fadd1f89a03b53ee1f86b16ac2cb38ec68596d92a6
 
 - name: gitweb
   version: 0.1.0
   kind: tgz
   arch:
     arm7:
-      url: https://theheads.sfo2.digitaloceanspaces.com/gitweb-0.1.0.linux-arm7.tar.gz
+      url: '{{builds}}/gitweb-0.1.0.linux-arm7.tar.gz'
       digest: e72e1b334e9c24907b6b74d6e87790a52da9afd886b439521bd4312ad38f0e5c
+
+- name: minio
+  version: 1.0.0
+  kind: tgz
+  arch:
+    arm7:
+      url: '{{builds}}/minio-1.0.0.linux-arm7.tar.gz'
+      digest: 4e8a6f88b8ddb9955af9391454f4a7c695fd872c7ac3fa152b6a9724c84cecd1

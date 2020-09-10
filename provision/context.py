@@ -1,12 +1,14 @@
 from dataclasses import dataclass
-from typing import Dict, Set, Any
+from typing import Set
 
 from .info import Info
+from .settings import Settings, Host
 
 
 @dataclass
 class Context:
     root_conn: Info
-    record: Dict[str, Any]
+    record: Host
     tags: Set[str]
     host: str
+    settings: Settings

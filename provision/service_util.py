@@ -3,7 +3,7 @@ from typing import List, Dict, Optional, Any, Tuple
 from jinja2 import Template
 
 import provision.hashicorp_vault as hashicorp_vault
-from .settings import mainuser, jsu
+from .context import Context
 from .run_remote_script import Runner
 
 
@@ -22,7 +22,7 @@ def template(
 
     vars = vars or {}
     assert isinstance(vars, dict)
-    t = Template(open("templates/{}".format(name)).read(), **kwargs)
+    t = Template(open("templates/{}".format(name)).read(), **kwargs)  # type: ignore
     content = t.render(**vars, )
 
     if fix_line_endings:
@@ -34,6 +34,7 @@ def template(
 
 # TODO! move this
 def adduser(
+        ctx: Context,
         runner: Runner,
         user: str,
         groups: Optional[List[str]] = None
@@ -42,7 +43,7 @@ def adduser(
     vault_client = hashicorp_vault.Client()
 
     authorized_keys = []
-    for u in {mainuser, jsu}:
+    for u in {ctx.settings.mainuser}:
         ssh = vault_client.get(f"ssh/{u}")
         pub_key: str = ssh['id_rsa.pub']
         authorized_keys.append(pub_key)

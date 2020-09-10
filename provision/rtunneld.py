@@ -6,12 +6,10 @@ class Rtunneld(Service):
     name = "rtunneld"
     description = "reverse ssh tunnel manager"
     deps = ["service-ready"]
+    repo = "rtunneld"
 
     def command_line(self) -> str:
         return self.exe()
-
-    def repo(self) -> str:
-        return "git@git01:git/rtunneld"
 
     def setup(self) -> None:
         vault_client = hashicorp_vault.Client()

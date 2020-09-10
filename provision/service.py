@@ -2,11 +2,12 @@ import json
 import os
 from typing import List, Dict, Optional, Any, Tuple
 
+import provision.packages as packages
 import requests
 import yaml
+from jinja2 import Template
 
-import provision.packages as packages
-import provision.settings as settings
+from .clients import consul_kv
 from .consul_health_checks import check_http
 from .context import Context
 from .run_remote_script import Runner
@@ -55,32 +56,43 @@ class Provision:
     def build_home(self, *other_paths: str) -> str:
         return self.home_for_user("build", *other_paths)
 
-    # TODO: This is perhaps deprecated
+    @property
     def repo(self) -> str:
-        return settings.heads_repo  # TODO
+        raise NotImplementedError
 
     def build(self) -> None:
-        # TODO: share this consul code
-        consul = "http://consul.service.consul:8500"
-
         host = self.ctx.host
         service = self.name
 
-        resp = requests.put(
-            url=f"{consul}/v1/kv/buildbot/instances/{host}/{service}",
+        consul_kv.put(
+            path=f"buildbot/instances/{host}/{service}",
             data="",
         )
 
-        assert resp.status_code == 200, f"{resp.status_code} {resp.text}"
+        service_config_path = f"buildbot/service-config/{service}.yaml"
+        if not consul_kv.has(service_config_path):
+            repo_name = self.repo
+            repo = self.ctx.settings.get_repo_by_name(repo_name)
+
+            consul_kv.put(
+                path=service_config_path,
+                data=yaml.dump({
+                    "repo": repo.name,
+                    "version": repo.default_commit,
+                }, default_flow_style=False)
+            )
 
     def get_archive(self, kind: str) -> None:
         cmd = f"get_{kind}_archive"
         machine = self.info['machine']
         pkg, arch = packages.latest_semver(self.name, machine)
 
+        url = arch['url']
+        url = Template(url).render(builds=self.ctx.settings.build_storage_url)
+
         self.runner.run_remote_rpc(cmd, params=dict(
             app_name=pkg['name'],
-            url=arch['url'],
+            url=url,
             digest=arch['digest'],
         ), user="build")
 
@@ -215,7 +227,7 @@ class Service(Provision):
 
     @property
     def port(self) -> Optional[int]:
-        return settings.ports[self.name]
+        return self.ctx.settings.ports[self.name]
 
     def extra_groups(self) -> List[str]:
         return ["build", "systemd-journal"]
@@ -257,7 +269,7 @@ class Service(Provision):
         self.register_service_with_consul(self.name, self.port)
 
     def execute(self) -> List[Dict[str, Any]]:
-        adduser(self.runner, self.user, self.extra_groups())
+        adduser(self.ctx, self.runner, self.user, self.extra_groups())
 
         self.setup()
 
@@ -320,7 +332,7 @@ class Service(Provision):
         if port is None:
             return
 
-        host = self.ctx.record['host']
+        host = self.ctx.record.host
 
         filename = f"{self.name}.yml"
 
@@ -346,18 +358,12 @@ class Service(Provision):
 
         content = yaml.dump(cfg, default_flow_style=False)
 
-        consul = "http://consul.service.consul:8500"
-
-        # TODO: only write if different. Maybe it already handles this for us
-
-        resp = requests.put(
-            url=f"{consul}/v1/kv/prometheus/by-host/{host}/{filename}",
+        consul_kv.put(
+            path=f"prometheus/by-host/{host}/{filename}",
             data=content,
         )
 
-        assert resp.status_code == 200, f"{resp.status_code} {resp.text}"
-
-    def service_level_monitoring(self):
+    def service_level_monitoring(self) -> None:
         port = self.metrics_port
 
         if port is None:
@@ -374,11 +380,7 @@ class Service(Provision):
 
         content = yaml.dump(cfg, default_flow_style=False)
 
-        consul = "http://consul.service.consul:8500"
-
-        resp = requests.put(
-            url=f"{consul}/v1/kv/prometheus/by-service/{filename}",
+        consul_kv.put(
+            path=f"prometheus/by-service/{filename}",
             data=content,
         )
-
-        assert resp.status_code == 200, f"{resp.status_code} {resp.text}"

@@ -1,4 +1,3 @@
-import provision.settings as settings
 from .service import Provision
 
 
@@ -7,7 +6,7 @@ class Taglist(Provision):
     deps = ["consul"]
 
     def setup(self) -> None:
-        tags = set(self.ctx.record['tags'] + settings.settings['common_tags'])
+        tags = set(self.ctx.record.tags + self.ctx.settings.common_tags)
 
         content = "".join(t + "\n" for t in sorted(tags))
 
