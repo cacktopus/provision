@@ -13,7 +13,7 @@ class Leds(Service):
         return ["build", "spi", "input"]
 
     def command_line(self) -> str:
-        return f"{self.prod_path()}/leds/leds"
+        return self.exe()
 
     def env(self) -> Dict[str, str]:
         result: Dict[str, str] = self.ctx.settings.env['leds']
@@ -22,18 +22,12 @@ class Leds(Service):
         return result
 
     def setup(self) -> None:
-        # TODO: require raspbian
-        self.build()
+        self.get_tar_archive()
 
         self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
             filename="/boot/config.txt",
             line="dtparam=spi=on",
         ))
-
-        # self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
-        #     filename="/boot/config.txt",
-        #     line="dtoverlay=gpio-ir,gpio_pin=21",
-        # ))
 
         # TODO: sudo apt-get install ir-keytable
         # TODO: sudo ir-keytable -c -p nec

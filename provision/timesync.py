@@ -10,13 +10,13 @@ class Timesync(Service):
     repo = "heads"
 
     def command_line(self) -> str:
-        return f"{self.prod_path()}/timesync/timesync"
+        return self.exe()
 
     def env(self) -> Dict[str, str]:
         return {"RTC": "1"} if self.has_rtc() else {}
 
     def setup(self) -> None:
-        self.build()
+        self.get_tar_archive()
 
     def register_service(self) -> None:
         # TODO: have tags or extra_tags be a function rather than calling this

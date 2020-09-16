@@ -232,3 +232,27 @@
       url: 'http://raftsync.service.consul:9000/theheads/build/boss_0.0.1_armhf.tar.gz'
       digest: 9907477b54f5a1c012bd970e792ac6d0657d3777f98a00dab3d64203e2fa60bf
 
+- name: home
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/home_0.0.1_armhf.tar.gz'
+      digest: 0c563de52e8fead27a55002e915ef0167a2c5b87068c09d1d1723c303154cacf
+
+- name: leds
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/leds_0.0.1_armhf.tar.gz'
+      digest: 39e17926ef73a8296f323633d743d4fe71aec0d0e291ae15db8cede102e1f325
+
+- name: timesync
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/timesync_0.0.1_armhf.tar.gz'
+      digest: 494244faf3a4553a5ef21605fb76e12f019b7fef9aa1278e5be6d4de2b7fb981
+
