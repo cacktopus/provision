@@ -216,3 +216,19 @@
       url: 'http://raftsync.service.consul:9000/theheads/build/head_0.0.1_armhf.tar.bz2'
       digest: b8be7670586ec486bf12e79e5d3b1585fd6ab5174c8a0e82e4460bc114391fae
 
+- name: voices
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/voices_0.0.1_armhf.tar.bz2'
+      digest: 099df263a235b63bd0e8063564680a2e29b69d4422218c13e13b3078e54ea931
+
+- name: boss
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/boss_0.0.1_armhf.tar.gz'
+      digest: 9907477b54f5a1c012bd970e792ac6d0657d3777f98a00dab3d64203e2fa60bf
+

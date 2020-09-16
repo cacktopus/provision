@@ -17,7 +17,7 @@ class Boss(Service):
 
     def command_line(self) -> str:
         lock = "boss-service-lock"
-        cmd = self.prod_path("boss", "boss")
+        cmd = self.exe()
 
         return f"/home/build/builds/consul/prod/consul lock -child-exit-code {lock} {cmd}"
 
@@ -25,5 +25,5 @@ class Boss(Service):
         pass
 
     def setup(self) -> None:
-        self.build()
+        self.get_tar_archive()
         self.service_level_monitoring()

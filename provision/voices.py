@@ -18,16 +18,13 @@ class Voices(Service):
         }
 
     def command_line(self) -> str:
-        return " ".join([
-            self.prod_path("env", "bin", "python3"),
-            "voices.py"
-        ])
+        return self.exe()
 
     def working_dir(self) -> str:
         return self.prod_path()
 
     def setup(self) -> None:
-        self.build()
+        self.get_tar_bz_archive()
 
     def register_service(self) -> None:
         head = self.ctx.record.kv['head']
