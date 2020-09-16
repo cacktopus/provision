@@ -198,3 +198,21 @@
     arm7:
       url: '{{builds}}/minio-1.0.0.linux-arm7.tar.gz'
       digest: 4e8a6f88b8ddb9955af9391454f4a7c695fd872c7ac3fa152b6a9724c84cecd1
+
+- name: raftsync
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+#      url: 'http://raftsync.service.consul:9000/theheads/build/raftsync_0.0.1_armhf.tar.bz2'
+      url: '{{builds}}/raftsync_0.0.1_armhf.tar.bz2'
+      digest: d562cf6d251de3722037ac3baefe64734cbb674a6eed9971819d1c75132a92c4
+
+- name: head
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/head_0.0.1_armhf.tar.bz2'
+      digest: b8be7670586ec486bf12e79e5d3b1585fd6ab5174c8a0e82e4460bc114391fae
+

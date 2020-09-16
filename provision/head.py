@@ -15,20 +15,17 @@ class Head(Service):
     def env(self) -> Dict[str, str]:
         instance = self.ctx.record.kv['head']
         return {
-            "INSTANCE": instance,  # TODO
+            "INSTANCE": instance,
         }
 
     def command_line(self) -> str:
-        return " ".join([
-            self.prod_path("env", "bin", "python3"),
-            "head.py"
-        ])
+        return self.exe()
 
     def working_dir(self) -> str:
         return self.prod_path()
 
     def setup(self) -> None:
-        self.build()
+        self.get_tar_bz_archive()
 
         self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
             filename="/boot/config.txt",
