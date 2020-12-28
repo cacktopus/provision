@@ -23,6 +23,16 @@
 /sbin/iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
 /sbin/iptables -A INPUT -p udp --dport 53 -j ACCEPT
 
+### mDNS
+/sbin/iptables -A OUTPUT -p udp --dport 5353 -j ACCEPT
+/sbin/iptables -A INPUT -p udp --dport 5353 -j ACCEPT
+
+### syncthing
+/sbin/iptables -A OUTPUT -p tcp --dport 22000 -j ACCEPT
+/sbin/iptables -A INPUT -p tcp --dport 22000 -j ACCEPT
+/sbin/iptables -A OUTPUT -p udp --dport 21027 -j ACCEPT
+/sbin/iptables -A INPUT -p udp --dport 21027 -j ACCEPT
+
 ### Alert-manager
 if [ $(getent group alertmanager) ]; then
     /sbin/iptables -A OUTPUT -m owner --gid-owner alertmanager -p tcp --dport 443 -j ACCEPT

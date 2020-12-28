@@ -68,21 +68,21 @@
   version: 0.18.1
   kind: tgz
   arch:
-    x86_64:
-      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
-      digest: b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424
+#    x86_64:
+#      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
+#      digest: b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424
 
-    arm6:
-      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-armv6.tar.gz
-      digest: 6f3cb593c15c12cdfaef20d7e1c61d28ef822af6fc8c85d670cb3f0a1212778a
+#    arm6:
+#      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-armv6.tar.gz
+#      digest: 6f3cb593c15c12cdfaef20d7e1c61d28ef822af6fc8c85d670cb3f0a1212778a
 
     arm7:
       url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-armv7.tar.gz
       digest: 5de85067f44b42b22d62b2789cb1a379ff5559649b99795cd1ba0c144b512ad0
 
-    aarch64:
-      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-arm64.tar.gz
-      digest: d5a28c46e74f45b9f2158f793a6064fd9fe8fd8da6e0d1e548835ceb7beb1982
+#    aarch64:
+#      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-arm64.tar.gz
+#      digest: d5a28c46e74f45b9f2158f793a6064fd9fe8fd8da6e0d1e548835ceb7beb1982
 
 - name: prometheus
   version: 2.14.0
@@ -176,12 +176,12 @@
       digest: a3434d84e37d5dc5684933bd05f1f674e6b53fd7e5c760122f9ce828589e88ae
 
 - name: camera
-  version: 1.0.1
+  version: 1.1.0
   kind: tgz
   arch:
     arm7:
-      url: '{{builds}}/camera_1.0.1_armhf.tar.bz2'
-      digest: 14191303f691b4b3e0ba01fadd1f89a03b53ee1f86b16ac2cb38ec68596d92a6
+      url: 'file:///home/syncthing/builds/camera_1.1.0_armhf.tar.bz2'
+      digest: f0fc3a7b824fae9ebd2a08443c3ecd39dcbc980211189a31c1b689f5b26e086f
 
 - name: gitweb
   version: 0.1.0
@@ -198,3 +198,11 @@
     arm7:
       url: '{{builds}}/minio-1.0.0.linux-arm7.tar.gz'
       digest: 4e8a6f88b8ddb9955af9391454f4a7c695fd872c7ac3fa152b6a9724c84cecd1
+
+- name: syncthing
+  version: 1.12.0
+  kind: tgz
+  arch:
+    arm7:
+      url: 'https://github.com/syncthing/syncthing/releases/download/v1.12.0/syncthing-linux-arm-v1.12.0.tar.gz'
+      digest: 53316f99af2b4c618636e64e3b28ea2fd257720806ce48bfa2ca5dbea8b3b4a7
