@@ -68,21 +68,21 @@
   version: 0.18.1
   kind: tgz
   arch:
-#    x86_64:
-#      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
-#      digest: b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424
+    x86_64:
+      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
+      digest: b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424
 
-#    arm6:
-#      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-armv6.tar.gz
-#      digest: 6f3cb593c15c12cdfaef20d7e1c61d28ef822af6fc8c85d670cb3f0a1212778a
+    arm6:
+      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-armv6.tar.gz
+      digest: 6f3cb593c15c12cdfaef20d7e1c61d28ef822af6fc8c85d670cb3f0a1212778a
 
     arm7:
       url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-armv7.tar.gz
       digest: 5de85067f44b42b22d62b2789cb1a379ff5559649b99795cd1ba0c144b512ad0
 
-#    aarch64:
-#      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-arm64.tar.gz
-#      digest: d5a28c46e74f45b9f2158f793a6064fd9fe8fd8da6e0d1e548835ceb7beb1982
+    aarch64:
+      url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-arm64.tar.gz
+      digest: d5a28c46e74f45b9f2158f793a6064fd9fe8fd8da6e0d1e548835ceb7beb1982
 
 - name: prometheus
   version: 2.14.0
@@ -206,3 +206,61 @@
     arm7:
       url: 'https://github.com/syncthing/syncthing/releases/download/v1.12.0/syncthing-linux-arm-v1.12.0.tar.gz'
       digest: 53316f99af2b4c618636e64e3b28ea2fd257720806ce48bfa2ca5dbea8b3b4a7
+
+- name: raftsync
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+#      url: 'http://raftsync.service.consul:9000/theheads/build/raftsync_0.0.1_armhf.tar.bz2'
+      url: '{{builds}}/raftsync_0.0.1_armhf.tar.bz2'
+      digest: d562cf6d251de3722037ac3baefe64734cbb674a6eed9971819d1c75132a92c4
+
+- name: head
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/head_0.0.1_armhf.tar.bz2'
+      digest: b8be7670586ec486bf12e79e5d3b1585fd6ab5174c8a0e82e4460bc114391fae
+
+- name: voices
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/voices_0.0.1_armhf.tar.bz2'
+      digest: 099df263a235b63bd0e8063564680a2e29b69d4422218c13e13b3078e54ea931
+
+- name: boss
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/boss_0.0.1_armhf.tar.gz'
+      digest: 9907477b54f5a1c012bd970e792ac6d0657d3777f98a00dab3d64203e2fa60bf
+
+- name: home
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/home_0.0.1_armhf.tar.gz'
+      digest: 0c563de52e8fead27a55002e915ef0167a2c5b87068c09d1d1723c303154cacf
+
+- name: leds
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/leds_0.0.1_armhf.tar.gz'
+      digest: 39e17926ef73a8296f323633d743d4fe71aec0d0e291ae15db8cede102e1f325
+
+- name: timesync
+  version: 0.0.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'http://raftsync.service.consul:9000/theheads/build/timesync_0.0.1_armhf.tar.gz'
+      digest: 494244faf3a4553a5ef21605fb76e12f019b7fef9aa1278e5be6d4de2b7fb981
+
