@@ -25,7 +25,7 @@ class Head(Service):
         return self.prod_path()
 
     def setup(self) -> None:
-        self.get_tar_bz_archive()
+        self.get_tar_archive()
 
         self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
             filename="/boot/config.txt",

@@ -183,6 +183,22 @@
       url: 'file:///home/syncthing/builds/camera_1.1.0_armhf.tar.bz2'
       digest: f0fc3a7b824fae9ebd2a08443c3ecd39dcbc980211189a31c1b689f5b26e086f
 
+- name: head
+  version: 1.0.0
+  kind: tgz
+  arch:
+    arm7:
+      url: 'file:///home/syncthing/builds/head_1.0.0_armhf.tar.gz'
+      digest: 6290df1d556c9378ccbc4044841c7bb6d00451caa6f1e25012a85ea53debf0bc
+
+- name: boss
+  version: 1.1.0
+  kind: tgz
+  arch:
+    arm7:
+      url: 'file:///home/syncthing/builds/boss_1.1.0_armhf.tar.gz'
+      digest: ced4eea21feb855a0f2b471b96390e0ecb69d5ad5fc11d9ed6b983109c2f8779
+
 - name: gitweb
   version: 0.1.0
   kind: tgz
@@ -215,15 +231,7 @@
 #      url: 'http://raftsync.service.consul:9000/theheads/build/raftsync_0.0.1_armhf.tar.bz2'
       url: '{{builds}}/raftsync_0.0.1_armhf.tar.bz2'
       digest: d562cf6d251de3722037ac3baefe64734cbb674a6eed9971819d1c75132a92c4
-
-- name: head
-  version: 0.0.1
-  kind: tgz
-  arch:
-    arm7:
-      url: 'http://raftsync.service.consul:9000/theheads/build/head_0.0.1_armhf.tar.bz2'
-      digest: b8be7670586ec486bf12e79e5d3b1585fd6ab5174c8a0e82e4460bc114391fae
-
+`
 - name: voices
   version: 0.0.1
   kind: tgz
@@ -231,14 +239,6 @@
     arm7:
       url: 'http://raftsync.service.consul:9000/theheads/build/voices_0.0.1_armhf.tar.bz2'
       digest: 099df263a235b63bd0e8063564680a2e29b69d4422218c13e13b3078e54ea931
-
-- name: boss
-  version: 0.0.1
-  kind: tgz
-  arch:
-    arm7:
-      url: 'http://raftsync.service.consul:9000/theheads/build/boss_0.0.1_armhf.tar.gz'
-      digest: 9907477b54f5a1c012bd970e792ac6d0657d3777f98a00dab3d64203e2fa60bf
 
 - name: home
   version: 0.0.1

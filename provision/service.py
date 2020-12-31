@@ -118,6 +118,8 @@ class Provision:
             tags: Optional[List[str]] = None,
             checks: Optional[List[Any]] = None,  # TODO: type this list
     ) -> None:
+        raise NotImplementedError
+
         checks = checks or []
         assert isinstance(checks, list)
         name = name.replace("_", "-")
@@ -266,7 +268,7 @@ class Service(Provision):
         if self.port is None:
             return
 
-        self.register_service_with_consul(self.name, self.port)
+        # self.register_service_with_consul(self.name, self.port)
 
     def execute(self) -> List[Dict[str, Any]]:
         adduser(self.ctx, self.runner, self.user, self.extra_groups())
@@ -380,7 +382,7 @@ class Service(Provision):
 
         content = yaml.dump(cfg, default_flow_style=False)
 
-        consul_kv.put(
-            path=f"prometheus/by-service/{filename}",
-            data=content,
-        )
+        # consul_kv.put(
+        #     path=f"prometheus/by-service/{filename}",
+        #     data=content,
+        # )
