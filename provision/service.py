@@ -334,38 +334,21 @@ class Service(Provision):
         if port is None:
             return
 
-        host = self.ctx.record.host
-
-        filename = f"{self.name}.yml"
-
-        target = f"{host}.node.consul:{port}"
-        labels = {
-            "job": self.name,
-            "host": self.ctx.host,
-        }
-
-        metrics_path = self.metrics_path()
-        if metrics_path is not None:
-            labels["__metrics_path__"] = metrics_path
-
-        for k, v in sorted(self.metrics_params().items()):
-            labels[f"__param_{k}"] = v
-
-        static_config = {
-            "targets": [target],
-            "labels": labels
-        }
-
-        cfg = [static_config]
-
-        content = yaml.dump(cfg, default_flow_style=False)
-
-        consul_kv.put(
-            path=f"prometheus/by-host/{host}/{filename}",
-            data=content,
+        self.template(
+            name="avahi.service",
+            location=f"/etc/avahi/services/{self.name}.service",
+            user="root",
+            group="root",
+            vars=dict(
+                service=self.name,
+                port=self.port,
+            ),
+            mode=0o644,
         )
 
     def service_level_monitoring(self) -> None:
+        raise NotImplementedError
+
         port = self.metrics_port
 
         if port is None:

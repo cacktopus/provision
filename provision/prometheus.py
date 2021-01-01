@@ -18,8 +18,9 @@ class Prometheus(Service):
         return super().extra_groups() + ["consul-template"]
 
     def template_vars(self) -> Dict[str, str]:
-        services_cfg = self.home_for_user("consul-template", "etc", "prometheus-services.yml")
-        return dict(cfg=build_prom_config(self.ctx.settings, services_cfg))
+        # file_pattern = self.home_for_user("consul-template", "etc", "prometheus-services.yml")
+        file_pattern = "/home/syncthing/theheads/prometheus/*.yml"
+        return dict(cfg=build_prom_config(self.ctx.settings, file_pattern))
 
     def command_line(self) -> str:
         prometheus_cfg = self.user_home("etc", "prometheus.yml")
@@ -103,13 +104,13 @@ def config_header(alert_manager_targets: List[Any], scrape_configs: List[Any]) -
     return result
 
 
-def build_prom_config(settings: Settings, services_cfg: str) -> str:
+def build_prom_config(settings: Settings, file_pattern: str) -> str:
     scrape_configs = [
         {
             "job_name": "dummy",
             "file_sd_configs": [
                 {
-                    "files": [services_cfg]
+                    "files": [file_pattern]
                 }
             ]
         },

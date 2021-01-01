@@ -184,12 +184,12 @@
       digest: f0fc3a7b824fae9ebd2a08443c3ecd39dcbc980211189a31c1b689f5b26e086f
 
 - name: head
-  version: 1.0.0
+  version: 1.1.0
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/head_1.0.0_armhf.tar.gz'
-      digest: 6290df1d556c9378ccbc4044841c7bb6d00451caa6f1e25012a85ea53debf0bc
+      url: 'file:///home/syncthing/builds/head_1.1.0_armhf.tar.gz'
+      digest: 11790a18582c18f43d2a90863166174fa076ffa9acf28e02ea2c357775e394c5
 
 - name: boss
   version: 1.1.0
@@ -231,7 +231,7 @@
 #      url: 'http://raftsync.service.consul:9000/theheads/build/raftsync_0.0.1_armhf.tar.bz2'
       url: '{{builds}}/raftsync_0.0.1_armhf.tar.bz2'
       digest: d562cf6d251de3722037ac3baefe64734cbb674a6eed9971819d1c75132a92c4
-`
+
 - name: voices
   version: 0.0.1
   kind: tgz
