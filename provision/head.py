@@ -37,6 +37,9 @@ class Head(Service):
             line="i2c-dev",
         ))
 
+    def register_for_monitoring(self) -> None:
+        pass
+
     def register_service(self) -> None:
         head = self.ctx.record.kv['head']
         assert self.port is not None
