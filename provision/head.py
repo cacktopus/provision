@@ -39,8 +39,3 @@ class Head(Service):
 
     def register_for_monitoring(self) -> None:
         pass
-
-    def register_service(self) -> None:
-        head = self.ctx.record.kv['head']
-        assert self.port is not None
-        # self.register_service_with_consul(self.name, self.port, tags=["frontend", head])

@@ -29,7 +29,7 @@ class Camera(Service):
         return self.prod_path()
 
     def setup(self) -> None:
-        self.get_tar_bz_archive()
+        self.get_tar_archive()
 
         self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
             filename="/boot/config.txt",
@@ -40,8 +40,3 @@ class Camera(Service):
             filename="/boot/config.txt",
             line="gpu_mem=64",
         ))
-
-    def register_service(self) -> None:
-        camera = self.ctx.record.kv['camera']
-        assert self.port is not None
-        self.register_service_with_consul(self.name, self.port, tags=["frontend", camera])

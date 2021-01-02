@@ -28,4 +28,4 @@ class Boss(Service):
 
     def setup(self) -> None:
         self.get_tar_archive()
-        self.service_level_monitoring()
+        # self.service_level_monitoring()
