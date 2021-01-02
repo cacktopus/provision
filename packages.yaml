@@ -184,12 +184,12 @@
       digest: f0fc3a7b824fae9ebd2a08443c3ecd39dcbc980211189a31c1b689f5b26e086f
 
 - name: head
-  version: 1.1.0
+  version: 1.2.0
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/head_1.1.0_armhf.tar.gz'
-      digest: 11790a18582c18f43d2a90863166174fa076ffa9acf28e02ea2c357775e394c5
+      url: 'file:///home/syncthing/builds/head_1.2.0_armhf.tar.gz'
+      digest: e6447683f487bacf832fa38d106a2ebf55dc284b825f85d0276b3aaa804f475a
 
 - name: boss
   version: 1.1.0

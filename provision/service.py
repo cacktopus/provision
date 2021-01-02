@@ -329,10 +329,12 @@ class Service(Provision):
         return self.port
 
     def register_for_monitoring(self) -> None:
-        port = self.metrics_port
+        kv = {}
 
-        if port is None:
-            return
+        if self.metrics_port is not None:
+            kv["prometheus_metrics_port"] = self.metrics_port
+
+        txt_records = "\n".join(f"    <txt-record>{k}={v}</txt-record>" for (k, v) in kv.items())
 
         self.template(
             name="avahi.service",
@@ -342,6 +344,7 @@ class Service(Provision):
             vars=dict(
                 service=self.name,
                 port=self.port,
+                txt_records=txt_records,
             ),
             mode=0o644,
         )

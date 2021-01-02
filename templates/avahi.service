@@ -5,6 +5,6 @@
   <service>
     <type>_{{service}}._tcp</type>
     <port>{{port}}</port>
-    <txt-record>prometheus_metrics_port={{port}}</txt-record>
+    {{txt_records}}
   </service>
 </service-group>
