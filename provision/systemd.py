@@ -12,7 +12,8 @@ def systemd(
         group: Optional[str] = None,
         env: Optional[Dict[str, str]] = None,
         capabilities: Optional[List[str]] = None,
-        reload: Optional[str] = None
+        reload: Optional[str] = None,
+        extra: Optional[Dict[str, str]] = None,
 ) -> Dict[str, Union[str, int]]:
     group = group or user
     env = env or {}
@@ -25,6 +26,8 @@ def systemd(
 
     reload = f"ExecReload={reload}" if reload is not None else ""
 
+    extra = "\n".join(f"{k}={v}" for k, v in extra.items()) if extra is not None else ""
+
     service_content = template(
         "systemd",
         vars={
@@ -36,6 +39,7 @@ def systemd(
             "env": env_str,
             "capabilities": capabilities_str,
             "reload": reload,
+            "extra": extra,
         },
     )
 

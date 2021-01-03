@@ -60,7 +60,7 @@ class Packages2(Provision):
         package_list = [
             "ffmpeg",
             "avahi-utils",
-            "nss-mdns",
+            # "nss-mdns",
         ]
 
         self.runner.run_remote_rpc("install_packages", params=dict(packages=package_list))

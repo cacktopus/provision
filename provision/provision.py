@@ -46,6 +46,8 @@ def register_all() -> None:
         "provision.timesync",
         "provision.taglist",
         "provision.opencv",
+        "provision.syncthing",
+        "provision.shairport_sync",
     ]:
         mod = importlib.import_module(m)
 

@@ -264,3 +264,11 @@
       url: 'http://raftsync.service.consul:9000/theheads/build/timesync_0.0.1_armhf.tar.gz'
       digest: 494244faf3a4553a5ef21605fb76e12f019b7fef9aa1278e5be6d4de2b7fb981
 
+- name: shairport-sync
+  version: 3.3.7
+  kind: tgz
+  arch:
+    arm7:
+      url: 'file:///home/syncthing/builds/shairport-sync_3.3.7_armhf.tar.gz'
+      digest: f59a608103426da08700d6da5717f3a7fc46ae3a7004b29457af3dc31a100672
+

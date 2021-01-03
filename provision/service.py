@@ -287,6 +287,9 @@ class Service(Provision):
 
         return self.runner.execute()
 
+    def systemd_extra(self):
+        return None
+
     def systemd_args(self) -> Optional[Dict[str, Any]]:
         command_line = self.command_line()
 
@@ -303,6 +306,7 @@ class Service(Provision):
             env=self.env(),
             capabilities=self.capabilities(),
             reload=self.reload(),
+            extra=self.systemd_extra(),
         )
 
     def consul_health_checks(self) -> List[Dict[str, Any]]:
