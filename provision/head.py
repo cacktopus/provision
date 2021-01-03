@@ -36,6 +36,3 @@ class Head(Service):
             filename="/etc/modules",
             line="i2c-dev",
         ))
-
-    def register_for_monitoring(self) -> None:
-        pass

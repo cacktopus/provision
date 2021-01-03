@@ -23,7 +23,7 @@ class Boss(Service):
     def command_line(self) -> str:
         return self.exe()
 
-    def register_for_monitoring(self) -> None:
+    def register_mdns(self) -> None:
         pass
 
     def setup(self) -> None:

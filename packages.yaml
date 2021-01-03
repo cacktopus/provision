@@ -184,20 +184,20 @@
       digest: 1c592cba5e13909ba6b25217e1c2b05d903850645f4b69cba55cbeda632ed74b
 
 - name: head
-  version: 1.4.0
+  version: 1.4.1
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/head_1.4.0_armhf.tar.gz'
-      digest: 9122a802f6811894cd7274b3b3ccc7f0b8e6d6ffd136555b99a8f2a8d84f0e97
+      url: 'file:///home/syncthing/builds/head_1.4.1_armhf.tar.gz'
+      digest: 65431a066afb98f5eabb9c1956ce8f16a406aef4f1dc17de269dacdde05de23a
 
 - name: boss
-  version: 1.4.0
+  version: 1.5.0
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/boss_1.4.0_armhf.tar.gz'
-      digest: 6a20da6b70906f8677532d83ce61bb5933b8130fc2ccdae8730124216a411f80
+      url: 'file:///home/syncthing/builds/boss_1.5.0_armhf.tar.gz'
+      digest: 6a20da6b70906f8677532d83ce61bb5933b130fc2ccdae8730124216a411f80
 
 - name: gitweb
   version: 0.1.0

@@ -281,7 +281,7 @@ class Service(Provision):
             rendered["mode"] = 0o644
             self.runner.run_remote_rpc("systemd", params=rendered)
 
-        self.register_for_monitoring()
+        self.register_mdns()
         self.register_service()
         self.setup_sudo_for_build_restart()  # TODO: only needed for code we build from git
 
@@ -328,7 +328,7 @@ class Service(Provision):
     def metrics_port(self) -> Optional[int]:
         return self.port
 
-    def register_for_monitoring(self) -> None:
+    def register_mdns(self) -> None:
         kv = {}
 
         if self.metrics_port is not None:
