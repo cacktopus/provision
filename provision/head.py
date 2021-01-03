@@ -36,3 +36,7 @@ class Head(Service):
             filename="/etc/modules",
             line="i2c-dev",
         ))
+
+    def mdns_service_name(self):
+        instance = self.ctx.record.kv['head']
+        return instance

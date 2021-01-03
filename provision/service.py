@@ -328,6 +328,9 @@ class Service(Provision):
     def metrics_port(self) -> Optional[int]:
         return self.port
 
+    def mdns_service_name(self) -> str:
+        return f"{self.name} on %h"
+
     def register_mdns(self) -> None:
         kv = {}
 
@@ -342,7 +345,8 @@ class Service(Provision):
             user="root",
             group="root",
             vars=dict(
-                service=self.name,
+                service_name=self.mdns_service_name(),
+                service_type=self.name,
                 port=self.port,
                 txt_records=txt_records,
             ),

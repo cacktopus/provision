@@ -40,3 +40,8 @@ class Camera(Service):
             filename="/boot/config.txt",
             line="gpu_mem=64",
         ))
+
+    def mdns_service_name(self):
+        instance = self.ctx.record.kv['camera']
+        return instance
+

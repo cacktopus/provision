@@ -1,9 +1,9 @@
 <?xml version="1.0" standalone='no'?>
 <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
 <service-group>
-  <name replace-wildcards="yes">{{service}} on %h</name>
+  <name replace-wildcards="yes">{{service_name}}</name>
   <service protocol="ipv4">
-    <type>_{{service}}._tcp</type>
+    <type>_{{service_type}}._tcp</type>
     <port>{{port}}</port>
     {{txt_records}}
   </service>

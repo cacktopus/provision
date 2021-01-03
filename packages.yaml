@@ -192,12 +192,12 @@
       digest: 65431a066afb98f5eabb9c1956ce8f16a406aef4f1dc17de269dacdde05de23a
 
 - name: boss
-  version: 1.5.0
+  version: 1.6.0
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/boss_1.5.0_armhf.tar.gz'
-      digest: 6a20da6b70906f8677532d83ce61bb5933b130fc2ccdae8730124216a411f80
+      url: 'file:///home/syncthing/builds/boss_1.6.0_armhf.tar.gz'
+      digest: ccc117f963920718ee18f494d95030adac5d25b6e15af01d2554eb54634f1333
 
 - name: gitweb
   version: 0.1.0

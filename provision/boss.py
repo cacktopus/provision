@@ -23,9 +23,6 @@ class Boss(Service):
     def command_line(self) -> str:
         return self.exe()
 
-    def register_mdns(self) -> None:
-        pass
-
     def setup(self) -> None:
         self.get_tar_archive()
         # self.service_level_monitoring()
