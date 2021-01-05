@@ -6,6 +6,8 @@ class Syncthing(Service):
     description = "syncthing"
     deps = ["consul"]
 
+    metrics_port = None
+
     def command_line(self) -> str:
         return " ".join([
             self.exe(),

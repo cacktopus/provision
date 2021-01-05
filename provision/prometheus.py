@@ -18,8 +18,7 @@ class Prometheus(Service):
         return super().extra_groups() + ["consul-template"]
 
     def template_vars(self) -> Dict[str, str]:
-        # file_pattern = self.home_for_user("consul-template", "etc", "prometheus-services.yml")
-        file_pattern = "/home/syncthing/theheads/prometheus/*.yml"
+        file_pattern = self.etc("services", "*.yml")
         return dict(cfg=build_prom_config(self.ctx.settings, file_pattern))
 
     def command_line(self) -> str:
@@ -40,7 +39,7 @@ class Prometheus(Service):
 
         self.ensure_dir(
             self.user_home("etc", "services"),
-            mode=0o750,
+            mode=0o755,
             user=self.user,
             group=self.group,
         )

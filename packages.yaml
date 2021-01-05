@@ -272,3 +272,11 @@
       url: 'file:///home/syncthing/builds/shairport-sync_3.3.7_armhf.tar.gz'
       digest: f59a608103426da08700d6da5717f3a7fc46ae3a7004b29457af3dc31a100672
 
+- name: system-tools
+  version: 1.6.0
+  kind: tgz
+  arch:
+    arm7:
+      url: 'file:///home/syncthing/builds/system-tools_1.6.0_armhf.tar.gz'
+      digest: 33f7f1bff4d51d9d84618fdc1c6b5c36853cf99ef474ed61db7cf62f47d6c73d
+

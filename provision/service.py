@@ -82,10 +82,10 @@ class Provision:
                 }, default_flow_style=False)
             )
 
-    def get_archive(self, kind: str) -> None:
+    def get_archive(self, kind: str, name: Optional[str] = None) -> None:
         cmd = f"get_{kind}_archive"
         machine = self.info['machine']
-        pkg, arch = packages.latest_semver(self.name, machine)
+        pkg, arch = packages.latest_semver(name or self.name, machine)
 
         url = arch['url']
         url = Template(url).render(builds=self.ctx.settings.build_storage_url)
@@ -99,8 +99,8 @@ class Provision:
     def get_zip_archive(self) -> None:
         return self.get_archive("zip")
 
-    def get_tar_archive(self) -> None:
-        return self.get_archive("tar")
+    def get_tar_archive(self, **kw) -> None:
+        return self.get_archive("tar", **kw)
 
     def get_tar_bz_archive(self) -> None:
         return self.get_archive("tar_bz")

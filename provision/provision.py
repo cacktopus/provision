@@ -48,6 +48,7 @@ def register_all() -> None:
         "provision.opencv",
         "provision.syncthing",
         "provision.shairport_sync",
+        "provision.prometheus_discovery",
     ]:
         mod = importlib.import_module(m)
 
