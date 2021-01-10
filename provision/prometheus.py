@@ -9,13 +9,10 @@ from .service import Service
 class Prometheus(Service):
     name = "prometheus"
     description = "prometheus monitoring tool"
-    deps = ["consul", "consul-template"]
+    deps = ["consul"]
 
     def reload(self) -> str:
         return "/bin/kill -HUP $MAINPID"
-
-    def extra_groups(self) -> List[str]:
-        return super().extra_groups() + ["consul-template"]
 
     def template_vars(self) -> Dict[str, str]:
         file_pattern = self.etc("services", "*.yml")

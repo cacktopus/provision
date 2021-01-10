@@ -24,12 +24,12 @@
       digest: 512103d7ad296467814a6e3f635631bd35574cab3369a97a323c9a585ccaa569
 
     arm6:
-      url: https://dl.google.com/go/go1.13.5.linux-armv6l.tar.gz
-      digest: 26259f61d52ee2297b1e8feef3a0fc82144b666a2b95512402c31cc49713c133
+      url: https://golang.org/dl/go1.15.6.linux-armv6l.tar.gz
+      digest: 40ba9a57764e374195018ef37c38a5fbac9bbce908eab436370631a84bfc5788
 
     arm7:
-      url: https://dl.google.com/go/go1.13.5.linux-armv6l.tar.gz
-      digest: 26259f61d52ee2297b1e8feef3a0fc82144b666a2b95512402c31cc49713c133
+      url: https://golang.org/dl/go1.15.6.linux-armv6l.tar.gz
+      digest: 40ba9a57764e374195018ef37c38a5fbac9bbce908eab436370631a84bfc5788
 
     aarch64:
       url: https://dl.google.com/go/go1.13.5.linux-arm64.tar.gz
@@ -84,45 +84,22 @@
       url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-arm64.tar.gz
       digest: d5a28c46e74f45b9f2158f793a6064fd9fe8fd8da6e0d1e548835ceb7beb1982
 
-- name: prometheus
-  version: 2.14.0
-  kind: tgz
-  arch:
-    x86_64:
-      url: https://github.com/prometheus/prometheus/releases/download/v2.15.1/prometheus-2.15.1.linux-amd64.tar.gz
-      digest: f8d2b9e8f9551a3dd6f476a43ea9f699d18d2cc6558baf0eebe0143d8f9c1d5a
-
-    #    arm7:
-    #      url: https://github.com/prometheus/prometheus/releases/download/v2.7.2/prometheus-2.7.2.linux-armv7.tar.gz
-    #      digest: c0d9c913891d7a34e45334d0657f5339985051d73dc6d474c600425e7d19b162
-
-    aarch64:
-      url: https://github.com/prometheus/prometheus/releases/download/v2.14.0/prometheus-2.14.0.linux-arm64.tar.gz
-      digest: 15ed186405406c9423a1336ee539133a26bb597b4d2d3346ebd921788f083b45
 
 - name: prometheus
-  version: 2.15.2
+  version: 1.0.0
   kind: tgz
   arch:
-    x86_64:
-      url: https://github.com/prometheus/prometheus/releases/download/v2.15.1/prometheus-2.15.1.linux-amd64.tar.gz
-      digest: f8d2b9e8f9551a3dd6f476a43ea9f699d18d2cc6558baf0eebe0143d8f9c1d5a
-
-    #    arm7:
-    #      url: https://github.com/prometheus/prometheus/releases/download/v2.7.2/prometheus-2.7.2.linux-armv7.tar.gz
-    #      digest: c0d9c913891d7a34e45334d0657f5339985051d73dc6d474c600425e7d19b162
-
     arm7:
-      url: https://github.com/prometheus/prometheus/releases/download/v2.15.2/prometheus-2.15.2.linux-armv7.tar.gz
-      digest: 8c7622259919aaf3eeec8e7d19589475b15681ce3b3be7ee459e56fbf5961710
+      url: file:///home/syncthing/builds/prometheus_1.0.0_armhf.tar.gz
+      digest: 09714e3bc5081bbfe047e8bf15382ad4e5ed842ec6236bc92745c73b6d0078bd
 
 - name: alertmanager
-  version: 0.20.0
+  version: 1.0.0
   kind: tgz
   arch:
     arm7:
-      url: https://github.com/prometheus/alertmanager/releases/download/v0.20.0/alertmanager-0.20.0.linux-armv7.tar.gz
-      digest: 5ebd33da8d61cef6ea1aab2ecc73310ff3fe4320eb76851ae71e22e3c5ddbc36
+      url: file:///home/syncthing/builds/alertmanager_1.0.0_armhf.tar.gz
+      digest: 92620de923d43062aab41a33f1a23018a3c14d9e9da795fa026d55c758be3a01
 
 
 - name: consul-template
@@ -176,20 +153,20 @@
       digest: a3434d84e37d5dc5684933bd05f1f674e6b53fd7e5c760122f9ce828589e88ae
 
 - name: camera
-  version: 1.4.0
+  version: 1.7.0
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/camera_1.4.0_armhf.tar.gz'
-      digest: 1c592cba5e13909ba6b25217e1c2b05d903850645f4b69cba55cbeda632ed74b
+      url: 'file:///home/syncthing/builds/camera_1.8.0_armhf.tar.gz'
+      digest: 8779e44ec281e7f9466fe56cb13cd96905873bf746744953e17fb5abb35695ed
 
 - name: head
-  version: 1.4.1
+  version: 1.7.1
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/head_1.4.1_armhf.tar.gz'
-      digest: 65431a066afb98f5eabb9c1956ce8f16a406aef4f1dc17de269dacdde05de23a
+      url: 'file:///home/syncthing/builds/head_1.7.1_armhf.tar.gz'
+      digest: 2f0569f8c9ae84bc4cc5701c28ad4ca3e0c5a79cbc925eb74630fe23d5a1e521
 
 - name: boss
   version: 1.6.0
@@ -277,6 +254,6 @@
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/system-tools_1.6.1_armhf.tar.gz'
-      digest: 578580687dfa60a6dbd418b30083620696f04e1261695ec4927d0c0298c37abd
+      url: 'file:///home/syncthing/builds/system-tools_1.7.0_armhf.tar.gz'
+      digest: 718974a82439c4c1368c5414da82635a24fcf351b824bc1d06f0f055bc736fc5
 

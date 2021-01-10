@@ -18,11 +18,12 @@ class Camera(Service):
     def env(self) -> Dict[str, str]:
         instance = self.ctx.record.kv['camera']
         return {
+            "GIN_MODE": "release",
             "INSTANCE": instance,
-            "FILENAME": {
-                "camera-01": "/home/syncthing/theheads/testdata/pi42.raw",
-                "camera-02": "/home/syncthing/theheads/testdata/pi43.raw"
-            }[instance]
+            # "FILENAME": {
+            #     "camera-01": "/home/syncthing/theheads/testdata/pi42.raw",
+            #     "camera-02": "/home/syncthing/theheads/testdata/pi43.raw"
+            # }[instance]
         }
 
     def working_dir(self) -> str:
@@ -44,4 +45,3 @@ class Camera(Service):
     def mdns_service_name(self):
         instance = self.ctx.record.kv['camera']
         return instance
-

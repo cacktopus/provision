@@ -15,6 +15,7 @@ class Head(Service):
     def env(self) -> Dict[str, str]:
         instance = self.ctx.record.kv['head']
         return {
+            "GIN_MODE": "release",
             "INSTANCE": instance,
         }
 

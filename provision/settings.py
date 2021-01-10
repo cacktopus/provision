@@ -78,7 +78,7 @@ class Settings:
             host_names |= set(self.get_host_names_by_tag(tag))
 
         hosts = [self.by_name[h] for h in host_names]
-        result = sorted(f"{h.host}.node.consul:{port}" for h in hosts)
+        result = sorted(f"{h.host}.local:{port}" for h in hosts)
 
         return result
 

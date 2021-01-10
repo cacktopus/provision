@@ -19,3 +19,7 @@ class Syncthing(Service):
 
     def setup(self) -> None:
         self.get_tar_archive()
+
+    def register_mdns(self) -> None:
+        pass
+
