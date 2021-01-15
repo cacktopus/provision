@@ -13,11 +13,7 @@ class Head(Service):
         return super().extra_groups() + ["i2c", "gpio"]
 
     def env(self) -> Dict[str, str]:
-        instance = self.ctx.record.kv['head']
-        return {
-            "GIN_MODE": "release",
-            "INSTANCE": instance,
-        }
+        return self.ctx.record.env['head']
 
     def command_line(self) -> str:
         return self.exe()
@@ -39,5 +35,4 @@ class Head(Service):
         ))
 
     def mdns_service_name(self):
-        instance = self.ctx.record.kv['head']
-        return instance
+        return self.ctx.record.env['head']['INSTANCE']
