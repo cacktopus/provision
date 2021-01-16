@@ -153,12 +153,12 @@
       digest: a3434d84e37d5dc5684933bd05f1f674e6b53fd7e5c760122f9ce828589e88ae
 
 - name: camera
-  version: 1.7.0
+  version: 0.0.0
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/camera_1.8.0_armhf.tar.gz'
-      digest: 8779e44ec281e7f9466fe56cb13cd96905873bf746744953e17fb5abb35695ed
+      url: 'file:///home/syncthing/builds/camera_1.11.0_armhf.tar.gz'
+      digest: 0da25d92cf1bc5c5ffef0b8b00cf402ccd53893656ad54a0bd828203bd90a41e
 
 - name: head
   version: 0.0.0
