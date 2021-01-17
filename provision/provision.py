@@ -49,6 +49,7 @@ def register_all() -> None:
         "provision.syncthing",
         "provision.shairport_sync",
         "provision.prometheus_discovery",
+        "provision.logstream",
     ]:
         mod = importlib.import_module(m)
 

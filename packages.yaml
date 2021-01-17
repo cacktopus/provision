@@ -257,3 +257,11 @@
       url: 'file:///home/syncthing/builds/system-tools_1.7.0_armhf.tar.gz'
       digest: 718974a82439c4c1368c5414da82635a24fcf351b824bc1d06f0f055bc736fc5
 
+- name: logstream
+  version: 0.0.0
+  kind: tgz
+  arch:
+    arm7:
+      url: 'file:///home/syncthing/builds/logstream_1.0.0_armhf.tar.gz'
+      digest: 9255123607b6f42c374cd49707635e912548efa29acb8cfaacf219bbb1d27cb5
+

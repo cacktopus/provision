@@ -23,3 +23,4 @@ git: 9418
 minio: 9000
 raftsync: 9000
 syncthing: 22000
+logstream: 8088
