@@ -60,7 +60,20 @@ class Packages2(Provision):
         package_list = [
             "ffmpeg",
             "avahi-utils",
-            # "nss-mdns",
+            "autoconf",
+            "automake",
+            "avahi-daemon",
+            "build-essential",
+            "git",
+            "libasound2-dev",
+            "libavahi-client-dev",
+            "libconfig-dev",
+            "libdaemon-dev",
+            "libpopt-dev",
+            "libssl-dev",
+            "libtool",
+            "xmltoman",
+            "mpg123",
         ]
 
         self.runner.run_remote_rpc("install_packages", params=dict(packages=package_list))
