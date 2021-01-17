@@ -234,12 +234,12 @@
       digest: 39e17926ef73a8296f323633d743d4fe71aec0d0e291ae15db8cede102e1f325
 
 - name: timesync
-  version: 0.0.1
+  version: 1.0.0
   kind: tgz
   arch:
     arm7:
-      url: 'http://raftsync.service.consul:9000/theheads/build/timesync_0.0.1_armhf.tar.gz'
-      digest: 494244faf3a4553a5ef21605fb76e12f019b7fef9aa1278e5be6d4de2b7fb981
+      url: 'file:///home/syncthing/builds/timesync_1.0.0_armhf.tar.gz'
+      digest: a73701300ef0478a7b728e3a47a62e558dc47fd4a932b65aca220671755a87eb
 
 - name: shairport-sync
   version: 3.3.7
