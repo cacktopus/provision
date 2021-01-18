@@ -238,8 +238,8 @@
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/timesync_1.0.0_armhf.tar.gz'
-      digest: a73701300ef0478a7b728e3a47a62e558dc47fd4a932b65aca220671755a87eb
+      url: 'file:///home/syncthing/builds/timesync_1.2.0_armhf.tar.gz'
+      digest: 2ad770dc62ab7e06deb2d763afdb6540d19987c55b35dfa40cfb6d151a87e55b
 
 - name: shairport-sync
   version: 3.3.7
@@ -254,8 +254,8 @@
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/system-tools_1.7.0_armhf.tar.gz'
-      digest: 718974a82439c4c1368c5414da82635a24fcf351b824bc1d06f0f055bc736fc5
+      url: 'file:///home/syncthing/builds/system-tools_1.9.0_armhf.tar.gz'
+      digest: e75ca4ef048f1d991376387e28922e7d9a0334a880139feca4858ba448aeda49
 
 - name: logstream
   version: 0.0.0
