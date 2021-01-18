@@ -165,8 +165,8 @@
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/head_1.9.0_armhf.tar.gz'
-      digest: 2504981dc3ff2c5c5219b71bf10dc13c6a4d445dc7318e8616790efce7274f78
+      url: 'file:///home/syncthing/builds/head_1.11.0_armhf.tar.gz'
+      digest: d391a5a2186f1d269fae0a6e4e2be73081b5d160a65234150fdab9aeb69bed15
 
 - name: boss
   version: 1.6.0

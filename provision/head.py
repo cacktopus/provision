@@ -10,7 +10,7 @@ class Head(Service):
     repo = "heads"
 
     def extra_groups(self) -> List[str]:
-        return super().extra_groups() + ["i2c", "gpio"]
+        return super().extra_groups() + ["i2c", "gpio", "audio"]
 
     def env(self) -> Dict[str, str]:
         return self.ctx.record.env['head']
