@@ -46,6 +46,10 @@ def register_all() -> None:
         "provision.timesync",
         "provision.taglist",
         "provision.opencv",
+        "provision.syncthing",
+        "provision.shairport_sync",
+        "provision.prometheus_discovery",
+        "provision.logstream",
     ]:
         mod = importlib.import_module(m)
 
@@ -83,7 +87,7 @@ def main(settings: Settings) -> None:
         port = 22
 
         initial_password = record.initial_password
-        ip = record.initial_ip or record.host + ".node.consul"
+        ip = record.initial_ip or record.host + ".local"
 
         print(" {} ({}:{}) ".format(record.host, ip, port).center(80, "="))
 

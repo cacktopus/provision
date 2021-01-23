@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 from .service import Service
 
@@ -9,6 +9,11 @@ class Boss(Service):
     deps = ["service-ready"]
     repo = "heads"
 
+    def env(self) -> Dict[str, str]:
+        return {
+            "SCENE_PATH": "/home/syncthing/theheads/scenes/hb2021"
+        }
+
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["systemd-journal"]
 
@@ -16,14 +21,8 @@ class Boss(Service):
         return self.prod_path()
 
     def command_line(self) -> str:
-        lock = "boss-service-lock"
-        cmd = self.exe()
-
-        return f"/home/build/builds/consul/prod/consul lock -child-exit-code {lock} {cmd}"
-
-    def register_for_monitoring(self) -> None:
-        pass
+        return self.exe()
 
     def setup(self) -> None:
         self.get_tar_archive()
-        self.service_level_monitoring()
+        # self.service_level_monitoring()

@@ -11,6 +11,7 @@ Group={{group}}
 WorkingDirectory={{working_dir}}
 {{reload}}
 {{capabilities}}
+{{extra}}
 {{env}}
 
 [Install]

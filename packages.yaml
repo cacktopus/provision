@@ -24,12 +24,12 @@
       digest: 512103d7ad296467814a6e3f635631bd35574cab3369a97a323c9a585ccaa569
 
     arm6:
-      url: https://dl.google.com/go/go1.13.5.linux-armv6l.tar.gz
-      digest: 26259f61d52ee2297b1e8feef3a0fc82144b666a2b95512402c31cc49713c133
+      url: https://golang.org/dl/go1.15.6.linux-armv6l.tar.gz
+      digest: 40ba9a57764e374195018ef37c38a5fbac9bbce908eab436370631a84bfc5788
 
     arm7:
-      url: https://dl.google.com/go/go1.13.5.linux-armv6l.tar.gz
-      digest: 26259f61d52ee2297b1e8feef3a0fc82144b666a2b95512402c31cc49713c133
+      url: https://golang.org/dl/go1.15.6.linux-armv6l.tar.gz
+      digest: 40ba9a57764e374195018ef37c38a5fbac9bbce908eab436370631a84bfc5788
 
     aarch64:
       url: https://dl.google.com/go/go1.13.5.linux-arm64.tar.gz
@@ -84,45 +84,22 @@
       url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-arm64.tar.gz
       digest: d5a28c46e74f45b9f2158f793a6064fd9fe8fd8da6e0d1e548835ceb7beb1982
 
-- name: prometheus
-  version: 2.14.0
-  kind: tgz
-  arch:
-    x86_64:
-      url: https://github.com/prometheus/prometheus/releases/download/v2.15.1/prometheus-2.15.1.linux-amd64.tar.gz
-      digest: f8d2b9e8f9551a3dd6f476a43ea9f699d18d2cc6558baf0eebe0143d8f9c1d5a
-
-    #    arm7:
-    #      url: https://github.com/prometheus/prometheus/releases/download/v2.7.2/prometheus-2.7.2.linux-armv7.tar.gz
-    #      digest: c0d9c913891d7a34e45334d0657f5339985051d73dc6d474c600425e7d19b162
-
-    aarch64:
-      url: https://github.com/prometheus/prometheus/releases/download/v2.14.0/prometheus-2.14.0.linux-arm64.tar.gz
-      digest: 15ed186405406c9423a1336ee539133a26bb597b4d2d3346ebd921788f083b45
 
 - name: prometheus
-  version: 2.15.2
+  version: 1.0.0
   kind: tgz
   arch:
-    x86_64:
-      url: https://github.com/prometheus/prometheus/releases/download/v2.15.1/prometheus-2.15.1.linux-amd64.tar.gz
-      digest: f8d2b9e8f9551a3dd6f476a43ea9f699d18d2cc6558baf0eebe0143d8f9c1d5a
-
-    #    arm7:
-    #      url: https://github.com/prometheus/prometheus/releases/download/v2.7.2/prometheus-2.7.2.linux-armv7.tar.gz
-    #      digest: c0d9c913891d7a34e45334d0657f5339985051d73dc6d474c600425e7d19b162
-
     arm7:
-      url: https://github.com/prometheus/prometheus/releases/download/v2.15.2/prometheus-2.15.2.linux-armv7.tar.gz
-      digest: 8c7622259919aaf3eeec8e7d19589475b15681ce3b3be7ee459e56fbf5961710
+      url: file:///home/syncthing/builds/prometheus_1.0.0_armhf.tar.gz
+      digest: 09714e3bc5081bbfe047e8bf15382ad4e5ed842ec6236bc92745c73b6d0078bd
 
 - name: alertmanager
-  version: 0.20.0
+  version: 1.0.0
   kind: tgz
   arch:
     arm7:
-      url: https://github.com/prometheus/alertmanager/releases/download/v0.20.0/alertmanager-0.20.0.linux-armv7.tar.gz
-      digest: 5ebd33da8d61cef6ea1aab2ecc73310ff3fe4320eb76851ae71e22e3c5ddbc36
+      url: file:///home/syncthing/builds/alertmanager_1.0.0_armhf.tar.gz
+      digest: 92620de923d43062aab41a33f1a23018a3c14d9e9da795fa026d55c758be3a01
 
 
 - name: consul-template
@@ -176,12 +153,28 @@
       digest: a3434d84e37d5dc5684933bd05f1f674e6b53fd7e5c760122f9ce828589e88ae
 
 - name: camera
-  version: 1.0.1
+  version: 0.0.0
   kind: tgz
   arch:
     arm7:
-      url: '{{builds}}/camera_1.0.1_armhf.tar.bz2'
-      digest: 14191303f691b4b3e0ba01fadd1f89a03b53ee1f86b16ac2cb38ec68596d92a6
+      url: 'file:///home/syncthing/builds/camera_1.11.0_armhf.tar.gz'
+      digest: 0da25d92cf1bc5c5ffef0b8b00cf402ccd53893656ad54a0bd828203bd90a41e
+
+- name: head
+  version: 0.0.0
+  kind: tgz
+  arch:
+    arm7:
+      url: 'file:///home/syncthing/builds/head_1.17.0_armhf.tar.gz'
+      digest: e3fc1c720a78cb75254598e8e719f3bb2c31978bc714ec4f57f4e8d7a5352dc8
+
+- name: boss
+  version: 0.0.0
+  kind: tgz
+  arch:
+    arm7:
+      url: 'file:///home/syncthing/builds/boss_1.7.0_armhf.tar.gz'
+      digest: 291efe4018f588ff1214ffebb8e373d189904b4a2e76bc28ee97cac7618dd1df
 
 - name: gitweb
   version: 0.1.0
@@ -199,22 +192,22 @@
       url: '{{builds}}/minio-1.0.0.linux-arm7.tar.gz'
       digest: 4e8a6f88b8ddb9955af9391454f4a7c695fd872c7ac3fa152b6a9724c84cecd1
 
+- name: syncthing
+  version: 1.12.0
+  kind: tgz
+  arch:
+    arm7:
+      url: 'https://github.com/syncthing/syncthing/releases/download/v1.12.0/syncthing-linux-arm-v1.12.0.tar.gz'
+      digest: 53316f99af2b4c618636e64e3b28ea2fd257720806ce48bfa2ca5dbea8b3b4a7
+
 - name: raftsync
   version: 0.0.1
   kind: tgz
   arch:
     arm7:
-#      url: 'http://raftsync.service.consul:9000/theheads/build/raftsync_0.0.1_armhf.tar.bz2'
+      #      url: 'http://raftsync.service.consul:9000/theheads/build/raftsync_0.0.1_armhf.tar.bz2'
       url: '{{builds}}/raftsync_0.0.1_armhf.tar.bz2'
       digest: d562cf6d251de3722037ac3baefe64734cbb674a6eed9971819d1c75132a92c4
-
-- name: head
-  version: 0.0.1
-  kind: tgz
-  arch:
-    arm7:
-      url: 'http://raftsync.service.consul:9000/theheads/build/head_0.0.1_armhf.tar.bz2'
-      digest: b8be7670586ec486bf12e79e5d3b1585fd6ab5174c8a0e82e4460bc114391fae
 
 - name: voices
   version: 0.0.1
@@ -223,14 +216,6 @@
     arm7:
       url: 'http://raftsync.service.consul:9000/theheads/build/voices_0.0.1_armhf.tar.bz2'
       digest: 099df263a235b63bd0e8063564680a2e29b69d4422218c13e13b3078e54ea931
-
-- name: boss
-  version: 0.0.1
-  kind: tgz
-  arch:
-    arm7:
-      url: 'http://raftsync.service.consul:9000/theheads/build/boss_0.0.1_armhf.tar.gz'
-      digest: 9907477b54f5a1c012bd970e792ac6d0657d3777f98a00dab3d64203e2fa60bf
 
 - name: home
   version: 0.0.1
@@ -249,10 +234,34 @@
       digest: 39e17926ef73a8296f323633d743d4fe71aec0d0e291ae15db8cede102e1f325
 
 - name: timesync
-  version: 0.0.1
+  version: 1.0.0
   kind: tgz
   arch:
     arm7:
-      url: 'http://raftsync.service.consul:9000/theheads/build/timesync_0.0.1_armhf.tar.gz'
-      digest: 494244faf3a4553a5ef21605fb76e12f019b7fef9aa1278e5be6d4de2b7fb981
+      url: 'file:///home/syncthing/builds/timesync_1.2.0_armhf.tar.gz'
+      digest: 2ad770dc62ab7e06deb2d763afdb6540d19987c55b35dfa40cfb6d151a87e55b
+
+- name: shairport-sync
+  version: 3.3.7
+  kind: tgz
+  arch:
+    arm7:
+      url: 'file:///home/syncthing/builds/shairport-sync_3.3.7_armhf.tar.gz'
+      digest: f59a608103426da08700d6da5717f3a7fc46ae3a7004b29457af3dc31a100672
+
+- name: system-tools
+  version: 1.6.1
+  kind: tgz
+  arch:
+    arm7:
+      url: 'file:///home/syncthing/builds/system-tools_1.9.0_armhf.tar.gz'
+      digest: e75ca4ef048f1d991376387e28922e7d9a0334a880139feca4858ba448aeda49
+
+- name: logstream
+  version: 0.0.0
+  kind: tgz
+  arch:
+    arm7:
+      url: 'file:///home/syncthing/builds/logstream_1.0.0_armhf.tar.gz'
+      digest: 9255123607b6f42c374cd49707635e912548efa29acb8cfaacf219bbb1d27cb5
 

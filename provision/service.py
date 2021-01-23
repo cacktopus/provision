@@ -82,10 +82,10 @@ class Provision:
                 }, default_flow_style=False)
             )
 
-    def get_archive(self, kind: str) -> None:
+    def get_archive(self, kind: str, name: Optional[str] = None) -> None:
         cmd = f"get_{kind}_archive"
         machine = self.info['machine']
-        pkg, arch = packages.latest_semver(self.name, machine)
+        pkg, arch = packages.latest_semver(name or self.name, machine)
 
         url = arch['url']
         url = Template(url).render(builds=self.ctx.settings.build_storage_url)
@@ -99,8 +99,8 @@ class Provision:
     def get_zip_archive(self) -> None:
         return self.get_archive("zip")
 
-    def get_tar_archive(self) -> None:
-        return self.get_archive("tar")
+    def get_tar_archive(self, **kw) -> None:
+        return self.get_archive("tar", **kw)
 
     def get_tar_bz_archive(self) -> None:
         return self.get_archive("tar_bz")
@@ -118,6 +118,8 @@ class Provision:
             tags: Optional[List[str]] = None,
             checks: Optional[List[Any]] = None,  # TODO: type this list
     ) -> None:
+        raise NotImplementedError
+
         checks = checks or []
         assert isinstance(checks, list)
         name = name.replace("_", "-")
@@ -266,7 +268,7 @@ class Service(Provision):
         if self.port is None:
             return
 
-        self.register_service_with_consul(self.name, self.port)
+        # self.register_service_with_consul(self.name, self.port)
 
     def execute(self) -> List[Dict[str, Any]]:
         adduser(self.ctx, self.runner, self.user, self.extra_groups())
@@ -279,11 +281,14 @@ class Service(Provision):
             rendered["mode"] = 0o644
             self.runner.run_remote_rpc("systemd", params=rendered)
 
-        self.register_for_monitoring()
+        self.register_mdns()
         self.register_service()
         self.setup_sudo_for_build_restart()  # TODO: only needed for code we build from git
 
         return self.runner.execute()
+
+    def systemd_extra(self):
+        return None
 
     def systemd_args(self) -> Optional[Dict[str, Any]]:
         command_line = self.command_line()
@@ -301,6 +306,7 @@ class Service(Provision):
             env=self.env(),
             capabilities=self.capabilities(),
             reload=self.reload(),
+            extra=self.systemd_extra(),
         )
 
     def consul_health_checks(self) -> List[Dict[str, Any]]:
@@ -326,44 +332,34 @@ class Service(Provision):
     def metrics_port(self) -> Optional[int]:
         return self.port
 
-    def register_for_monitoring(self) -> None:
-        port = self.metrics_port
+    def mdns_service_name(self) -> str:
+        return f"{self.name} on %h"
 
-        if port is None:
-            return
+    def register_mdns(self) -> None:
+        kv = {}
 
-        host = self.ctx.record.host
+        if self.metrics_port is not None:
+            kv["prometheus_metrics_port"] = self.metrics_port
 
-        filename = f"{self.name}.yml"
+        txt_records = "\n".join(f"    <txt-record>{k}={v}</txt-record>" for (k, v) in kv.items())
 
-        target = f"{host}.node.consul:{port}"
-        labels = {
-            "job": self.name,
-            "host": self.ctx.host,
-        }
-
-        metrics_path = self.metrics_path()
-        if metrics_path is not None:
-            labels["__metrics_path__"] = metrics_path
-
-        for k, v in sorted(self.metrics_params().items()):
-            labels[f"__param_{k}"] = v
-
-        static_config = {
-            "targets": [target],
-            "labels": labels
-        }
-
-        cfg = [static_config]
-
-        content = yaml.dump(cfg, default_flow_style=False)
-
-        consul_kv.put(
-            path=f"prometheus/by-host/{host}/{filename}",
-            data=content,
+        self.template(
+            name="avahi.service",
+            location=f"/etc/avahi/services/{self.name}.service",
+            user="root",
+            group="root",
+            vars=dict(
+                service_name=self.mdns_service_name(),
+                service_type=self.name,
+                port=self.port,
+                txt_records=txt_records,
+            ),
+            mode=0o644,
         )
 
     def service_level_monitoring(self) -> None:
+        raise NotImplementedError
+
         port = self.metrics_port
 
         if port is None:
@@ -380,7 +376,7 @@ class Service(Provision):
 
         content = yaml.dump(cfg, default_flow_style=False)
 
-        consul_kv.put(
-            path=f"prometheus/by-service/{filename}",
-            data=content,
-        )
+        # consul_kv.put(
+        #     path=f"prometheus/by-service/{filename}",
+        #     data=content,
+        # )

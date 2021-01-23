@@ -63,7 +63,7 @@ def hashfile(filename: str, hashfunc: Callable[[], Any] = hashlib.sha256) -> str
 
 def fetch_archive(digest: str, url: str) -> str:
     filename = url.split("/")[-1]
-    check_call(["wget", url])
+    check_call(["curl", "-L", "-O", url])
     assert os.path.isfile(filename)
     hash = hashfile(filename)
     log("computed hash:", hash)
