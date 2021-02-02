@@ -157,24 +157,24 @@
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/camera_1.11.0_armhf.tar.gz'
-      digest: 0da25d92cf1bc5c5ffef0b8b00cf402ccd53893656ad54a0bd828203bd90a41e
+      url: 'file:///home/syncthing/builds/camera_1.39.0_armhf.tar.gz'
+      digest: 4b3f6bd7c8b8d2aa1a76c17bd91ec88f8e021c5b07f816d852ef98f08807316d
 
 - name: head
   version: 0.0.0
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/head_1.17.0_armhf.tar.gz'
-      digest: e3fc1c720a78cb75254598e8e719f3bb2c31978bc714ec4f57f4e8d7a5352dc8
+      url: 'file:///home/syncthing/builds/head_1.22.0_armhf.tar.gz'
+      digest: 5372287b57f20e60118b7eddc77f9b3fe0c36ad6e79508a854db5128b7e7e468
 
 - name: boss
   version: 0.0.0
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/boss_1.7.0_armhf.tar.gz'
-      digest: 291efe4018f588ff1214ffebb8e373d189904b4a2e76bc28ee97cac7618dd1df
+      url: 'file:///home/syncthing/builds/boss_1.8.0_armhf.tar.gz'
+      digest: 0c6e1dae327175340f04bdfba0644fcfb96ffb54af4d32b59643327cb2bb8bb0
 
 - name: gitweb
   version: 0.1.0
