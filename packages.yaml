@@ -265,3 +265,12 @@
       url: 'file:///home/syncthing/builds/logstream_1.0.0_armhf.tar.gz'
       digest: 9255123607b6f42c374cd49707635e912548efa29acb8cfaacf219bbb1d27cb5
 
+- name: rtunneld
+  version: 0.0.0
+  kind: tgz
+  arch:
+    arm7:
+      url: 'file:///home/syncthing/builds/rtunneld_1.0.0_armhf.tar.gz'
+      digest: 528bc64a75ad98073a64210ab941dfd0514db48758a9713d5e4b8604f00e80a7
+
+
