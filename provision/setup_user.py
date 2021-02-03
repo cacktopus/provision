@@ -38,3 +38,14 @@ class RootUser(Provision):
         ))
 
         self.runner.execute()
+
+
+class UbuntuUser(Provision):
+    name = "user(ubuntu)"
+    deps = ["start", "user(build)"]
+
+    def __call__(self, ctx: Context) -> None:
+        runner = Runner(ctx.root_conn)
+        adduser(ctx, runner, "ubuntu", ["build"])
+        runner.execute()
+

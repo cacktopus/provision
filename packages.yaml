@@ -93,6 +93,10 @@
       url: file:///home/syncthing/builds/prometheus_1.0.0_armhf.tar.gz
       digest: 09714e3bc5081bbfe047e8bf15382ad4e5ed842ec6236bc92745c73b6d0078bd
 
+    aarch64:
+      url: file:///home/syncthing/builds/prometheus_1.0.0_arm64.tar.gz
+      digest: 08e1ef98760cc34d99d301386e74010685c25204e46a9dbf1dcd955307de9fe7
+
 - name: alertmanager
   version: 1.0.0
   kind: tgz
@@ -200,6 +204,10 @@
       url: 'https://github.com/syncthing/syncthing/releases/download/v1.12.0/syncthing-linux-arm-v1.12.0.tar.gz'
       digest: 53316f99af2b4c618636e64e3b28ea2fd257720806ce48bfa2ca5dbea8b3b4a7
 
+    aarch64:
+      url: 'https://github.com/syncthing/syncthing/releases/download/v1.12.0/syncthing-linux-arm64-v1.12.0.tar.gz'
+      digest: f26f9c091e04f4337faf334ef44f8b1ca2b32a1f2e391bea3e1aa998ef3d4e87
+
 - name: raftsync
   version: 0.0.1
   kind: tgz
@@ -218,12 +226,16 @@
       digest: 099df263a235b63bd0e8063564680a2e29b69d4422218c13e13b3078e54ea931
 
 - name: home
-  version: 0.0.1
+  version: 0.0.0
   kind: tgz
   arch:
     arm7:
       url: 'http://raftsync.service.consul:9000/theheads/build/home_0.0.1_armhf.tar.gz'
       digest: 0c563de52e8fead27a55002e915ef0167a2c5b87068c09d1d1723c303154cacf
+
+    aarch64:
+      url: 'file:///home/syncthing/builds/home_1.0.0_arm64.tar.gz'
+      digest: adfd200c72c9735beecbab4d40898a20cc03c2b5bb97817f76a262f37c08976a
 
 - name: leds
   version: 0.0.1
@@ -256,6 +268,10 @@
     arm7:
       url: 'file:///home/syncthing/builds/system-tools_1.9.0_armhf.tar.gz'
       digest: e75ca4ef048f1d991376387e28922e7d9a0334a880139feca4858ba448aeda49
+
+    aarch64:
+      url: 'file:///home/syncthing/builds/system-tools_1.10.0_arm64.tar.gz'
+      digest: 83695fc846a0799a3afb4df21785318df1818eea495cb38e4dfd7125fda4dddb
 
 - name: logstream
   version: 0.0.0
