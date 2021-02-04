@@ -1,5 +1,6 @@
 asn1crypto==0.24.0
 asyncssh==1.17.0
+attrs==20.3.0
 bcrypt==3.1.6
 certifi==2019.3.9
 cffi==1.12.3
@@ -11,7 +12,7 @@ idna==2.8
 invoke==1.2.0
 Jinja2==2.10.1
 MarkupSafe==1.1.1
-networkx==2.3
+networkx==2.5
 paramiko==2.4.2
 pyasn1==0.4.5
 pycparser==2.19
