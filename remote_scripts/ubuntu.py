@@ -1,4 +1,4 @@
-from setup_user import ensure_line_in_file
+from setup_user import ensure_line_in_file, check
 
 
 def ubuntu_setup():
@@ -7,3 +7,6 @@ def ubuntu_setup():
         "/etc/sudoers.d/90-cloud-init-users",
         "pi ALL=(ALL) NOPASSWD:ALL",
     )
+
+    check(["systemctl", "disable", "--now", "unattended-upgrades"])
+    # check(["apt", "remove", "unattended-upgrades"])

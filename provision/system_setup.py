@@ -3,7 +3,7 @@ from .service import Provision
 
 class Packages(Provision):
     name = "packages"
-    deps = ["start"]
+    deps = ["start", "ubuntu"]
 
     def setup(self) -> None:
         # opencv = [
