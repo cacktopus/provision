@@ -3,7 +3,6 @@ import os
 from typing import List, Dict, Optional, Any, Tuple
 
 import provision.packages as packages
-import requests
 import yaml
 from jinja2 import Template
 
@@ -85,15 +84,27 @@ class Provision:
     def get_archive(self, kind: str, name: Optional[str] = None) -> None:
         cmd = f"get_{kind}_archive"
         machine = self.info['machine']
-        pkg, arch = packages.latest_semver(name or self.name, machine)
+        name = name or self.name
+        pkg, arch = packages.latest_semver(name, machine)
 
         url = arch['url']
         url = Template(url).render(builds=self.ctx.settings.build_storage_url)
 
+        version = pkg['version']
+
+        digests = {}
+        with open(f"checksums/{name}") as fp:
+            for a in fp:
+                digest, name = a.split()
+                digests[os.path.basename(name)] = digest
+
+        archive_name = os.path.basename(arch['url'])
+        digest = digests[archive_name]
+
         self.runner.run_remote_rpc(cmd, params=dict(
             app_name=pkg['name'],
             url=url,
-            digest=arch['digest'],
+            digest=digest,
         ), user="build")
 
     def get_zip_archive(self) -> None:

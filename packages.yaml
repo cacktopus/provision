@@ -4,15 +4,12 @@
   arch:
     x86_64:
       url: https://dl.grafana.com/oss/release/grafana-5.4.5.linux-amd64.tar.gz
-      digest: 89c4f576114179617060c977afcf69a71228d9f389bbc89c4913754133c4736f
 
     arm7:
       url: https://dl.grafana.com/oss/release/grafana-5.4.5.linux-armv7.tar.gz
-      digest: a14775de3ebbdbbce5755409dd0d7a1c683f445d44e8ca205f01723e2045d65c
 
     aarch64:
       url: https://dl.grafana.com/oss/release/grafana-5.4.5.linux-arm64.tar.gz
-      digest: dea72c833182f1b8556d1e623a9c25c2d24ed165a7ea2f92a1239b3a2e6f4061
 
 
 - name: go
@@ -21,19 +18,15 @@
   arch:
     x86_64:
       url: https://dl.google.com/go/go1.13.5.linux-amd64.tar.gz
-      digest: 512103d7ad296467814a6e3f635631bd35574cab3369a97a323c9a585ccaa569
 
     arm6:
       url: https://golang.org/dl/go1.15.6.linux-armv6l.tar.gz
-      digest: 40ba9a57764e374195018ef37c38a5fbac9bbce908eab436370631a84bfc5788
 
     arm7:
       url: https://golang.org/dl/go1.15.6.linux-armv6l.tar.gz
-      digest: 40ba9a57764e374195018ef37c38a5fbac9bbce908eab436370631a84bfc5788
 
     aarch64:
       url: https://dl.google.com/go/go1.13.5.linux-arm64.tar.gz
-      digest: 227b718923e20c846460bbecddde9cb86bad73acc5fb6f8e1a96b81b5c84668b
 
 - name: consul
   version: 1.6.2
@@ -41,19 +34,15 @@
   arch:
     arm6:
       url: https://releases.hashicorp.com/consul/1.6.2/consul_1.6.2_linux_armelv5.zip
-      digest: 2180a7643259c91979eefa5179d5a73b9587ff3ae3d0213f3d6001a5347a547e
 
     arm7:
       url: https://releases.hashicorp.com/consul/1.6.2/consul_1.6.2_linux_armhfv6.zip
-      digest: 0e7dd7f4a6ab9038d3fe2389962b05c1ac91fe80b4a3e9477d6d3213dcfc6ddd
 
     aarch64:
       url: https://releases.hashicorp.com/consul/1.6.2/consul_1.6.2_linux_arm64.zip
-      digest: f37ba2011a60b54dd95670d0e34adfcbf4217cacccce6d09accee60e70a6189c
 
     x86_64:
       url: https://releases.hashicorp.com/consul/1.6.2/consul_1.6.2_linux_amd64.zip
-      digest: 78d127e5b8edd310c3f9f89487fb833a5c7bcb4e09cb731a4d39100fc53b38be
 
 
 - name: nodejs
@@ -62,7 +51,6 @@
   arch:
     arm7:
       url: https://nodejs.org/dist/v10.18.1/node-v10.18.1-linux-armv7l.tar.gz
-      digest: a1d03512da3fd602f3ed28c0d36e41f9b532e1e6451784bd4499f8982400c7cc
 
 - name: node-exporter
   version: 0.18.1
@@ -70,19 +58,15 @@
   arch:
     x86_64:
       url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
-      digest: b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424
 
     arm6:
       url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-armv6.tar.gz
-      digest: 6f3cb593c15c12cdfaef20d7e1c61d28ef822af6fc8c85d670cb3f0a1212778a
 
     arm7:
       url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-armv7.tar.gz
-      digest: 5de85067f44b42b22d62b2789cb1a379ff5559649b99795cd1ba0c144b512ad0
 
     aarch64:
       url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-arm64.tar.gz
-      digest: d5a28c46e74f45b9f2158f793a6064fd9fe8fd8da6e0d1e548835ceb7beb1982
 
 
 - name: prometheus
@@ -91,11 +75,9 @@
   arch:
     arm7:
       url: file:///home/syncthing/builds/prometheus_1.0.0_armhf.tar.gz
-      digest: 09714e3bc5081bbfe047e8bf15382ad4e5ed842ec6236bc92745c73b6d0078bd
 
     aarch64:
       url: file:///home/syncthing/builds/prometheus_1.0.0_arm64.tar.gz
-      digest: 08e1ef98760cc34d99d301386e74010685c25204e46a9dbf1dcd955307de9fe7
 
 - name: alertmanager
   version: 1.0.0
@@ -103,7 +85,6 @@
   arch:
     arm7:
       url: file:///home/syncthing/builds/alertmanager_1.0.0_armhf.tar.gz
-      digest: 92620de923d43062aab41a33f1a23018a3c14d9e9da795fa026d55c758be3a01
 
 
 - name: consul-template
@@ -112,11 +93,9 @@
   arch:
     aarch64:
       url: '{{builds}}/consul_template-0.24.0.linux-aarch64.tar.gz'
-      digest: 188bdba0d66af35a69edec78d45fa3d0ba8988065806685d10cfdbec1f71afde
 
     arm7:
       url: '{{builds}}/consul_template-0.24.0.linux-arm7.tar.gz'
-      digest: 8e122c3411901eec2573d76340e1d5d05e06c173ba2bc32708fbcb18e11b2d3e
 
 
 - name: python37
@@ -125,7 +104,6 @@
   arch:
     arm7:
       url: '{{builds}}/python-3.7.3.linux-armv7.tar.gz'
-      digest: 051bfde018beb3136b9be0bec86c3ead5d98e430df99173f5c3e4cb37c88a67b
 
 - name: openssl
   version: 1.0.2r
@@ -133,7 +111,6 @@
   arch:
     arm7:
       url: '{{builds}}/openssl-1.0.2r.linux-arm7.tar.gz'
-      digest: 26300068ae298a895c9b4db908e06628cb494863293ba3d3bfd18eab76419669
 
 - name: monerod
   version: 0.15.0.1
@@ -141,7 +118,6 @@
   arch:
     arm7:
       url: https://downloads.getmonero.org/cli/linuxarm7
-      digest: 19c34bf8d79b6ae809efe30a4c02695cd2d8212709a5bff43a5aec49517c41ee
 
 
 - name: buildbot
@@ -150,19 +126,16 @@
   arch:
     arm7:
       url: '{{builds}}/buildbot-0.4.0.linux-arm7.tar.gz'
-      digest: ef408ecbfb230587a1f3f8865cc26e31a1a74b8a042dd953d6c70afff62e5c9a
 
     arm6:
       url: '{{builds}}/buildbot-0.4.0.linux-arm6.tar.gz'
-      digest: a3434d84e37d5dc5684933bd05f1f674e6b53fd7e5c760122f9ce828589e88ae
 
 - name: camera
   version: 0.0.0
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/camera_1.39.0_armhf.tar.gz'
-      digest: 4b3f6bd7c8b8d2aa1a76c17bd91ec88f8e021c5b07f816d852ef98f08807316d
+      url: 'file:///home/syncthing/builds/camera_1.41.0_armhf.tar.gz'
 
 - name: head
   version: 0.0.0
@@ -170,7 +143,6 @@
   arch:
     arm7:
       url: 'file:///home/syncthing/builds/head_1.22.0_armhf.tar.gz'
-      digest: 5372287b57f20e60118b7eddc77f9b3fe0c36ad6e79508a854db5128b7e7e468
 
 - name: boss
   version: 0.0.0
@@ -178,7 +150,6 @@
   arch:
     arm7:
       url: 'file:///home/syncthing/builds/boss_1.8.0_armhf.tar.gz'
-      digest: 0c6e1dae327175340f04bdfba0644fcfb96ffb54af4d32b59643327cb2bb8bb0
 
 - name: gitweb
   version: 0.1.0
@@ -186,7 +157,6 @@
   arch:
     arm7:
       url: '{{builds}}/gitweb-0.1.0.linux-arm7.tar.gz'
-      digest: e72e1b334e9c24907b6b74d6e87790a52da9afd886b439521bd4312ad38f0e5c
 
 - name: minio
   version: 1.0.0
@@ -194,7 +164,6 @@
   arch:
     arm7:
       url: '{{builds}}/minio-1.0.0.linux-arm7.tar.gz'
-      digest: 4e8a6f88b8ddb9955af9391454f4a7c695fd872c7ac3fa152b6a9724c84cecd1
 
 - name: syncthing
   version: 1.12.0
@@ -202,11 +171,9 @@
   arch:
     arm7:
       url: 'https://github.com/syncthing/syncthing/releases/download/v1.12.0/syncthing-linux-arm-v1.12.0.tar.gz'
-      digest: 53316f99af2b4c618636e64e3b28ea2fd257720806ce48bfa2ca5dbea8b3b4a7
 
     aarch64:
       url: 'https://github.com/syncthing/syncthing/releases/download/v1.12.0/syncthing-linux-arm64-v1.12.0.tar.gz'
-      digest: f26f9c091e04f4337faf334ef44f8b1ca2b32a1f2e391bea3e1aa998ef3d4e87
 
 - name: raftsync
   version: 0.0.1
@@ -215,7 +182,6 @@
     arm7:
       #      url: 'http://raftsync.service.consul:9000/theheads/build/raftsync_0.0.1_armhf.tar.bz2'
       url: '{{builds}}/raftsync_0.0.1_armhf.tar.bz2'
-      digest: d562cf6d251de3722037ac3baefe64734cbb674a6eed9971819d1c75132a92c4
 
 - name: voices
   version: 0.0.1
@@ -223,7 +189,6 @@
   arch:
     arm7:
       url: 'http://raftsync.service.consul:9000/theheads/build/voices_0.0.1_armhf.tar.bz2'
-      digest: 099df263a235b63bd0e8063564680a2e29b69d4422218c13e13b3078e54ea931
 
 - name: home
   version: 0.0.0
@@ -231,11 +196,9 @@
   arch:
     arm7:
       url: 'http://raftsync.service.consul:9000/theheads/build/home_0.0.1_armhf.tar.gz'
-      digest: 0c563de52e8fead27a55002e915ef0167a2c5b87068c09d1d1723c303154cacf
 
     aarch64:
       url: 'file:///home/syncthing/builds/home_1.0.0_arm64.tar.gz'
-      digest: adfd200c72c9735beecbab4d40898a20cc03c2b5bb97817f76a262f37c08976a
 
 - name: leds
   version: 0.0.1
@@ -243,7 +206,6 @@
   arch:
     arm7:
       url: 'http://raftsync.service.consul:9000/theheads/build/leds_0.0.1_armhf.tar.gz'
-      digest: 39e17926ef73a8296f323633d743d4fe71aec0d0e291ae15db8cede102e1f325
 
 - name: timesync
   version: 1.0.0
@@ -251,7 +213,6 @@
   arch:
     arm7:
       url: 'file:///home/syncthing/builds/timesync_1.2.0_armhf.tar.gz'
-      digest: 2ad770dc62ab7e06deb2d763afdb6540d19987c55b35dfa40cfb6d151a87e55b
 
 - name: shairport-sync
   version: 3.3.7
@@ -259,7 +220,6 @@
   arch:
     arm7:
       url: 'file:///home/syncthing/builds/shairport-sync_3.3.7_armhf.tar.gz'
-      digest: f59a608103426da08700d6da5717f3a7fc46ae3a7004b29457af3dc31a100672
 
 - name: system-tools
   version: 1.6.1
@@ -267,11 +227,9 @@
   arch:
     arm7:
       url: 'file:///home/syncthing/builds/system-tools_1.9.0_armhf.tar.gz'
-      digest: e75ca4ef048f1d991376387e28922e7d9a0334a880139feca4858ba448aeda49
 
     aarch64:
       url: 'file:///home/syncthing/builds/system-tools_1.10.0_arm64.tar.gz'
-      digest: 83695fc846a0799a3afb4df21785318df1818eea495cb38e4dfd7125fda4dddb
 
 - name: logstream
   version: 0.0.0
@@ -279,7 +237,6 @@
   arch:
     arm7:
       url: 'file:///home/syncthing/builds/logstream_1.0.0_armhf.tar.gz'
-      digest: 9255123607b6f42c374cd49707635e912548efa29acb8cfaacf219bbb1d27cb5
 
 - name: rtunneld
   version: 0.0.0
@@ -287,6 +244,5 @@
   arch:
     arm7:
       url: 'file:///home/syncthing/builds/rtunneld_1.0.0_armhf.tar.gz'
-      digest: 528bc64a75ad98073a64210ab941dfd0514db48758a9713d5e4b8604f00e80a7
 
 
