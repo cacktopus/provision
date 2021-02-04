@@ -6,7 +6,6 @@ from fabric import Connection  # type: ignore
 from networkx import topological_sort  # type: ignore
 
 import provision.actions as actions
-from .settings import Settings
 from .context import Context
 from .info import Info
 # TODO: turn of automatic updates
@@ -14,6 +13,7 @@ from .info import Info
 # TODO: sudo vi /etc/apt/apt.conf.d/20auto-upgrades
 # TODO: install git
 from .service import Service, Provision
+from .settings import Settings
 
 
 def register_all() -> None:
@@ -50,6 +50,8 @@ def register_all() -> None:
         "provision.shairport_sync",
         "provision.prometheus_discovery",
         "provision.logstream",
+        "provision.ubuntu",
+
     ]:
         mod = importlib.import_module(m)
 

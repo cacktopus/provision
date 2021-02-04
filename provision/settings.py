@@ -14,9 +14,6 @@ class Host:
     initial_ip: str = ""
     initial_password: str = ""
 
-    consul: str = "client"
-    consul_ip: str = ""
-
     tags: List[str] = attr.Factory(list)
     kv: Dict[str, str] = attr.Factory(dict)
     env: Dict[str, Dict[str, str]] = attr.Factory(dict)

@@ -22,3 +22,4 @@ from setup_user import install_packages
 from setup_user import new_git_repo
 from setup_user import systemctl_enable
 from setup_user import systemctl_restart_if_running
+from ubuntu import ubuntu_setup
