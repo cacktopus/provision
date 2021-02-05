@@ -158,7 +158,7 @@
       url: 'file:///home/syncthing/builds/boss_1.10.0_amd64.tar.gz'
 
     aarch64:
-      url: 'file:///home/syncthing/builds/boss_1.10.0_amd64.tar.gz'
+      url: 'file:///home/syncthing/builds/boss_1.11.0_arm64.tar.gz'
 
 - name: gitweb
   version: 0.1.0
