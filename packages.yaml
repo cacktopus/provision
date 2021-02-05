@@ -259,4 +259,7 @@
     arm7:
       url: 'file:///home/syncthing/builds/rtunneld_1.0.0_armhf.tar.gz'
 
+    aarch64:
+      url: 'file:///home/syncthing/builds/rtunneld_1.2.0_arm64.tar.gz'
+
 
