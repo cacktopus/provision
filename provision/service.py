@@ -4,7 +4,6 @@ from typing import List, Dict, Optional, Any, Tuple
 
 import provision.packages as packages
 import yaml
-from jinja2 import Template
 
 from .clients import consul_kv
 from .consul_health_checks import check_http
@@ -85,26 +84,27 @@ class Provision:
         cmd = f"get_{kind}_archive"
         machine = self.info['machine']
         name = name or self.name
-        pkg, arch = packages.latest_semver(name, machine)
 
-        url = arch['url']
-        url = Template(url).render(builds=self.ctx.settings.build_storage_url)
+        arch = {
+            "armv7l": "armhf",
+            "aarch64": "arm64",
+        }[machine]
 
-        version = pkg['version']
-
-        digests = {}
+        pkgs = []
         with open(f"checksums/{name}") as fp:
             for a in fp:
                 digest, name = a.split()
-                digests[os.path.basename(name)] = digest
+                pkg = packages.Package.parse(name)
+                pkg.digest = digest
+                pkgs.append(pkg)
 
-        archive_name = os.path.basename(arch['url'])
-        digest = digests[archive_name]
+        pkgs = [p for p in pkgs if p.arch == arch]
+        pkg: packages.Package = max(pkgs, key=lambda p: p.version)
 
         self.runner.run_remote_rpc(cmd, params=dict(
-            app_name=pkg['name'],
-            url=url,
-            digest=digest,
+            app_name=pkg.name,
+            url=f"file:///home/syncthing/builds/{pkg.filename}",
+            digest=pkg.digest,
         ), user="build")
 
     def get_zip_archive(self) -> None:

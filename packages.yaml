@@ -138,7 +138,7 @@
   kind: tgz
   arch:
     arm7:
-      url: 'file:///home/syncthing/builds/camera_1.43.0_armhf.tar.gz'
+      url: 'file:///home/syncthing/builds/camera_1.44.0_armhf.tar.gz'
 
 - name: head
   version: 0.0.0
@@ -205,12 +205,7 @@
 - name: home
   version: 0.0.0
   kind: tgz
-  arch:
-    arm7:
-      url: 'http://raftsync.service.consul:9000/theheads/build/home_0.0.1_armhf.tar.gz'
-
-    aarch64:
-      url: 'file:///home/syncthing/builds/home_1.0.0_arm64.tar.gz'
+  url: 'file:///home/syncthing/builds'
 
 - name: leds
   version: 0.0.1

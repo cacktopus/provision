@@ -1,3 +1,5 @@
+import os
+from dataclasses import dataclass
 from typing import Tuple, Dict, Any
 
 import yaml
@@ -13,6 +15,41 @@ arch_map = {
     "armv6l": "arm6",
     "armv7l": "arm7",
 }
+
+
+@dataclass
+class Package:
+    name: str
+    arch: str
+    major: int
+    minor: int
+    patch: int
+    digest: str = ""
+
+    @property
+    def version(self) -> tuple[int, int, int]:
+        return self.major, self.minor, self.patch
+
+    @property
+    def filename(self) -> str:
+        return f"{self.name}_{self.major}.{self.minor}.{self.patch}_{self.arch}.tar.gz"
+
+    @staticmethod
+    def parse(f: str):
+        parts = os.path.basename(f).split(".")
+
+        gz = parts.pop()
+        assert gz == "gz"
+
+        tar = parts.pop()
+        assert tar == "tar"
+
+        b = ".".join(parts)
+
+        name, version, arch = b.split("_")
+
+        ma, mi, pa = [int(p) for p in version.split(".")]
+        return Package(name=name, arch=arch, major=ma, minor=mi, patch=pa)
 
 
 def find(name: str, version: str, arch: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
