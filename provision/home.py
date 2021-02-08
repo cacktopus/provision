@@ -9,6 +9,11 @@ class Home(Service):
     deps = ["service-ready"]
     repo = "heads"
 
+    def extra_groups(self) -> List[str]:
+        return super().extra_groups() + [
+            "video",  # to turn off HDMI
+        ]
+
     def capabilities(self) -> List[str]:
         return ["CAP_NET_BIND_SERVICE"]
 
