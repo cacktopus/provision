@@ -149,7 +149,7 @@ def ensure_file(
         mode=mode,
         uid=uid,
         gid=gid,
-        content=content.encode()
+        content=content.encode() if content is not None else None,
     )
 
 
