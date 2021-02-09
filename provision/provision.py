@@ -51,7 +51,6 @@ def register_all() -> None:
         "provision.prometheus_discovery",
         "provision.logstream",
         "provision.ubuntu",
-
     ]:
         mod = importlib.import_module(m)
 

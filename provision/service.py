@@ -80,10 +80,10 @@ class Provision:
                 }, default_flow_style=False)
             )
 
-    def get_archive(self, kind: str, name: Optional[str] = None) -> None:
+    def get_archive(self, kind: str, pkg_name: Optional[str] = None) -> None:
         cmd = f"get_{kind}_archive"
         machine = self.info['machine']
-        name = name or self.name
+        pkg_name = pkg_name or self.name
 
         arch = {
             "armv7l": "armhf",
@@ -91,10 +91,10 @@ class Provision:
         }[machine]
 
         pkgs = []
-        with open(f"checksums/{name}") as fp:
+        with open(f"checksums/{pkg_name}") as fp:
             for a in fp:
-                digest, name = a.split()
-                pkg = packages.Package.parse(name)
+                digest, filename = a.split()
+                pkg = packages.Package.parse(filename)
                 pkg.digest = digest
                 pkgs.append(pkg)
 
@@ -102,7 +102,7 @@ class Provision:
         pkg: packages.Package = max(pkgs, key=lambda p: p.version)
 
         self.runner.run_remote_rpc(cmd, params=dict(
-            app_name=pkg.name,
+            app_name=pkg_name,
             url=f"file:///home/syncthing/builds/{pkg.filename}",
             digest=pkg.digest,
         ), user="build")

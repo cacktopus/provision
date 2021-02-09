@@ -51,7 +51,7 @@ def get_tar_archive(app_name: str, url: str, digest: str):
     build_in_tmp_directory(
         app_name,
         digest,
-        partial(_get_tar_archive, url, digest, "-xzf")
+        partial(_get_tar_archive, url, digest, "-xf")
     )
 
 

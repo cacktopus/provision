@@ -24,7 +24,7 @@ class PrometheusDiscovery(Service):
         }
 
     def setup(self) -> None:
-        self.get_tar_archive(name="system-tools")
+        self.get_tar_archive(pkg_name="system-tools")
 
     def register_mdns(self) -> None:
         pass

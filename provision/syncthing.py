@@ -9,17 +9,14 @@ class Syncthing(Service):
     metrics_port = None
 
     def command_line(self) -> str:
-        return " ".join([
-            self.exe(),
-            "-no-restart",
-        ])
+        return None
 
     # TODO: health checks, etc.
     # TODO: monitoring
 
     def setup(self) -> None:
-        self.get_tar_archive()
+        # self.get_tar_archive()
+        pass
 
     def register_mdns(self) -> None:
         pass
-
