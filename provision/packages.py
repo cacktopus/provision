@@ -57,7 +57,7 @@ class Package:
 
         name = ma.group(1)
 
-        for opt in ["arm64", "amd64", "armhf", "armv7", "armv6l"]:
+        for opt in ["arm64", "amd64", "armhf", "armv7", "armv6l", "armv6"]:
             if opt in f:
                 arch = opt
                 break

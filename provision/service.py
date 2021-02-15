@@ -88,6 +88,7 @@ class Provision:
         arch = {
             "armv7l": "armhf",
             "aarch64": "arm64",
+            "armv6l": "armv6",
         }[machine]
 
         pkgs = []
