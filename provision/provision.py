@@ -1,7 +1,6 @@
 import importlib
 import inspect
 import time
-
 from fabric import Connection  # type: ignore
 from networkx import topological_sort  # type: ignore
 
@@ -51,6 +50,7 @@ def register_all() -> None:
         "provision.prometheus_discovery",
         "provision.logstream",
         "provision.ubuntu",
+        "provision.power_monitor",
     ]:
         mod = importlib.import_module(m)
 
