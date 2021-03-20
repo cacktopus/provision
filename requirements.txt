@@ -10,7 +10,7 @@ decorator==4.4.0
 fabric==2.4.0
 idna==2.8
 invoke==1.2.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 networkx==2.5
 paramiko==2.4.2
