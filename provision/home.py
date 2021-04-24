@@ -31,3 +31,7 @@ class Home(Service):
                 group="home",  # TODO: perhaps a separate group
                 content=None,
             ))
+
+    def systemd_extra(self):
+        pre = "+chown home.home /sys/class/leds/led0/brightness /sys/class/leds/led1/brightness"
+        return {"ExecStartPre": pre}
