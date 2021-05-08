@@ -10,10 +10,10 @@ class Leds(Service):
     repo = "heads"
 
     def extra_groups(self) -> List[str]:
-        return ["build", "spi", "input"]
+        return ["build"]
 
     def command_line(self) -> str:
-        return self.exe()
+        return "+" + self.exe()  # run as root
 
     def env(self) -> Dict[str, str]:
         result: Dict[str, str] = self.ctx.settings.env['leds']
