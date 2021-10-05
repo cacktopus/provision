@@ -51,6 +51,7 @@ def register_all() -> None:
         "provision.logstream",
         "provision.ubuntu",
         "provision.power_monitor",
+        "provision.serf",
     ]:
         mod = importlib.import_module(m)
 
