@@ -32,6 +32,23 @@ class Home(Service):
                 content=None,
             ))
 
-    def systemd_extra(self):
-        pre = "+chown home.home /sys/class/leds/led0/brightness /sys/class/leds/led1/brightness"
-        return {"ExecStartPre": pre}
+        self._setup_sudo()
+
+    def _setup_sudo(self):
+        content = ""
+        content += f"{self.user} ALL=(root) NOPASSWD: /sbin/shutdown -h now\n"
+        content += f"{self.user} ALL=(root) NOPASSWD: /sbin/shutdown -r now\n"
+        path = f"/etc/sudoers.d/099_halt_or_reboot"
+
+        self.ensure_file(
+            path=path,
+            mode=0o440,  # TODO: 0x440,
+            user="root",
+            group="root",
+            content=content,
+        )
+
+
+def systemd_extra(self):
+    pre = "+chown home.home /sys/class/leds/led0/brightness /sys/class/leds/led1/brightness"
+    return {"ExecStartPre": pre}

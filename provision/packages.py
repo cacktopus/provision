@@ -31,7 +31,7 @@ class Package:
     orig: str = ""
 
     @property
-    def version(self) -> tuple[int, int, int]:
+    def version(self) -> Tuple[int, int, int]:
         return self.major, self.minor, self.patch
 
     @property
