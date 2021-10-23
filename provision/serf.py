@@ -11,8 +11,10 @@ class Serf(Service):
         return " ".join([
             self.exe(),
             "agent",
-            "-discover", "heads",
-            "-snapshot", self.etc("serf.snapshot"),
+            "-discover", self.ctx.settings.serf.cluster_name,
+            # "-snapshot", self.etc("serf.snapshot"),
+            "-bind", f"0.0.0.0:{self.ctx.settings.serf.port}",
+            "-tag", f"cluster={self.ctx.settings.serf.cluster_name}",
         ])
 
     def setup(self) -> None:

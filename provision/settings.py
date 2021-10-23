@@ -1,7 +1,6 @@
-from typing import List, Dict, Set, Optional
-
 import attr
 import yaml
+from typing import List, Dict, Set, Optional
 
 _ports: Dict[str, int] = yaml.load(open('ports.yaml'), Loader=yaml.FullLoader)
 
@@ -27,9 +26,16 @@ class Repo:
 
 
 @attr.s(auto_attribs=True)
+class Serf:
+    port: int
+    cluster_name: str
+
+
+@attr.s(auto_attribs=True)
 class Settings:
     mainuser: str
     network: str
+    serf: Serf
     build_storage_url: str
 
     repos: List[Repo]
@@ -44,7 +50,6 @@ class Settings:
     common_tags: List[str] = attr.Factory(list)
 
     inventory: List[Host] = attr.Factory(list)
-
 
     def get_repo_by_name(self, name) -> Repo:
         result = [r for r in self.repos if r.name == name]
