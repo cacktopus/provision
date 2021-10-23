@@ -1,10 +1,11 @@
 import importlib
 import inspect
 import time
+
+import provision.actions as actions
 from fabric import Connection  # type: ignore
 from networkx import topological_sort  # type: ignore
 
-import provision.actions as actions
 from .context import Context
 from .info import Info
 # TODO: turn of automatic updates
@@ -52,6 +53,7 @@ def register_all() -> None:
         "provision.ubuntu",
         "provision.power_monitor",
         "provision.serf",
+        "provision.aht20",
     ]:
         mod = importlib.import_module(m)
 
