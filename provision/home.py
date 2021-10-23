@@ -22,16 +22,6 @@ class Home(Service):
 
     def setup(self) -> None:
         self.get_tar_archive()
-
-        for led in "led0", "led1":
-            self.runner.run_remote_rpc("ensure_file", dict(
-                path=f"/sys/class/leds/{led}/brightness",
-                mode=0o660,
-                user="root",
-                group="home",  # TODO: perhaps a separate group
-                content=None,
-            ))
-
         self._setup_sudo()
 
     def _setup_sudo(self):
@@ -48,7 +38,7 @@ class Home(Service):
             content=content,
         )
 
-
-def systemd_extra(self):
-    pre = "+chown home.home /sys/class/leds/led0/brightness /sys/class/leds/led1/brightness"
-    return {"ExecStartPre": pre}
+    def systemd_extra(self):
+        # TODO: perhaps use a separate group here
+        pre = "+/bin/bash -c 'chown home.home /sys/class/leds/led*/{brightness,trigger}'"
+        return {"ExecStartPre": pre}

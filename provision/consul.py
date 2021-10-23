@@ -1,9 +1,8 @@
+from jinja2 import Template
 from typing import List, Dict, Any
 
-from jinja2 import Template
-
-from .settings import Settings
 from .service import Service
+from .settings import Settings
 
 
 class Consul(Service):

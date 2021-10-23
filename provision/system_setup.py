@@ -78,6 +78,7 @@ class Packages2(Provision):
             "libtool",
             "xmltoman",
             "mpg123",
+            "python3-venv",
         ]
 
         self.runner.run_remote_rpc("install_packages", params=dict(packages=package_list))

@@ -454,6 +454,7 @@ def install_packages(packages: List[str]) -> None:
         to_install.append(pkg)
 
     if to_install:
+        check(["apt-get", "update", "--allow-releaseinfo-change"], env={"DEBIAN_FRONTEND": "noninteractive"})
         check(["apt-get", "update"], env={"DEBIAN_FRONTEND": "noninteractive"})
         check(
             ["apt-get", "install", "-y", "--autoremove=no", *to_install],

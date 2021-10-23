@@ -4,7 +4,7 @@ from provision.service import Service
 class Syncthing(Service):
     name = "syncthing"
     description = "syncthing"
-    deps = ["consul"]
+    deps = ["user(build)", "packages2"]
 
     metrics_port = None
 
