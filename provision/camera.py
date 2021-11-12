@@ -10,7 +10,7 @@ class Camera(Service):
     repo = "heads"
 
     def extra_groups(self) -> List[str]:
-        return super().extra_groups() + ["video"]
+        return super().extra_groups() + ["video", "gpio"]
 
     def command_line(self) -> str:
         return f"{self.prod_path()}/camera"
