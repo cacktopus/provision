@@ -3,7 +3,7 @@ from .service import Provision
 
 class OpenCV(Provision):
     name = "opencv"
-    deps = ["consul", "packages", "packages2"]
+    deps = ["consul"]
 
     def setup(self) -> None:
         self.runner.run_remote_rpc("install_deb", params=dict(

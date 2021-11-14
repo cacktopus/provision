@@ -59,7 +59,7 @@ def register_all() -> None:
 
         register(mod)
 
-    actions.add_dep("service-ready", "node-modules", "python-env", "opencv", "go", "buildbot", "syncthing")
+    actions.add_dep("service-ready", "node-modules", "python-env", "opencv", "go", "buildbot")
 
 
 def register(mod):

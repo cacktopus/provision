@@ -4,7 +4,7 @@ from .service import Service
 class Serf(Service):
     name = "serf"
     description = "hashicorp serf"
-    deps = ["syncthing"]
+    deps = ["consul"]
     port = None
 
     def command_line(self) -> str:

@@ -92,7 +92,7 @@ class Consul(Service):
 class ConsulBootstrap(Consul):
     port = None
     action_name = "consul-bootstrap"
-    deps = ["setup-host", "user(build)"]
+    deps = ["setup-host", "user(build)", "sync-static"]
 
     def register_service(self) -> None:
         pass

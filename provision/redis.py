@@ -7,7 +7,7 @@ from .service import Service
 class Redis(Service):
     name = "redis"
     description = "redis db"
-    deps = ["consul", "packages2"]
+    deps = ["consul"]
     port = 6379
     metrics_port = None
 

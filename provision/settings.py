@@ -37,6 +37,7 @@ class Settings:
     network: str
     serf: Serf
     build_storage_url: str
+    static_files_path: str
 
     repos: List[Repo]
 

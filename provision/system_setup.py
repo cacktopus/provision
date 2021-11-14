@@ -1,3 +1,5 @@
+import subprocess
+
 from .service import Provision
 
 
@@ -90,3 +92,18 @@ class SetupHost(Provision):
 
     def setup(self) -> None:
         self.runner.run_remote_rpc("setup_host", params=dict(hostname=self.ctx.host))
+
+
+class SyncStatic(Provision):
+    name = "sync-static"
+    deps = ["syncthing"]
+
+    def setup(self) -> None:
+        static = self.ctx.settings.static_files_path
+        assert static
+        record = self.ctx.record
+        ip = record.initial_ip or record.host + ".local"  # TODO: this is duplicated
+
+        cmd = f"rsync -av {static}/ syncthing@{ip}:"
+
+        retcode = subprocess.call(cmd, shell=True)

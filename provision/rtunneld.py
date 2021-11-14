@@ -8,7 +8,7 @@ from .service import Service
 class Rtunneld(Service):
     name = "rtunneld"
     description = "reverse ssh tunnel manager"
-    deps = ["syncthing"]
+    deps = ["consul"]
 
     # def extra_groups(self) -> List[str]:
     #     return super().extra_groups() + ["i2c", "gpio", "audio"]
