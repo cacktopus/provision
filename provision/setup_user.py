@@ -21,6 +21,16 @@ class PiUser(Provision):
     def __call__(self, ctx: Context) -> None:
         runner = Runner(ctx.root_conn)
         adduser(ctx, runner, "pi", ["build", "adm"])
+
+        for line in [
+            "export PATH=$PATH:/home/build/builds/heads-cli/prod",
+            "export PATH=$PATH:/home/build/builds/serf/prod",
+        ]:
+            runner.run_remote_rpc("ensure_line_in_file", params=dict(
+                filename="/home/pi/.bashrc",
+                line=line,
+            ))
+
         runner.execute()
 
 
@@ -48,4 +58,3 @@ class UbuntuUser(Provision):
         runner = Runner(ctx.root_conn)
         adduser(ctx, runner, "ubuntu", ["build"])
         runner.execute()
-

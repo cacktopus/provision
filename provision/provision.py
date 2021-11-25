@@ -54,6 +54,7 @@ def register_all() -> None:
         "provision.power_monitor",
         "provision.serf",
         "provision.aht20",
+        "provision.heads_cli",
     ]:
         mod = importlib.import_module(m)
 
