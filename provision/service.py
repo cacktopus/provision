@@ -247,7 +247,7 @@ class Service(Provision):
         return ["build", "systemd-journal"]
 
     def env(self) -> Dict[str, str]:
-        return {}
+        return self.ctx.record.env.get(self.name, {})
 
     def user_home(self, *other_paths: str) -> str:
         return os.path.join(self.info['user_home'], self.user, *other_paths)
