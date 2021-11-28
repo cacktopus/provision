@@ -1,9 +1,8 @@
 import json
 import os
-from typing import List, Dict, Optional, Any, Tuple
-
 import provision.packages as packages
 import yaml
+from typing import List, Dict, Optional, Any, Tuple
 
 from .clients import consul_kv
 from .consul_health_checks import check_http
@@ -94,6 +93,8 @@ class Provision:
         pkgs = []
         with open(f"checksums/{pkg_name}") as fp:
             for a in fp:
+                if len(a.strip()) == 0:
+                    continue # skip empty lines
                 digest, filename = a.split()
                 pkg = packages.Package.parse(filename)
                 pkg.digest = digest
