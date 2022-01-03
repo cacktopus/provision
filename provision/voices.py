@@ -12,11 +12,6 @@ class Voices(Service):
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["audio"]
 
-    def env(self) -> Dict[str, str]:
-        return {
-            "INSTANCE": "head-40",  # TODO
-        }
-
     def command_line(self) -> str:
         return self.exe()
 

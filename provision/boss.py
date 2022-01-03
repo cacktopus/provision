@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List
 
 from .service import Service
 
@@ -8,11 +8,6 @@ class Boss(Service):
     description = "The heads' boss"
     deps = ["service-ready"]
     repo = "heads"
-
-    def env(self) -> Dict[str, str]:
-        return {
-            "SCENE_PATH": "/home/syncthing/theheads/scenes/hb2021"
-        }
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["systemd-journal"]

@@ -12,9 +12,6 @@ class Head(Service):
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["i2c", "gpio", "audio"]
 
-    def env(self) -> Dict[str, str]:
-        return self.ctx.record.env['head']
-
     def command_line(self) -> str:
         return self.exe()
 

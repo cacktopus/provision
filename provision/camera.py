@@ -15,18 +15,6 @@ class Camera(Service):
     def command_line(self) -> str:
         return f"{self.prod_path()}/camera"
 
-    def env(self) -> Dict[str, str]:
-        return self.ctx.record.env['camera']
-        # instance = self.ctx.record.kv['camera']
-        # return {
-        #     "GIN_MODE": "release",
-        #     "INSTANCE": instance,
-        #     # "FILENAME": {
-        #     #     "camera-01": "/home/syncthing/theheads/testdata/pi42.raw",
-        #     #     "camera-02": "/home/syncthing/theheads/testdata/pi43.raw"
-        #     # }[instance]
-        # }
-
     def working_dir(self) -> str:
         return self.prod_path()
 

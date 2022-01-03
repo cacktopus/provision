@@ -16,8 +16,5 @@ class Gitweb(Service):
     def command_line(self) -> str:
         return self.exe()
 
-    def env(self) -> Dict[str, str]:
-        return {}
-
     def setup(self) -> None:
         self.get_tar_archive()
