@@ -25,3 +25,4 @@ raftsync: 9000
 syncthing: 22000
 logstream: 8088
 aht20: 8087
+solar: 8089

@@ -1,7 +1,7 @@
-import importlib
-import inspect
 import time
 
+import importlib
+import inspect
 import provision.actions as actions
 from fabric import Connection  # type: ignore
 from networkx import topological_sort  # type: ignore
@@ -55,6 +55,7 @@ def register_all() -> None:
         "provision.serf",
         "provision.aht20",
         "provision.heads_cli",
+        "provision.solar",
     ]:
         mod = importlib.import_module(m)
 
