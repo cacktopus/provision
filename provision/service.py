@@ -300,7 +300,7 @@ class Service(Provision):
 
         return self.runner.execute()
 
-    def systemd_extra(self):
+    def systemd_extra(self) -> Optional[Dict[str, str]]:
         return None
 
     def systemd_args(self) -> Optional[Dict[str, Any]]:

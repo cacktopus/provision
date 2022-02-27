@@ -105,5 +105,6 @@ class SyncStatic(Provision):
         ip = record.initial_ip or record.host + ".local"  # TODO: this is duplicated
 
         cmd = f"rsync -av {static}/ syncthing@{ip}:"
+        print(f"running {cmd}")
 
         retcode = subprocess.call(cmd, shell=True)

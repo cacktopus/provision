@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional, Dict
 
 from .service import Service
 
@@ -38,7 +38,7 @@ class Home(Service):
             content=content,
         )
 
-    def systemd_extra(self):
+    def systemd_extra(self) -> Optional[Dict[str, str]]:
         # TODO: perhaps use a separate group here
         pre = "+/bin/bash -c 'chown home.home /sys/class/leds/led*/{brightness,trigger}'"
         return {"ExecStartPre": pre}

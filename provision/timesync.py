@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from .service import Service
 
@@ -25,3 +25,6 @@ class Timesync(Service):
 
     def capabilities(self) -> List[str]:
         return ["CAP_SYS_TIME"]
+
+    def systemd_extra(self) -> Optional[Dict[str, str]]:
+        return {"Type": "notify"}
