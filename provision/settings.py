@@ -52,6 +52,8 @@ class Settings:
 
     inventory: List[Host] = attr.Factory(list)
 
+    deploy_gateway: str = ""
+
     def get_repo_by_name(self, name) -> Repo:
         result = [r for r in self.repos if r.name == name]
         if len(result) != 1:

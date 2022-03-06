@@ -1,24 +1,17 @@
-from typing import List, Optional, Dict
+from provision.systemd import ServiceConfig
+from typing import List, Optional
 
 from .service import Service
 
 
 class Home(Service):
     name = "home"
-    description = "the home page (reverse proxy)"
     deps = ["service-ready"]
-    repo = "heads"
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + [
             "video",  # to turn off HDMI
         ]
-
-    def capabilities(self) -> List[str]:
-        return ["CAP_NET_BIND_SERVICE"]
-
-    def command_line(self) -> str:
-        return self.exe()
 
     def setup(self) -> None:
         self.get_tar_archive()
@@ -38,7 +31,13 @@ class Home(Service):
             content=content,
         )
 
-    def systemd_extra(self) -> Optional[Dict[str, str]]:
+    def systemd_args_new(self) -> Optional[ServiceConfig]:
         # TODO: perhaps use a separate group here
         pre = "+/bin/bash -c 'chown home.home /sys/class/leds/led*/{brightness,trigger}'"
-        return {"ExecStartPre": pre}
+
+        return ServiceConfig(
+            exec_start=self.exe(),
+            description="the home page (reverse proxy)",
+            capabilities=["CAP_NET_BIND_SERVICE"],
+            exec_start_pre=pre,
+        )

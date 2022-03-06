@@ -1,16 +1,14 @@
-import json
+import copy
 import os
 import provision.packages as packages
 import yaml
 from typing import List, Dict, Optional, Any, Tuple
 
-from .clients import consul_kv
 from .consul_health_checks import check_http
 from .context import Context
 from .run_remote_script import Runner
 from .service_util import adduser, template
-from .systemd import systemd
-from .users import CONSUL_USER
+from .systemd import systemd, ServiceConfig, systemd_new
 
 
 class Provision:
@@ -53,32 +51,6 @@ class Provision:
     def build_home(self, *other_paths: str) -> str:
         return self.home_for_user("build", *other_paths)
 
-    @property
-    def repo(self) -> str:
-        raise NotImplementedError
-
-    def build(self) -> None:
-        host = self.ctx.host
-        service = self.name
-
-        consul_kv.put(
-            path=f"buildbot/instances/{host}/{service}",
-            data="",
-        )
-
-        service_config_path = f"buildbot/service-config/{service}.yaml"
-        if not consul_kv.has(service_config_path):
-            repo_name = self.repo
-            repo = self.ctx.settings.get_repo_by_name(repo_name)
-
-            consul_kv.put(
-                path=service_config_path,
-                data=yaml.dump({
-                    "repo": repo.name,
-                    "version": repo.default_commit,
-                }, default_flow_style=False)
-            )
-
     def get_archive(self, kind: str, pkg_name: Optional[str] = None) -> None:
         cmd = f"get_{kind}_archive"
         machine = self.info['machine']
@@ -94,14 +66,14 @@ class Provision:
         with open(f"checksums/{pkg_name}") as fp:
             for a in fp:
                 if len(a.strip()) == 0:
-                    continue # skip empty lines
+                    continue  # skip empty lines
                 digest, filename = a.split()
                 pkg = packages.Package.parse(filename)
                 pkg.digest = digest
                 pkgs.append(pkg)
 
         pkgs = [p for p in pkgs if p.arch == arch]
-        
+
         pkg: packages.Package = max(pkgs, key=lambda p: p.version)
 
         self.runner.run_remote_rpc(cmd, params=dict(
@@ -118,46 +90,6 @@ class Provision:
 
     def get_tar_bz_archive(self) -> None:
         return self.get_archive("tar_bz")
-
-    def reload_consul(self) -> None:
-        self.runner.run_remote_rpc("systemctl_reload", params=dict(service="consul"))
-
-    def consul_health_checks(self) -> List[Dict[str, Any]]:
-        raise NotImplementedError
-
-    def register_service_with_consul(
-            self,
-            name: str,
-            port: int,
-            tags: Optional[List[str]] = None,
-            checks: Optional[List[Any]] = None,  # TODO: type this list
-    ) -> None:
-        raise NotImplementedError
-
-        checks = checks or []
-        assert isinstance(checks, list)
-        name = name.replace("_", "-")
-
-        location = self.home_for_user(CONSUL_USER, "consul.d", f"{name}.json")
-
-        content = json.dumps({
-            "service": {
-                "name": name,
-                "port": port,
-                "tags": tags or [],
-                "checks": self.consul_health_checks(),
-            },
-        }, sort_keys=True, indent=4)
-
-        self.ensure_file(
-            path=location,
-            mode=0o644,
-            user=CONSUL_USER,
-            group=CONSUL_USER,
-            content=content,
-        )
-
-        self.reload_consul()
 
     def ensure_file(
             self,
@@ -289,17 +221,39 @@ class Service(Provision):
 
         self.setup()
 
-        systemd_args = self.systemd_args()
-        if systemd_args is not None:
-            rendered = systemd(**systemd_args)
-            rendered["mode"] = 0o644
-            self.runner.run_remote_rpc("systemd", params=rendered)
+        args = self.systemd_args_new()
+        if args is None:
+            self.systemd()
+        else:
+            self.systemd_new(args)
 
         self.register_mdns()
         self.register_service()
         self.setup_sudo_for_build_restart()  # TODO: only needed for code we build from git
 
         return self.runner.execute()
+
+    def systemd(self):
+        systemd_args = self.systemd_args()
+        if systemd_args is not None:
+            rendered = systemd(**systemd_args)
+            rendered["mode"] = 0o644
+            self.runner.run_remote_rpc("systemd", params=rendered)
+
+    def systemd_new(self, cfg: ServiceConfig):
+        c = copy.deepcopy(cfg)
+        c.name = c.name or self.name
+        c.user = c.user or self.user
+        c.group = c.group or self.group  # TODO: or self.name?
+        c.description = c.description or self.description
+        c.working_dir = c.working_dir or self.working_dir()
+        c.env = c.env or self.ctx.record.env.get(self.name, {})
+        params = systemd_new(c)
+        params["mode"] = 0o644
+        self.runner.run_remote_rpc("systemd", params=params)
+
+    def systemd_args_new(self) -> Optional[ServiceConfig]:
+        return None
 
     def systemd_extra(self) -> Optional[Dict[str, str]]:
         return None
@@ -323,9 +277,6 @@ class Service(Provision):
             start_after=self.start_after(),
             extra=self.systemd_extra(),
         )
-    
-    def start_after(self) -> str:
-        return ""
 
     def consul_health_checks(self) -> List[Dict[str, Any]]:
         method, url = self.consul_http_health_check_url()

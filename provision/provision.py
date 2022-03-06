@@ -1,8 +1,7 @@
-import time
-
 import importlib
 import inspect
 import provision.actions as actions
+import time
 from fabric import Connection  # type: ignore
 from networkx import topological_sort  # type: ignore
 
@@ -83,8 +82,7 @@ def main(settings: Settings) -> None:
     blacklist_tags = frozenset(settings.blacklist_tags)
     whitelist_tags = frozenset(settings.whitelist_tags)
 
-    # gateway = Connection("pi10-inet")
-    gateway = None
+    gateway = Connection(settings.deploy_gateway) if settings.deploy_gateway else None
 
     register_all()
 
