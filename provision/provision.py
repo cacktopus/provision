@@ -39,6 +39,7 @@ def register_all() -> None:
         "provision.prometheus_discovery",
         "provision.python_env",
         "provision.redis",
+        "provision.router",
         "provision.rtc",
         "provision.rtunneld",
         "provision.serf",

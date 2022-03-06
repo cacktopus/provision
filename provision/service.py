@@ -274,7 +274,6 @@ class Service(Provision):
             env=self.env(),
             capabilities=self.capabilities(),
             reload=self.reload(),
-            start_after=self.start_after(),
             extra=self.systemd_extra(),
         )
 
