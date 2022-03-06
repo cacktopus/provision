@@ -7,54 +7,51 @@ from networkx import topological_sort  # type: ignore
 
 from .context import Context
 from .info import Info
-# TODO: turn of automatic updates
-# TODO: turn of motd-news (chmod -x /etc/update-motd.d/*)
-# TODO: sudo vi /etc/apt/apt.conf.d/20auto-upgrades
-# TODO: install git
 from .service import Service, Provision
 from .settings import Settings
 
 
 def register_all() -> None:
     for m in [
-        "provision.system_setup",
-        "provision.setup_user",
-        "provision.packages",
-        "provision.grafana",
-        "provision.redis",
-        "provision.prometheus",
-        "provision.go",
-        "provision.node_exporter",
-        "provision.home",
-        "provision.rtunneld",
+        "provision.aht20",
+        "provision.alertmanager",
+        "provision.boss",
+        "provision.boss_ui",
+        "provision.buildbot",
+        "provision.camera",
         "provision.consul",
         "provision.consul_template",
-        "provision.leds",
-        "provision.git",
-        "provision.boss",
-        "provision.python_env",
-        "provision.head",
-        "provision.voices",
-        "provision.boss_ui",
-        "provision.camera",
-        "provision.buildbot",
-        "provision.gitweb",
-        "provision.alertmanager",
         "provision.firewall",
-        "provision.rtc",
-        "provision.timesync",
-        "provision.taglist",
-        "provision.opencv",
-        "provision.syncthing",
-        "provision.shairport_sync",
-        "provision.prometheus_discovery",
-        "provision.logstream",
-        "provision.ubuntu",
-        "provision.power_monitor",
-        "provision.serf",
-        "provision.aht20",
+        "provision.git",
+        "provision.gitweb",
+        "provision.go",
+        "provision.grafana",
+        "provision.head",
         "provision.heads_cli",
+        "provision.home",
+        "provision.leds",
+        "provision.logstream",
+        "provision.node_exporter",
+        "provision.opencv",
+        "provision.packages",
+        "provision.power_monitor",
+        "provision.prometheus",
+        "provision.prometheus_discovery",
+        "provision.python_env",
+        "provision.redis",
+        "provision.rtc",
+        "provision.rtunneld",
+        "provision.serf",
+        "provision.set_rtc_time",
+        "provision.setup_user",
+        "provision.shairport_sync",
         "provision.solar",
+        "provision.syncthing",
+        "provision.system_setup",
+        "provision.taglist",
+        "provision.timesync",
+        "provision.ubuntu",
+        "provision.voices",
     ]:
         mod = importlib.import_module(m)
 

@@ -70,6 +70,7 @@ class ServiceConfig:
 
     restart: str = "always"
     restart_sec: int = 15
+    remain_after_exit: str = "no"
 
     env: Dict[str, str] = attr.Factory(dict)
     capabilities: List[str] = attr.Factory(list)
@@ -79,14 +80,16 @@ class ServiceConfig:
 
 def systemd_new(cfg: ServiceConfig):
     tmpl_vars = attr.asdict(cfg)
-    tmpl_vars['capabilities'] = " ".join(cfg.capabilities)
-    tmpl_vars['after'] = " ".join(cfg.after)
-    tmpl_vars['wanted_by'] = " ".join(cfg.wanted_by)
-    tmpl_vars['env'] = "\n".join(f"Environment={k}={v}" for k, v in sorted(cfg.env.items()))
+    tmpl_vars["capabilities"] = " ".join(cfg.capabilities)
+    tmpl_vars["after"] = " ".join(cfg.after)
+    tmpl_vars["wanted_by"] = " ".join(cfg.wanted_by)
+    tmpl_vars["env"] = "\n".join(f"Environment={k}={v}" for k, v in sorted(cfg.env.items()))
+
+    if cfg.type == "oneshot":
+        del tmpl_vars["restart"]
+        del tmpl_vars["restart_sec"]
 
     service_content = template("systemd_new", vars=tmpl_vars)
-
-    print(service_content)
 
     return dict(
         service_name=cfg.name,

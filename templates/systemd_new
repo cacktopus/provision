@@ -9,6 +9,7 @@ Group={{group}}
 WorkingDirectory={{working_dir}}
 Restart={{restart}}
 RestartSec={{restart_sec}}
+RemainAfterExit={{remain_after_exit}}
 AmbientCapabilities={{capabilities}}
 
 ExecStart={{exec_start}}
