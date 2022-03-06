@@ -8,52 +8,50 @@ class Packages(Provision):
     deps = ["start", "ubuntu"]
 
     def setup(self) -> None:
-        # opencv = [
-        #     "unzip",
-        #     "build-essential",
-        #     "cmake",
-        #     "curl",
-        #     "git",
-        #     "libgtk2.0-dev",
-        #     "pkg-config",
-        #     "libavcodec-dev",
-        #     "libavformat-dev",
-        #     "libswscale-dev",
-        #     "libtbb2",
-        #     "libtbb-dev",
-        #     "libjpeg-dev",
-        #     "libpng-dev",
-        #     "libtiff-dev",
-        #     "libdc1394-22-dev",
-        # ]
-
-        # package_list = [
-        #     "wavemon",
-        #     "tmux",
-        #     "rsync",
-        #     "git",
-        #     "jq",
-        #     "sudo",
-        #     "python3-virtualenv",
-        #     "curl",
-        #     "vim",
-        #     "dnsutils",
-        #     "libatlas3-base",
-        #     "zip",
-        #     "ifupdown",
-        #     "gcc",
-        #     "python3-dev",
-        #     "libffi-dev",
-        #     "i2c-tools",
-        #     "libusb-dev",
-        #     "redis-server",
-        #     "ir-keytable",
-        #     *opencv,
-        # ]
-
-        package_list = [
-            "avahi-daemon",
+        opencv = [
+            "build-essential",
+            "cmake",
+            "curl",
+            "git",
+            "libavcodec-dev",
+            "libavformat-dev",
+            "libdc1394-22-dev",
+            "libgtk2.0-dev",
+            "libjpeg-dev",
+            "libpng-dev",
+            "libswscale-dev",
+            "libtbb-dev",
+            "libtbb2",
+            "libtiff-dev",
+            "pkg-config",
+            "unzip",
         ]
+
+        packages = [
+            "avahi-daemon",
+            "curl",
+            "dnsutils",
+            "gcc",
+            "git",
+            "i2c-tools",
+            "ifupdown",
+            "ir-keytable",
+            "jq",
+            "libatlas3-base",
+            "libffi-dev",
+            "libusb-dev",
+            "python3-dev",
+            "python3-virtualenv",
+            "redis-server",
+            "rsync",
+            "sudo",
+            "tmux",
+            "vim",
+            "wavemon",
+            "zip",
+        ]
+
+        package_list = opencv + packages
 
         self.runner.run_remote_rpc("install_packages", params=dict(packages=package_list))
 
@@ -64,13 +62,16 @@ class Packages2(Provision):
 
     def setup(self) -> None:
         package_list = [
-            "ffmpeg",
-            "avahi-utils",
             "autoconf",
             "automake",
             "avahi-daemon",
+            "avahi-daemon",
+            "avahi-utils",
             "build-essential",
+            "ffmpeg",
             "git",
+            "i2c-tools",
+            "jq",
             "libasound2-dev",
             "libavahi-client-dev",
             "libconfig-dev",
@@ -78,9 +79,9 @@ class Packages2(Provision):
             "libpopt-dev",
             "libssl-dev",
             "libtool",
-            "xmltoman",
             "mpg123",
             "python3-venv",
+            "xmltoman",
         ]
 
         self.runner.run_remote_rpc("install_packages", params=dict(packages=package_list))

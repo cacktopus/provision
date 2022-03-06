@@ -101,6 +101,7 @@ class Provision:
                 pkgs.append(pkg)
 
         pkgs = [p for p in pkgs if p.arch == arch]
+        
         pkg: packages.Package = max(pkgs, key=lambda p: p.version)
 
         self.runner.run_remote_rpc(cmd, params=dict(
@@ -319,8 +320,12 @@ class Service(Provision):
             env=self.env(),
             capabilities=self.capabilities(),
             reload=self.reload(),
+            start_after=self.start_after(),
             extra=self.systemd_extra(),
         )
+    
+    def start_after(self) -> str:
+        return ""
 
     def consul_health_checks(self) -> List[Dict[str, Any]]:
         method, url = self.consul_http_health_check_url()

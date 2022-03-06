@@ -13,6 +13,7 @@ def systemd(
         env: Optional[Dict[str, str]] = None,
         capabilities: Optional[List[str]] = None,
         reload: Optional[str] = None,
+        start_after: Optional[str] = None,
         extra: Optional[Dict[str, str]] = None,
 ) -> Dict[str, Union[str, int]]:
     group = group or user
@@ -25,12 +26,14 @@ def systemd(
     capabilities_str = "\n".join(f"AmbientCapabilities={cap}" for cap in capabilities)
 
     reload = f"ExecReload={reload}" if reload is not None else ""
+    after = f"After={start_after}" if start_after else ""
 
     extra = "\n".join(f"{k}={v}" for k, v in extra.items()) if extra is not None else ""
 
     service_content = template(
         "systemd",
         vars={
+            "after": after,
             "description": description,
             "exec_start": exec_start,
             "user": user,
