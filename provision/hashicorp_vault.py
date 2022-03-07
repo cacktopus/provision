@@ -1,8 +1,7 @@
 import json
 import os
-from typing import Dict, Any
-
 import requests
+from typing import Dict
 
 
 class Unset:
@@ -10,7 +9,7 @@ class Unset:
 
 
 class Client:
-    def get(self, path: str) -> Dict[str, Any]:
+    def get(self, path: str) -> Dict[str, str]:
         token = os.environ["VAULT_TOKEN"]
 
         resp = requests.get(
@@ -23,5 +22,5 @@ class Client:
         assert resp.status_code == 200, f"{path} {resp.status_code}, {resp.text}"
 
         body = json.loads(resp.text)
-        result: Dict[str, Any] = body['data']['data']
+        result: Dict[str, str] = body['data']['data']
         return result
