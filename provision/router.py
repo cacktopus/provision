@@ -30,6 +30,18 @@ class Router(Provision):
             )
         )
 
+        self.template(
+            name="dhcpcd.conf",
+            location="/etc/dhcpcd.conf",
+            user="root",
+            group="root",
+            mode=0o664,
+            vars=dict(
+                interface="wlan1",
+                ip_address="192.168.4.1/24"
+            )
+        )
+
         self.runner.run_remote_rpc("install_packages", params=dict(packages=package_list))
 
         self.runner.run_remote_rpc("systemctl_unmask", params=dict(service_name="hostapd"))
