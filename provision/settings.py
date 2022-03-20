@@ -6,6 +6,15 @@ _ports: Dict[str, int] = yaml.load(open('ports.yaml'), Loader=yaml.FullLoader)
 
 
 @attr.s(auto_attribs=True)
+class Firewall:
+    # e.g. ["192.168.1.1/32"]
+    allow: list[str] = attr.Factory(list)
+
+    # e.g. ["192.168.1.0/24"]
+    block: list[str] = attr.Factory(list)
+
+
+@attr.s(auto_attribs=True)
 class Host:
     host: str
     sudo: str
@@ -18,6 +27,8 @@ class Host:
     tags: List[str] = attr.Factory(list)
     kv: Dict[str, str] = attr.Factory(dict)
     env: Dict[str, Dict[str, str]] = attr.Factory(dict)
+
+    firewall: Firewall = attr.Factory(Firewall)
 
 
 @attr.s(auto_attribs=True)

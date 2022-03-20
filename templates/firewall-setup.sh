@@ -17,34 +17,17 @@
 /sbin/iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 ### SSH
-/sbin/iptables -A OUTPUT -o eth0 -p tcp --dport 22 -j ACCEPT
+/sbin/iptables -A OUTPUT -p tcp --dport 22 -j ACCEPT
+/sbin/iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 
-### DNS
-/sbin/iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
-/sbin/iptables -A INPUT -p udp --dport 53 -j ACCEPT
+### Accept Rules
+{% for ip in allow -%}
+/sbin/iptables -A INPUT  -s {{ip}} -j ACCEPT
+/sbin/iptables -A OUTPUT -d {{ip}} -j ACCEPT
+{% endfor %}
 
-### mDNS
-/sbin/iptables -A OUTPUT -p udp --dport 5353 -j ACCEPT
-/sbin/iptables -A INPUT -p udp --dport 5353 -j ACCEPT
-
-### syncthing
-/sbin/iptables -A OUTPUT -p tcp --dport 22000 -j ACCEPT
-/sbin/iptables -A INPUT -p tcp --dport 22000 -j ACCEPT
-/sbin/iptables -A OUTPUT -p udp --dport 21027 -j ACCEPT
-/sbin/iptables -A INPUT -p udp --dport 21027 -j ACCEPT
-
-### Alert-manager
-if [ $(getent group alertmanager) ]; then
-    /sbin/iptables -A OUTPUT -m owner --gid-owner alertmanager -p tcp --dport 443 -j ACCEPT
-    /sbin/iptables -A OUTPUT -m owner --gid-owner alertmanager -p tcp --dport 587 -j ACCEPT
-fi
-
-### NTP
-if grep -q -E "^allow-ntp" /etc/taglist.txt; then
-    /sbin/iptables -A INPUT  -p udp --dport 123 -j ACCEPT
-    /sbin/iptables -A OUTPUT -p udp --dport 123 -j ACCEPT
-fi
-
-### Default rule
-/sbin/iptables -A INPUT  -j REJECT
-/sbin/iptables -A OUTPUT -j REJECT
+### Reject Rules
+{% for ip in block -%}
+/sbin/iptables -A INPUT  -s {{ip}} -j REJECT
+/sbin/iptables -A OUTPUT -d {{ip}} -j REJECT
+{% endfor %}

@@ -17,6 +17,11 @@ class Firewall(Provision):
             user="root",
             group="root",
             mode=0o744,
+            vars={
+                "network": self.ctx.record.primary_interface,
+                "allow": self.ctx.record.firewall.allow,
+                "block": self.ctx.record.firewall.block,
+            },
         )
 
         service_name = "firewall.service"
