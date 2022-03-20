@@ -9,6 +9,8 @@ _ports: Dict[str, int] = yaml.load(open('ports.yaml'), Loader=yaml.FullLoader)
 class Host:
     host: str
     sudo: str
+    role: str
+    primary_interface: str
 
     initial_ip: str = ""
     initial_password: str = ""

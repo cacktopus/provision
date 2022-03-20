@@ -25,8 +25,8 @@ class Router(Provision):
         wpa_passphrase = vault_client.get(f"wifi/theheads")["wpa_passphrase"]
 
         cfg = RouterConfig(
-            interface="wlan0",
-            ssid="theheads2",
+            interface="wlan1",
+            ssid="theheads",
             wpa_passphrase=wpa_passphrase,
             ip_address="192.168.4.1",
             netmask=24,
@@ -40,6 +40,8 @@ class Router(Provision):
             "netfilter-persistent",
             "iptables-persistent",
         ]
+
+        self.runner.run_remote_rpc("install_packages", params=dict(packages=package_list))
 
         self.template(
             name="hostapd.conf",
@@ -95,8 +97,5 @@ class Router(Provision):
             before=["network.target"],
         ))
         self.runner.run_remote_rpc("systemd", params=params)
-
-        self.runner.run_remote_rpc("install_packages", params=dict(packages=package_list))
-
         self.runner.run_remote_rpc("systemctl_unmask", params=dict(service_name="hostapd"))
         self.runner.run_remote_rpc("systemctl_enable", params=dict(service_name="hostapd", now=True))
