@@ -1,14 +1,14 @@
+from pwd import getpwnam
+
+import build_utils
 import os
 import platform
 import subprocess
 import tempfile
-from grp import getgrnam
-from pwd import getpwnam
-from typing import List, Tuple, Dict, Optional
-
-import build_utils
 import util
 from build_utils import cd
+from grp import getgrnam
+from typing import List, Tuple, Dict, Optional
 from util import log, find_program
 
 
@@ -295,10 +295,17 @@ def systemd(service_name: str, service_filename: str, service_content: str, mode
         check(["systemctl", "restart-or-reload", service_name])
 
 
-def systemctl_enable(service_name: str) -> None:
+def systemctl_enable(service_name: str, now: bool = False) -> None:
     # enables, but does not run now
     check(["systemctl", "daemon-reload"])
-    check(["systemctl", "enable", service_name])
+    if now:
+        check(["systemctl", "enable", "--now", service_name])
+    else:
+        check(["systemctl", "enable", service_name])
+
+
+def systemctl_unmask(service_name: str) -> None:
+    check(["systemctl", "unmask", service_name])
 
 
 def systemctl_disable(service_name: str) -> None:

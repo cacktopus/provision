@@ -123,6 +123,12 @@ class Provision:
             group=group,
         ))
 
+    def ensure_line_in_file(self, path: str, line: str):
+        self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
+            filename=path,
+            line=line,
+        ))
+
     def template_vars(self) -> Dict[str, str]:
         return {}
 
