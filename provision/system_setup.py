@@ -111,3 +111,5 @@ class SyncStatic(Provision):
         print(f"running {cmd}")
 
         retcode = subprocess.call(cmd, shell=True)
+        if retcode != 0:
+            raise Exception("sync-static failed")
