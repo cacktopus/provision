@@ -1,19 +1,7 @@
-import attr
 from provision import hashicorp_vault
 
 from .service import Provision
 from .systemd import systemd_new, ServiceConfig
-
-
-@attr.s(auto_attribs=True)
-class RouterConfig:
-    interface: str
-    ssid: str
-    wpa_passphrase: str
-    ip_address: str
-    netmask: int
-    dhcp_range: str
-    upstream_interface: str
 
 
 class Router(Provision):
@@ -21,18 +9,10 @@ class Router(Provision):
     deps = ["service-ready"]
 
     def setup(self) -> None:
-        vault_client = hashicorp_vault.Client()
-        wpa_passphrase = vault_client.get(f"wifi/theheads")["wpa_passphrase"]
+        cfg = self.ctx.settings.router
 
-        cfg = RouterConfig(
-            interface="wlan1",
-            ssid="theheads",
-            wpa_passphrase=wpa_passphrase,
-            ip_address="192.168.4.1",
-            netmask=24,
-            dhcp_range="192.168.4.2,192.168.4.99,255.255.255.0,24h",
-            upstream_interface="eth0",
-        )
+        vault_client = hashicorp_vault.Client()
+        wpa_passphrase = vault_client.get(cfg.vault_wpa_passphrase_key)["wpa_passphrase"]
 
         package_list = [
             "hostapd",
@@ -52,7 +32,7 @@ class Router(Provision):
             vars=dict(
                 interface=cfg.interface,
                 ssid=cfg.ssid,
-                wpa_passphrase=cfg.wpa_passphrase,
+                wpa_passphrase=wpa_passphrase,
             )
         )
 
@@ -89,6 +69,7 @@ class Router(Provision):
             content="net.ipv4.ip_forward=1\n"
         )
 
+        # TODO: put in firewall setup?
         params = systemd_new(ServiceConfig(
             name="iptables-masquerade",
             exec_start=f"/usr/sbin/iptables -t nat -A POSTROUTING -o {cfg.upstream_interface} -j MASQUERADE",
@@ -96,6 +77,7 @@ class Router(Provision):
             remain_after_exit="yes",
             before=["network.target"],
         ))
+
         self.runner.run_remote_rpc("systemd", params=params)
         self.runner.run_remote_rpc("systemctl_unmask", params=dict(service_name="hostapd"))
         self.runner.run_remote_rpc("systemctl_enable", params=dict(service_name="hostapd", now=True))

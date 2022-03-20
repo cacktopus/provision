@@ -34,12 +34,25 @@ class Serf:
 
 
 @attr.s(auto_attribs=True)
+class Router:
+    interface: str
+    ssid: str
+    ip_address: str
+    netmask: int
+    dhcp_range: str
+    upstream_interface: str
+    vault_wpa_passphrase_key: str
+
+
+@attr.s(auto_attribs=True)
 class Settings:
     mainuser: str
     network: str
     serf: Serf
     build_storage_url: str
     static_files_path: str
+
+    router: Optional[Router]
 
     repos: List[Repo]
 
