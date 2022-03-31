@@ -6,7 +6,7 @@ from .systemd import ServiceConfig
 
 class Grafana(Service):
     name = "grafana"
-    deps = ["serf", "prometheus"]
+    deps = ["prometheus"]
 
     def systemd_args(self) -> Dict[str, Any]:
         args = super().systemd_args()

@@ -1,5 +1,6 @@
 import importlib
 import inspect
+
 import provision.actions as actions
 import time
 from fabric import Connection  # type: ignore
@@ -47,7 +48,7 @@ def register_all() -> None:
 
         register(mod)
 
-    actions.add_dep("service-ready", "node-modules", "opencv", "go")
+    actions.add_dep("service-ready", "opencv", "go")
 
 
 def register(mod):

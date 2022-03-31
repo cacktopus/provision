@@ -5,7 +5,7 @@ from .service import Provision
 
 class Packages(Provision):
     name = "packages"
-    deps = ["start", "ubuntu"]
+    deps = ["start"]
 
     def setup(self) -> None:
         opencv = [

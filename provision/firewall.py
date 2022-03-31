@@ -5,7 +5,7 @@ from .service import Provision
 
 class Firewall(Provision):
     name = "firewall"
-    deps = ["service-ready", "taglist"]
+    deps = ["service-ready"]
 
     def template_vars(self) -> Dict[str, str]:
         return {"network": self.ctx.settings.network}

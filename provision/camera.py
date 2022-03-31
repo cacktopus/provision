@@ -6,7 +6,7 @@ from .systemd import ServiceConfig
 
 class Camera(Service):
     name = "camera"
-    deps = ["service-ready"]
+    deps = ["service-ready", "opencv"]
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["video", "gpio"]
