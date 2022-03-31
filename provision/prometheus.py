@@ -2,13 +2,13 @@ from typing import Dict, List, Any, Optional
 
 import yaml
 
-from .settings import Settings
 from .service import Service
+from .settings import Settings
+from .systemd import ServiceConfig
 
 
 class Prometheus(Service):
     name = "prometheus"
-    description = "prometheus monitoring tool"
     deps = ["consul"]
 
     def reload(self) -> str:
@@ -17,19 +17,6 @@ class Prometheus(Service):
     def template_vars(self) -> Dict[str, str]:
         file_pattern = self.etc("services", "*.yml")
         return dict(cfg=build_prom_config(self.ctx.settings, file_pattern))
-
-    def command_line(self) -> str:
-        prometheus_cfg = self.user_home("etc", "prometheus.yml")
-
-        flags = [
-            "--config.file", prometheus_cfg,
-            "--storage.tsdb.path", self.user_home("prometheus_data")
-        ]
-        exec_start = " ".join([self.exe()] + flags)
-        return exec_start
-
-    def consul_http_health_check_path(self) -> str:
-        return "/-/healthy"
 
     def setup(self) -> None:
         self.get_tar_archive()
@@ -57,6 +44,20 @@ class Prometheus(Service):
                 tags=self.ctx.settings.all_tags,
             ),
             template_delimiters=("((", "))"),
+        )
+
+    def systemd_args_new(self) -> ServiceConfig:
+        start = " ".join([
+            self.exe(),
+            "--config.file", self.user_home("etc", "prometheus.yml"),
+            "--storage.tsdb.path", self.user_home("prometheus_data")
+        ])
+
+        return ServiceConfig(
+            exec_start=start,
+            description="prometheus monitoring tool",
+            type="simple",
+            after=["network.target"],
         )
 
 

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 from .service import Service
 from .systemd import ServiceConfig

@@ -1,13 +1,12 @@
 from typing import List
 
 from .service import Service
+from .systemd import ServiceConfig
 
 
 class Boss(Service):
     name = "boss"
-    description = "The heads' boss"
     deps = ["service-ready"]
-    repo = "heads"
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["systemd-journal"]
@@ -21,3 +20,11 @@ class Boss(Service):
     def setup(self) -> None:
         self.get_tar_archive()
         # self.service_level_monitoring()
+
+    def systemd_args_new(self) -> ServiceConfig:
+        return ServiceConfig(
+            exec_start=self.exe(),
+            description="the heads' boss",
+            type="simple",
+            after=["network.target"],
+        )

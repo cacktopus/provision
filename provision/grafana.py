@@ -1,19 +1,12 @@
-from typing import Dict, Any, Tuple
+from typing import Dict, Any
 
 from .service import Service
+from .systemd import ServiceConfig
 
 
 class Grafana(Service):
     name = "grafana"
-    description = "grafana dashboards"
     deps = ["consul", "prometheus"]
-
-    def command_line(self) -> str:
-        return " ".join([
-            self.prod_path("bin", "grafana-server"),
-            "--homepath", self.prod_path(),
-            "--config", self.config_dir("custom.ini"),
-        ])
 
     def systemd_args(self) -> Dict[str, Any]:
         args = super().systemd_args()
@@ -26,9 +19,6 @@ class Grafana(Service):
             data_path=self.user_home("grafana_data"),
             provisioning_path=self.config_dir("provisioning")
         )
-
-    def consul_http_health_check_path(self) -> str:
-        return "/api/health"
 
     def setup(self) -> None:
         self.get_tar_archive()
@@ -68,3 +58,17 @@ class Grafana(Service):
                 user=self.user,
                 group=self.group,
             )
+
+    def systemd_args_new(self) -> ServiceConfig:
+        start = " ".join([
+            self.prod_path("bin", "grafana-server"),
+            "--homepath", self.prod_path(),
+            "--config", self.config_dir("custom.ini"),
+        ])
+
+        return ServiceConfig(
+            exec_start=start,
+            description="grafana dashboards",
+            type="simple",
+            after=["network.target"],
+        )

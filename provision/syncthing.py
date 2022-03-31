@@ -1,18 +1,11 @@
-from provision.service import Service
+from .service import Provision
 
 
-class Syncthing(Service):
+class Syncthing(Provision):
     name = "syncthing"
-    description = "syncthing"
     deps = ["user(build)", "packages2"]
 
     metrics_port = None
-
-    def command_line(self) -> str:
-        return None
-
-    # TODO: health checks, etc.
-    # TODO: monitoring
 
     def setup(self) -> None:
         # self.get_tar_archive()

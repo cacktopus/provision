@@ -1,26 +1,15 @@
-from typing import List, Dict
+from typing import List
 
 from .service import Service
+from .systemd import ServiceConfig
 
 
 class Leds(Service):
     name = "leds"
-    description = "led animations"
     deps = ["service-ready"]
-    repo = "heads"
 
     def extra_groups(self) -> List[str]:
         return ["build"]
-
-    def command_line(self) -> str:
-        return "+" + self.exe()  # run as root
-
-    def env(self) -> Dict[str, str]:
-        raise Exception("need to redo below")
-        result: Dict[str, str] = self.ctx.settings.env['leds']
-        leds_env = self.ctx.record.env.get('leds', {})
-        result.update(leds_env)
-        return result
 
     def setup(self) -> None:
         self.get_tar_archive()
@@ -32,3 +21,12 @@ class Leds(Service):
 
         # TODO: sudo apt-get install ir-keytable
         # TODO: sudo ir-keytable -c -p nec
+
+    def systemd_args_new(self) -> ServiceConfig:
+        return ServiceConfig(
+            exec_start="+" + self.exe(),  # run as root,
+            description="led animations",
+            type="simple",  # TODO: notify?
+            after=["network.target"],
+            env=self.ctx.settings.env['leds'],
+        )
