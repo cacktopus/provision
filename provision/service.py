@@ -63,12 +63,16 @@ class Provision:
         }[machine]
 
         pkgs = []
-        with open(f"checksums/{pkg_name}") as fp:
+        with open(f"checksums") as fp:
             for a in fp:
                 if len(a.strip()) == 0:
                     continue  # skip empty lines
                 digest, filename = a.split()
                 pkg = packages.Package.parse(filename)
+
+                if pkg.name.replace("_", "-") != pkg_name.replace("_", "-"):
+                    continue
+
                 pkg.digest = digest
                 pkgs.append(pkg)
 

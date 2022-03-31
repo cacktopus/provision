@@ -1,4 +1,5 @@
-import os
+import os.path
+
 import re
 from dataclasses import dataclass
 from typing import Tuple
@@ -13,7 +14,13 @@ arch_map = {
     "armv7l": "arm7",
 }
 
-re_pkg = re.compile(r'(.*)[_-]?(\d+)\.(\d+)\.(\d+)')
+
+def is_strint(n: str) -> bool:
+    try:
+        int(n)
+    except ValueError:
+        return False
+    return True
 
 
 @dataclass
@@ -38,32 +45,22 @@ class Package:
 
     @staticmethod
     def parse(f: str):
-        parts = os.path.basename(f).split(".")
+        base = os.path.basename(f)
+        parts = re.sub(r"[-_.]", " ", base).split()
 
-        gz = parts.pop()
-        assert gz in ("gz", "bz2")
+        version_parts = [int(p) for p in parts if is_strint(p)]
+        assert len(version_parts) == 3
 
-        tar = parts.pop()
-        assert tar == "tar"
+        ma, mi, pa = version_parts
+        version = ".".join([str(ma), str(mi), str(pa)])
 
-        b = ".".join(parts)
-
-        ma = re_pkg.search(f)
-        assert ma
-
-        name = ma.group(1)
+        name = base.split(version)[0].rstrip("_").rstrip("-").rstrip(".")
 
         for opt in ["arm64", "amd64", "armhf", "armv7", "armv6l", "armv6"]:
-            if opt in f:
+            if opt in base:
                 arch = opt
                 break
         else:
             raise Exception("unknown arch")
 
-        arch = {
-            "armv7": "armhf",
-            "armv6l": "armhf",
-        }.get(arch, arch)
-
-        ma, mi, pa = [int(p) for p in [ma.group(2), ma.group(3), ma.group(4)]]
         return Package(name=name, arch=arch, major=ma, minor=mi, patch=pa, orig=f)

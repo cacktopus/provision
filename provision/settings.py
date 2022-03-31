@@ -1,6 +1,7 @@
+from typing import List, Dict, Set, Optional
+
 import attr
 import yaml
-from typing import List, Dict, Set, Optional
 
 _ports: Dict[str, int] = yaml.load(open('ports.yaml'), Loader=yaml.FullLoader)
 
@@ -23,6 +24,8 @@ class Host:
 
     initial_ip: str = ""
     initial_password: str = ""
+
+    sync_exclude: Set[str] = attr.Factory(set)
 
     tags: List[str] = attr.Factory(list)
     kv: Dict[str, str] = attr.Factory(dict)
@@ -55,7 +58,7 @@ class Settings:
     serf: Serf
     static_files_path: str
 
-    router: Optional[Router]
+    router: Optional[Router] = None
 
     env: Dict[str, Dict[str, str]] = attr.Factory(dict)
     whitelist_hosts: List[str] = attr.Factory(list)

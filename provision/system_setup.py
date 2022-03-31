@@ -107,7 +107,11 @@ class SyncStatic(Provision):
         record = self.ctx.record
         ip = record.initial_ip or record.host
 
-        cmd = f"rsync -av {static}/ static@{ip}:"
+        exclude = " ".join(
+            f"--exclude {pat}" for pat in self.ctx.record.sync_exclude
+        )
+
+        cmd = f"rsync -av {static}/ {exclude} static@{ip}:"
         print(f"running {cmd}")
 
         retcode = subprocess.call(cmd, shell=True)
