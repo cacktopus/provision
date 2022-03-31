@@ -16,6 +16,7 @@ class Leds(Service):
         return "+" + self.exe()  # run as root
 
     def env(self) -> Dict[str, str]:
+        raise Exception("need to redo below")
         result: Dict[str, str] = self.ctx.settings.env['leds']
         leds_env = self.ctx.record.env.get('leds', {})
         result.update(leds_env)

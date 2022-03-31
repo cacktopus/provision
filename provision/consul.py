@@ -1,5 +1,6 @@
-from jinja2 import Template
 from typing import List, Dict, Any
+
+from jinja2 import Template
 
 from .service import Service
 from .settings import Settings
@@ -82,9 +83,6 @@ class Consul(Service):
     def consul_health_checks(self) -> List[Dict[str, Any]]:
         return []
 
-    def register_service(self) -> None:
-        self.register_service_with_consul("consul-fe", 8500, tags=["frontend"])
-
     def reload_consul(self) -> None:
         pass
 
@@ -93,9 +91,6 @@ class ConsulBootstrap(Consul):
     port = None
     action_name = "consul-bootstrap"
     deps = ["setup-host", "user(build)", "sync-static"]
-
-    def register_service(self) -> None:
-        pass
 
 
 def retry_join(settings: Settings) -> str:

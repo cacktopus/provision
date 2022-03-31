@@ -1,30 +1,38 @@
-from typing import Dict
+from typing import Optional
 
 from .service import Service
+from .systemd import ServiceConfig
 
 
 class PrometheusDiscovery(Service):
     name = "prometheus-discovery"
-    description = "mdns discovery for prometheus"
+    description = "service discovery for prometheus"
     deps = ["prometheus"]
     user = "prometheus"
     group = "prometheus"
-    repo = None
     port = None
 
     def command_line(self) -> str:
-        return " ".join([
+        return
+
+    def setup(self) -> None:
+        self.get_tar_archive(pkg_name="system-tools")
+
+    def systemd_args_new(self) -> ServiceConfig:
+        start = " ".join([
             self.build_home("builds", "system-tools", "prod", "system-tools"),
             "discover-prometheus",
         ])
 
-    def env(self) -> Dict[str, str]:
-        return {
-            "OUTPUT_DIR": "etc/services",
-        }
-
-    def setup(self) -> None:
-        self.get_tar_archive(pkg_name="system-tools")
+        return ServiceConfig(
+            exec_start=start,
+            description="service discovery for prometheus",
+            type="simple",
+            after=["network.target"],
+            env={
+                "OUTPUT_DIR": self.home_for_user("prometheus", "etc", "services"),
+            }
+        )
 
     def register_mdns(self) -> None:
         pass

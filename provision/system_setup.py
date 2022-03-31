@@ -105,7 +105,7 @@ class SyncStatic(Provision):
         static = self.ctx.settings.static_files_path
         assert static
         record = self.ctx.record
-        ip = record.initial_ip or record.host + ".local"  # TODO: this is duplicated
+        ip = record.initial_ip or record.host
 
         cmd = f"rsync -av {static}/ syncthing@{ip}:"
         print(f"running {cmd}")

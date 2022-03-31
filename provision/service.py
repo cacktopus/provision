@@ -1,14 +1,15 @@
 import copy
+import json
 import os
-import provision.packages as packages
-import yaml
 from typing import List, Dict, Optional, Any, Tuple
 
-from .consul_health_checks import check_http
+import provision.packages as packages
+import yaml
+
 from .context import Context
 from .run_remote_script import Runner
 from .service_util import adduser, template
-from .systemd import systemd, ServiceConfig, systemd_new
+from .systemd import ServiceConfig, systemd_new
 
 
 class Provision:
@@ -186,9 +187,6 @@ class Service(Provision):
     def extra_groups(self) -> List[str]:
         return ["build", "systemd-journal"]
 
-    def env(self) -> Dict[str, str]:
-        return self.ctx.record.env.get(self.name, {})
-
     def user_home(self, *other_paths: str) -> str:
         return os.path.join(self.info['user_home'], self.user, *other_paths)
 
@@ -216,35 +214,19 @@ class Service(Provision):
     def reload(self) -> Optional[str]:
         return None
 
-    def register_service(self) -> None:
-        if self.port is None:
-            return
-
-        # self.register_service_with_consul(self.name, self.port)
-
     def execute(self) -> List[Dict[str, Any]]:
         adduser(self.ctx, self.runner, self.user, self.extra_groups())
 
         self.setup()
 
         args = self.systemd_args_new()
-        if args is None:
-            self.systemd()
-        else:
-            self.systemd_new(args)
+        self.systemd_new(args)
 
         self.register_mdns()
-        self.register_service()
+        self.register_serf_tags()
         self.setup_sudo_for_build_restart()  # TODO: only needed for code we build from git
 
         return self.runner.execute()
-
-    def systemd(self):
-        systemd_args = self.systemd_args()
-        if systemd_args is not None:
-            rendered = systemd(**systemd_args)
-            rendered["mode"] = 0o644
-            self.runner.run_remote_rpc("systemd", params=rendered)
 
     def systemd_new(self, cfg: ServiceConfig):
         c = copy.deepcopy(cfg)
@@ -253,54 +235,13 @@ class Service(Provision):
         c.group = c.group or self.group  # TODO: or self.name?
         c.description = c.description or self.description
         c.working_dir = c.working_dir or self.working_dir()
-        c.env = c.env or self.ctx.record.env.get(self.name, {})
+        c.env = c.env | self.ctx.record.env.get(self.name, {})
         params = systemd_new(c)
         params["mode"] = 0o644
         self.runner.run_remote_rpc("systemd", params=params)
 
-    def systemd_args_new(self) -> Optional[ServiceConfig]:
-        return None
-
-    def systemd_extra(self) -> Optional[Dict[str, str]]:
-        return None
-
-    def systemd_args(self) -> Optional[Dict[str, Any]]:
-        command_line = self.command_line()
-
-        if command_line is None:
-            return None
-
-        return dict(
-            service_name=self.name,
-            user=self.user,
-            description=self.description,
-            exec_start=command_line,
-            working_dir=self.working_dir(),
-            group=self.group,
-            env=self.env(),
-            capabilities=self.capabilities(),
-            reload=self.reload(),
-            extra=self.systemd_extra(),
-        )
-
-    def consul_health_checks(self) -> List[Dict[str, Any]]:
-        method, url = self.consul_http_health_check_url()
-        return [check_http(service=self.name, method=method, url=url)]
-
-    def consul_http_health_check_path(self) -> str:
-        return "/health"
-
-    def consul_http_health_check_url(self) -> Tuple[str, str]:
-        host = self.ctx.host
-        path = self.consul_http_health_check_path()
-        assert path.startswith("/")
-        return "GET", f"http://{host}.node.consul:{self.port}{path}"
-
-    def metrics_path(self) -> Optional[str]:
-        return None
-
-    def metrics_params(self) -> Dict[str, str]:
-        return {}
+    def systemd_args_new(self) -> ServiceConfig:
+        raise NotImplementedError
 
     @property
     def metrics_port(self) -> Optional[int]:
@@ -330,6 +271,28 @@ class Service(Provision):
             ),
             mode=0o644,
         )
+
+    def register_serf_tags(self) -> None:
+        service_tags = []
+
+        if self.port is not None:
+            service_tags.append(f"sp:{self.port}")
+
+        cfg = {
+            "tags": {
+                f"s:{self.name}": " ".join(service_tags)
+            }
+        }
+
+        self.ensure_file(
+            path=self.home_for_user("serf", "serf-cfg", f"service-{self.name}.json"),
+            mode=0o640,
+            user="serf",
+            group="serf",
+            content=json.dumps(cfg, indent=4)
+        )
+
+        self.runner.run_remote_rpc("systemctl_restart_if_running", params=dict(service_name="serf"))
 
     def service_level_monitoring(self) -> None:
         raise NotImplementedError

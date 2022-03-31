@@ -1,19 +1,15 @@
-from typing import List, Dict
+from typing import List, Optional
 
 from .service import Service
+from .systemd import ServiceConfig
 
 
 class Camera(Service):
     name = "camera"
-    description = "heads' camera"
     deps = ["service-ready"]
-    repo = "heads"
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["video", "gpio"]
-
-    def command_line(self) -> str:
-        return f"{self.prod_path()}/camera"
 
     def working_dir(self) -> str:
         return self.prod_path()
@@ -33,3 +29,11 @@ class Camera(Service):
 
     def mdns_service_name(self):
         return self.ctx.record.env['camera']['INSTANCE']
+
+    def systemd_args_new(self) -> ServiceConfig:
+        return ServiceConfig(
+            exec_start=self.prod_path("camera"),
+            description="the eyes",
+            type="simple",
+            after=["network.target"],
+        )

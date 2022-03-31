@@ -1,4 +1,4 @@
-from provision.systemd import ServiceConfig
+from .systemd import ServiceConfig
 from typing import List, Optional
 
 from .service import Service
@@ -14,7 +14,7 @@ class Timesync(Service):
     def setup(self) -> None:
         self.get_tar_archive()
 
-    def systemd_args_new(self) -> Optional[ServiceConfig]:
+    def systemd_args_new(self) -> ServiceConfig:
         return ServiceConfig(
             exec_start=self.exe(),
             description="RTC and time syncing microservice",

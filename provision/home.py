@@ -1,5 +1,6 @@
+from typing import List
+
 from provision.systemd import ServiceConfig
-from typing import List, Optional
 
 from .service import Service
 
@@ -31,7 +32,7 @@ class Home(Service):
             content=content,
         )
 
-    def systemd_args_new(self) -> Optional[ServiceConfig]:
+    def systemd_args_new(self) -> ServiceConfig:
         # TODO: perhaps use a separate group here
         pre = "+/bin/bash -c 'chown home.home /sys/class/leds/led*/{brightness,trigger}'"
 

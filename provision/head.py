@@ -1,19 +1,15 @@
-from typing import List, Dict
+from typing import List, Optional
 
 from .service import Service
+from .systemd import ServiceConfig
 
 
 class Head(Service):
     name = "head"
-    description = "motor for head"
     deps = ["service-ready"]
-    repo = "heads"
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["i2c", "gpio", "audio"]
-
-    def command_line(self) -> str:
-        return self.exe()
 
     def working_dir(self) -> str:
         return self.prod_path()
@@ -30,6 +26,14 @@ class Head(Service):
             filename="/etc/modules",
             line="i2c-dev",
         ))
+
+    def systemd_args_new(self) -> ServiceConfig:
+        return ServiceConfig(
+            exec_start=self.exe(),
+            description="this is the head",
+            type="simple",  # TODO: notify?
+            after=["network.target"],
+        )
 
     def mdns_service_name(self):
         return self.ctx.record.env['head']['INSTANCE']
