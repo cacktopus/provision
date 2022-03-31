@@ -57,7 +57,7 @@ class Package:
         name = base.split(version)[0].rstrip("_").rstrip("-").rstrip(".")
 
         for opt in ["arm64", "amd64", "armhf", "armv7", "armv6l", "armv6"]:
-            if opt in base:
+            if opt in f:
                 arch = opt
                 break
         else:

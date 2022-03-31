@@ -42,6 +42,7 @@ class Serf:
 
 @attr.s(auto_attribs=True)
 class Router:
+    domain: str
     interface: str
     ssid: str
     ip_address: str

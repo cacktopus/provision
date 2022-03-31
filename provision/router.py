@@ -55,8 +55,10 @@ class Router(Provision):
             group="root",
             mode=0o644,
             vars=dict(
-                interface=cfg.interface,
                 dhcp_range=cfg.dhcp_range,
+                hostname=self.ctx.record.host,
+                domain=cfg.domain,
+                interface=cfg.interface,
                 ip_address=cfg.ip_address,
             )
         )

@@ -22,12 +22,14 @@
 
 ### Accept Rules
 {% for ip in allow -%}
-/sbin/iptables -A INPUT  -s {{ip}} -j ACCEPT
-/sbin/iptables -A OUTPUT -d {{ip}} -j ACCEPT
+/sbin/iptables -A INPUT   -s {{ip}} -j ACCEPT
+/sbin/iptables -A OUTPUT  -d {{ip}} -j ACCEPT
+/sbin/iptables -A FORWARD -d {{ip}} -j ACCEPT
 {% endfor %}
 
 ### Reject Rules
 {% for ip in block -%}
-/sbin/iptables -A INPUT  -s {{ip}} -j REJECT
-/sbin/iptables -A OUTPUT -d {{ip}} -j REJECT
+/sbin/iptables -A INPUT   -s {{ip}} -j REJECT
+/sbin/iptables -A OUTPUT  -d {{ip}} -j REJECT
+/sbin/iptables -A FORWARD -d {{ip}} -j REJECT
 {% endfor %}
