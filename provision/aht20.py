@@ -1,6 +1,7 @@
 from typing import List
 
 from .service import Service
+from .systemd import ServiceConfig
 
 
 class Aht20(Service):
@@ -12,13 +13,10 @@ class Aht20(Service):
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["i2c"]
 
-    def command_line(self) -> str:
-        return self.exe()
-
     def setup(self) -> None:
         self.get_tar_archive()
 
-        # TODO: share this gpio enablement codde
+        # TODO: share this gpio enablement code
         self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
             filename="/boot/config.txt",
             line="dtparam=i2c_arm=on",
@@ -28,3 +26,11 @@ class Aht20(Service):
             filename="/etc/modules",
             line="i2c-dev",
         ))
+
+    def systemd_args_new(self) -> ServiceConfig:
+        return ServiceConfig(
+            exec_start=self.exe(),
+            description="aht20 temperature and humidity sensor",
+            type="simple",  # TODO: notify?
+            after=["network.target"],
+        )

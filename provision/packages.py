@@ -1,11 +1,7 @@
 import os
 import re
 from dataclasses import dataclass
-from typing import Tuple, Dict, Any
-
-import yaml
-
-_packages = yaml.load(open('packages.yaml'))
+from typing import Tuple
 
 
 class PkgNotFound(RuntimeError):
@@ -71,24 +67,3 @@ class Package:
 
         ma, mi, pa = [int(p) for p in [ma.group(2), ma.group(3), ma.group(4)]]
         return Package(name=name, arch=arch, major=ma, minor=mi, patch=pa, orig=f)
-
-
-def find(name: str, version: str, arch: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    arch = arch_map.get(arch, arch)
-    for pkg in _packages:
-        if pkg['name'] == name and pkg['version'] == version:
-            return pkg, pkg['arch'][arch]
-
-    raise PkgNotFound
-
-
-def latest_semver(name: str, arch: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    arch = arch_map.get(arch, arch)
-    options = []
-    for pkg in _packages:
-        if pkg['name'] != name:
-            continue
-        parts = [int(p) for p in pkg['version'].strip().split(".")]
-        options.append((parts, pkg))
-    _, pkg = max(options)
-    return pkg, pkg['arch'][arch]

@@ -4,7 +4,6 @@ rtunneld: 8050
 alertmanager: 9093
 camera: 5000
 boss: 8081
-consul: 8500
 home: 80
 redis: 6379
 head: 8080
@@ -17,7 +16,6 @@ pushgateway: 9091
 grafana: 3000
 monerod: 18081
 buildbot: 8084
-gitweb: 8085
 timesync: 8086
 git: 9418
 minio: 9000

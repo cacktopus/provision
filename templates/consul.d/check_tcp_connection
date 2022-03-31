@@ -1,8 +1,0 @@
-{
-  id = "{{id}}"
-  name = "{{name}}"
-  tcp = "{{host}}:{{port}}"
-  interval = "10s"
-  timeout = "5s"
-  status = "success"
-}

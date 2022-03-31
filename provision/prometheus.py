@@ -9,7 +9,7 @@ from .systemd import ServiceConfig
 
 class Prometheus(Service):
     name = "prometheus"
-    deps = ["consul"]
+    deps = ["serf"]
 
     def reload(self) -> str:
         return "/bin/kill -HUP $MAINPID"

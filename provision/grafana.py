@@ -6,7 +6,7 @@ from .systemd import ServiceConfig
 
 class Grafana(Service):
     name = "grafana"
-    deps = ["consul", "prometheus"]
+    deps = ["serf", "prometheus"]
 
     def systemd_args(self) -> Dict[str, Any]:
         args = super().systemd_args()
@@ -24,7 +24,6 @@ class Grafana(Service):
         self.get_tar_archive()
 
         # TODO: reset admin password
-        # TODO: register service with consul
 
         for path in (
                 self.config_dir(),

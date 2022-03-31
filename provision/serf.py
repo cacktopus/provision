@@ -1,5 +1,4 @@
 import json
-from typing import Optional
 
 from .service import Service
 from .systemd import ServiceConfig
@@ -7,7 +6,7 @@ from .systemd import ServiceConfig
 
 class Serf(Service):
     name = "serf"
-    deps = ["consul"]
+    deps = ["sync-static"]
     port = None
 
     def systemd_args_new(self) -> ServiceConfig:

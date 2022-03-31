@@ -4,7 +4,6 @@ import os
 from typing import List, Dict, Optional, Any, Tuple
 
 import provision.packages as packages
-import yaml
 
 from .context import Context
 from .run_remote_script import Runner
@@ -293,27 +292,3 @@ class Service(Provision):
         )
 
         self.runner.run_remote_rpc("systemctl_restart_if_running", params=dict(service_name="serf"))
-
-    def service_level_monitoring(self) -> None:
-        raise NotImplementedError
-
-        port = self.metrics_port
-
-        if port is None:
-            return
-
-        filename = f"{self.name}.yaml"
-
-        cfg = [{
-            "targets": [f"{self.name}.service.consul:{port}"],
-            "labels": {
-                "job": self.name,
-            }
-        }]
-
-        content = yaml.dump(cfg, default_flow_style=False)
-
-        # consul_kv.put(
-        #     path=f"prometheus/by-service/{filename}",
-        #     data=content,
-        # )

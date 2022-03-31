@@ -32,13 +32,6 @@ class Host:
 
 
 @attr.s(auto_attribs=True)
-class Repo:
-    name: str
-    url: str
-    default_commit: str
-
-
-@attr.s(auto_attribs=True)
 class Serf:
     port: int
     cluster_name: str
@@ -60,12 +53,9 @@ class Settings:
     mainuser: str
     network: str
     serf: Serf
-    build_storage_url: str
     static_files_path: str
 
     router: Optional[Router]
-
-    repos: List[Repo]
 
     env: Dict[str, Dict[str, str]] = attr.Factory(dict)
     whitelist_hosts: List[str] = attr.Factory(list)
@@ -79,12 +69,6 @@ class Settings:
     inventory: List[Host] = attr.Factory(list)
 
     deploy_gateway: str = ""
-
-    def get_repo_by_name(self, name) -> Repo:
-        result = [r for r in self.repos if r.name == name]
-        if len(result) != 1:
-            raise AttributeError(f"Problem finding repo ({name})")
-        return result[0]
 
     @property
     def all_tags(self) -> Set[str]:

@@ -6,7 +6,7 @@ from .service import Service
 class ShairportSync(Service):
     name = "shairport-sync"
     description = "shairport-sync"
-    deps = ["consul"]
+    deps = ["serf"]
     port = None
 
     def extra_groups(self) -> List[str]:

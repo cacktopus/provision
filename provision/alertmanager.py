@@ -10,7 +10,7 @@ from .hashicorp_vault import Client
 class Alertmanager(Service):
     name = "alertmanager"
     description = "Alert Manager"
-    deps = ["consul"]
+    deps = ["serf"]
 
     def template_vars(self) -> Dict[str, str]:
         vault_client = Client()
@@ -56,9 +56,6 @@ class Alertmanager(Service):
         storage = self.user_home("etc", "alertmanager_data")
 
         return f"{self.exe()} --config.file {config} --storage.path {storage} {initial_peers}"
-
-    def consul_http_health_check_path(self) -> str:
-        return "/-/healthy"
 
     def setup(self) -> None:
         self.get_tar_archive()

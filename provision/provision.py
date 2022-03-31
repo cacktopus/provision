@@ -16,14 +16,8 @@ def register_all() -> None:
         "provision.aht20",
         "provision.alertmanager",
         "provision.boss",
-        "provision.boss_ui",
-        "provision.buildbot",
         "provision.camera",
-        "provision.consul",
-        "provision.consul_template",
         "provision.firewall",
-        "provision.git",
-        "provision.gitweb",
         "provision.go",
         "provision.grafana",
         "provision.head",
@@ -37,8 +31,6 @@ def register_all() -> None:
         "provision.power_monitor",
         "provision.prometheus",
         "provision.prometheus_discovery",
-        "provision.python_env",
-        "provision.redis",
         "provision.router",
         "provision.rtc",
         "provision.rtunneld",
@@ -49,7 +41,6 @@ def register_all() -> None:
         "provision.solar",
         "provision.syncthing",
         "provision.system_setup",
-        "provision.taglist",
         "provision.timesync",
         "provision.ubuntu",
         "provision.voices",
@@ -58,7 +49,7 @@ def register_all() -> None:
 
         register(mod)
 
-    actions.add_dep("service-ready", "node-modules", "python-env", "opencv", "go", "buildbot")
+    actions.add_dep("service-ready", "node-modules", "opencv", "go")
 
 
 def register(mod):
@@ -89,7 +80,7 @@ def main(settings: Settings) -> None:
         port = 22
 
         initial_password = record.initial_password
-        ip = record.initial_ip or record.host + ".local"
+        ip = record.initial_ip or record.host
 
         print(" {} ({}:{}) ".format(record.host, ip, port).center(80, "="))
 

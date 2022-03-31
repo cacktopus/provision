@@ -19,7 +19,6 @@ class Boss(Service):
 
     def setup(self) -> None:
         self.get_tar_archive()
-        # self.service_level_monitoring()
 
     def systemd_args_new(self) -> ServiceConfig:
         return ServiceConfig(

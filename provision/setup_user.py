@@ -20,7 +20,7 @@ class PiUser(Provision):
 
     def __call__(self, ctx: Context) -> None:
         runner = Runner(ctx.root_conn)
-        adduser(ctx, runner, "pi", ["build", "adm", "serf"])
+        adduser(ctx, runner, "pi", ["build", "adm"])
 
         for line in [
             "export PATH=$PATH:/home/build/builds/heads-cli/prod",

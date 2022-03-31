@@ -4,7 +4,7 @@ from .systemd import ServiceConfig
 
 class NodeExporter(Service):
     name = "node-exporter"
-    deps = ["consul"]
+    deps = ["serf"]
 
     def setup(self) -> None:
         self.get_tar_archive()

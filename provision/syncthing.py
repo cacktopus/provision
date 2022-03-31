@@ -1,3 +1,6 @@
+from provision.run_remote_script import Runner
+from provision.service_util import adduser
+
 from .service import Provision
 
 
@@ -8,8 +11,6 @@ class Syncthing(Provision):
     metrics_port = None
 
     def setup(self) -> None:
-        # self.get_tar_archive()
-        pass
-
-    def register_mdns(self) -> None:
-        pass
+        runner = Runner(self.ctx.root_conn)
+        adduser(self.ctx, runner, "syncthing", [])
+        runner.execute()
