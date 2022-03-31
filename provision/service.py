@@ -78,7 +78,7 @@ class Provision:
 
         self.runner.run_remote_rpc(cmd, params=dict(
             app_name=pkg_name,
-            url=f"file:///home/syncthing/builds/{pkg.filename}",
+            url=f"file:///home/static/builds/{pkg.filename}",
             digest=pkg.digest,
         ), user="build")
 

@@ -14,13 +14,33 @@ class BuildUser(Provision):
         runner.execute()
 
 
-class PiUser(Provision):
-    name = "user(pi)"
-    deps = ["start", "user(build)"]
+class SerfUser(Provision):
+    name = "user(serf)"
+    deps = ["user(build)"]
 
     def __call__(self, ctx: Context) -> None:
         runner = Runner(ctx.root_conn)
-        adduser(ctx, runner, "pi", ["build", "adm"])
+        adduser(ctx, runner, "serf", [])
+        runner.execute()
+
+
+class StaticUser(Provision):
+    name = "user(static)"
+    deps = ["user(build)"]
+
+    def __call__(self, ctx: Context) -> None:
+        runner = Runner(ctx.root_conn)
+        adduser(ctx, runner, "static", [])
+        runner.execute()
+
+
+class PiUser(Provision):
+    name = "user(pi)"
+    deps = ["user(build)", "user(serf)", "user(static)"]
+
+    def __call__(self, ctx: Context) -> None:
+        runner = Runner(ctx.root_conn)
+        adduser(ctx, runner, "pi", ["build", "adm", "serf", "static"])
 
         for line in [
             "export PATH=$PATH:/home/build/builds/heads-cli/prod",
@@ -36,7 +56,7 @@ class PiUser(Provision):
 
 class RootUser(Provision):
     name = "user(root)"
-    deps = ["start"]
+    deps = ["user(pi)"]
 
     def __call__(self, ctx: Context) -> None:
         self.runner = Runner(ctx.root_conn)

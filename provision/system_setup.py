@@ -5,7 +5,7 @@ from .service import Provision
 
 class Packages(Provision):
     name = "packages"
-    deps = ["start"]
+    deps = ["setup-host"]
 
     def setup(self) -> None:
         opencv = [
@@ -91,7 +91,7 @@ class Packages2(Provision):
 
 class SetupHost(Provision):
     name = "setup-host"
-    deps = ["user(build)"]
+    deps = ["users-ready"]
 
     def setup(self) -> None:
         self.runner.run_remote_rpc("setup_host", params=dict(hostname=self.ctx.host))
@@ -99,7 +99,7 @@ class SetupHost(Provision):
 
 class SyncStatic(Provision):
     name = "sync-static"
-    deps = ["syncthing"]
+    deps = ["host-ready"]
 
     def setup(self) -> None:
         static = self.ctx.settings.static_files_path
@@ -107,7 +107,7 @@ class SyncStatic(Provision):
         record = self.ctx.record
         ip = record.initial_ip or record.host
 
-        cmd = f"rsync -av {static}/ syncthing@{ip}:"
+        cmd = f"rsync -av {static}/ static@{ip}:"
         print(f"running {cmd}")
 
         retcode = subprocess.call(cmd, shell=True)

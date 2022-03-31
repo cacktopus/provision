@@ -40,7 +40,6 @@ def register_all() -> None:
         "provision.setup_user",
         "provision.shairport_sync",
         "provision.solar",
-        "provision.syncthing",
         "provision.system_setup",
         "provision.timesync",
     ]:
@@ -49,6 +48,8 @@ def register_all() -> None:
         register(mod)
 
     actions.add_dep("service-ready", "opencv", "go")
+    actions.add_dep("users-ready", "user(root)")
+    actions.add_dep("host-ready", "packages2")
 
 
 def register(mod):
