@@ -22,7 +22,7 @@ class Leds(Service):
         # TODO: sudo apt-get install ir-keytable
         # TODO: sudo ir-keytable -c -p nec
 
-    def systemd_args_new(self) -> ServiceConfig:
+    def systemd_args(self) -> ServiceConfig:
         return ServiceConfig(
             exec_start="+" + self.exe(),  # run as root,
             description="led animations",

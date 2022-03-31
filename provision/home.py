@@ -32,7 +32,7 @@ class Home(Service):
             content=content,
         )
 
-    def systemd_args_new(self) -> ServiceConfig:
+    def systemd_args(self) -> ServiceConfig:
         # TODO: perhaps use a separate group here
         pre = "+/bin/bash -c 'chown home.home /sys/class/leds/led*/{brightness,trigger}'"
 

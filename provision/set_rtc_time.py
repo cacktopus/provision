@@ -16,7 +16,7 @@ class SetRTCTime(Service):
     def setup(self) -> None:
         self.get_tar_archive(pkg_name="timesync")
 
-    def systemd_args_new(self) -> ServiceConfig:
+    def systemd_args(self) -> ServiceConfig:
         cmd = " ".join([
             self.build_home("builds", "timesync", "prod", "timesync"),
             "--set-rtc-time",

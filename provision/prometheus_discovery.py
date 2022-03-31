@@ -18,7 +18,7 @@ class PrometheusDiscovery(Service):
     def setup(self) -> None:
         self.get_tar_archive(pkg_name="system-tools")
 
-    def systemd_args_new(self) -> ServiceConfig:
+    def systemd_args(self) -> ServiceConfig:
         start = " ".join([
             self.build_home("builds", "system-tools", "prod", "system-tools"),
             "discover-prometheus",

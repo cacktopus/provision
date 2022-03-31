@@ -42,8 +42,6 @@ def register_all() -> None:
         "provision.syncthing",
         "provision.system_setup",
         "provision.timesync",
-        "provision.ubuntu",
-        "provision.voices",
     ]:
         mod = importlib.import_module(m)
 

@@ -58,7 +58,7 @@ class Grafana(Service):
                 group=self.group,
             )
 
-    def systemd_args_new(self) -> ServiceConfig:
+    def systemd_args(self) -> ServiceConfig:
         start = " ".join([
             self.prod_path("bin", "grafana-server"),
             "--homepath", self.prod_path(),

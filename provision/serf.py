@@ -9,7 +9,7 @@ class Serf(Service):
     deps = ["sync-static"]
     port = None
 
-    def systemd_args_new(self) -> ServiceConfig:
+    def systemd_args(self) -> ServiceConfig:
         start = " ".join([
             self.exe(),
             "agent",

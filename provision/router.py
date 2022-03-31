@@ -1,7 +1,7 @@
 from provision import hashicorp_vault
 
 from .service import Provision
-from .systemd import systemd_new, ServiceConfig
+from .systemd import systemd, ServiceConfig
 
 
 class Router(Provision):
@@ -70,7 +70,7 @@ class Router(Provision):
         )
 
         # TODO: put in firewall setup?
-        params = systemd_new(ServiceConfig(
+        params = systemd(ServiceConfig(
             name="iptables-masquerade",
             exec_start=f"/usr/sbin/iptables -t nat -A POSTROUTING -o {cfg.upstream_interface} -j MASQUERADE",
             type="oneshot",

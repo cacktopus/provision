@@ -20,7 +20,7 @@ class Boss(Service):
     def setup(self) -> None:
         self.get_tar_archive()
 
-    def systemd_args_new(self) -> ServiceConfig:
+    def systemd_args(self) -> ServiceConfig:
         return ServiceConfig(
             exec_start=self.exe(),
             description="the heads' boss",

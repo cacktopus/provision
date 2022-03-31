@@ -27,7 +27,7 @@ class Head(Service):
             line="i2c-dev",
         ))
 
-    def systemd_args_new(self) -> ServiceConfig:
+    def systemd_args(self) -> ServiceConfig:
         return ServiceConfig(
             exec_start=self.exe(),
             description="this is the head",

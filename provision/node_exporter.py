@@ -9,7 +9,7 @@ class NodeExporter(Service):
     def setup(self) -> None:
         self.get_tar_archive()
 
-    def systemd_args_new(self) -> ServiceConfig:
+    def systemd_args(self) -> ServiceConfig:
         start = " ".join([
             self.prod_path("node_exporter"),
             "--collector.wifi",

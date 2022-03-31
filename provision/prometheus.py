@@ -46,7 +46,7 @@ class Prometheus(Service):
             template_delimiters=("((", "))"),
         )
 
-    def systemd_args_new(self) -> ServiceConfig:
+    def systemd_args(self) -> ServiceConfig:
         start = " ".join([
             self.exe(),
             "--config.file", self.user_home("etc", "prometheus.yml"),
