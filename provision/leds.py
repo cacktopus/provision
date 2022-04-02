@@ -16,14 +16,12 @@ class Leds(Service):
 
         self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
             filename="/boot/config.txt",
-            line="dtparam=spi=on",
+            line="dtoverlay=gpio-ir,gpio_pin=4",  # TODO: allow config? (enable, pin#)
         ))
-
-        # TODO: sudo apt-get install ir-keytable
-        # TODO: sudo ir-keytable -c -p nec
 
     def systemd_args(self) -> ServiceConfig:
         return ServiceConfig(
+            exec_start_pre="+/usr/bin/ir-keytable -c -p nec",
             exec_start="+" + self.exe(),  # run as root,
             description="led animations",
             type="simple",  # TODO: notify?
