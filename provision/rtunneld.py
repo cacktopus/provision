@@ -1,3 +1,5 @@
+import json
+
 import provision.hashicorp_vault as hashicorp_vault
 
 from .service import Service
@@ -27,10 +29,23 @@ class Rtunneld(Service):
             content=rsa,
         )
 
+        cfg = self.ctx.record.rtunneld.to_json() if self.ctx.record.rtunneld else {}
+
+        self.ensure_file(
+            path=self.user_home("etc", "rtunneld.yml"),
+            mode=0o640,
+            user=self.user,
+            group=self.group,
+            content=json.dumps(cfg, indent=4),
+        )
+
     def systemd_args(self) -> ServiceConfig:
         return ServiceConfig(
             exec_start=self.exe(),
             description="reverse ssh tunnel manager",
             type="simple",  # TODO: notify?
             after=["network.target"],
+            env={
+                "CONFIG_FILE": self.user_home("etc", "rtunneld.yml")
+            }
         )

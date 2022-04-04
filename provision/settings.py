@@ -7,6 +7,42 @@ _ports: Dict[str, int] = yaml.load(open('ports.yaml'), Loader=yaml.FullLoader)
 
 
 @attr.s(auto_attribs=True)
+class Tunnel:
+    Name: str
+    Listen: str
+    Gateway: str
+    Dial: str
+    Keyfile: str
+    Healthcheck: str
+    HealthcheckInterval: str
+
+    def to_json(self):
+        return {
+            "name": self.Name,
+            "listen": self.Listen,
+            "gateway": self.Gateway,
+            "dial": self.Dial,
+            "keyfile": self.Keyfile,
+            "healthcheck": self.Healthcheck,
+            "healthcheck_interval": self.HealthcheckInterval,
+        }
+
+
+@attr.s(auto_attribs=True)
+class Rtunneld:
+    Tunnels: Optional[List[Tunnel]]
+    Stdout: str = ""
+    Metrics: str = ""
+
+    def to_json(self):
+        return {
+            "stdout": self.Stdout,
+            "metrics": self.Metrics,
+            "tunnels": [t.to_json() for t in self.Tunnels],
+        }
+
+
+@attr.s(auto_attribs=True)
 class Firewall:
     # e.g. ["192.168.1.1/32"]
     allow: list[str] = attr.Factory(list)
@@ -32,6 +68,8 @@ class Host:
     env: Dict[str, Dict[str, str]] = attr.Factory(dict)
 
     firewall: Firewall = attr.Factory(Firewall)
+
+    rtunneld: Rtunneld = None
 
 
 @attr.s(auto_attribs=True)
