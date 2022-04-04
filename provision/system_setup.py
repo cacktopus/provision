@@ -28,7 +28,6 @@ class Packages(Provision):
         ]
 
         packages = [
-            "avahi-daemon",
             "curl",
             "dnsutils",
             "gcc",
@@ -66,16 +65,12 @@ class Packages2(Provision):
         package_list = [
             "autoconf",
             "automake",
-            "avahi-daemon",
-            "avahi-daemon",
-            "avahi-utils",
             "build-essential",
             "ffmpeg",
             "git",
             "i2c-tools",
             "jq",
             "libasound2-dev",
-            "libavahi-client-dev",
             "libconfig-dev",
             "libdaemon-dev",
             "libpopt-dev",

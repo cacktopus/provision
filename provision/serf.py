@@ -57,6 +57,3 @@ class Serf(Service):
         )
 
         self.get_tar_archive()
-
-    def register_mdns(self) -> None:
-        pass

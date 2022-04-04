@@ -34,6 +34,3 @@ class Head(Service):
             type="simple",  # TODO: notify?
             after=["network.target"],
         )
-
-    def mdns_service_name(self):
-        return self.ctx.record.env['head']['INSTANCE']

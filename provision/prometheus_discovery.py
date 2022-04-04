@@ -1,5 +1,3 @@
-from typing import Optional
-
 from .service import Service
 from .systemd import ServiceConfig
 
@@ -33,6 +31,3 @@ class PrometheusDiscovery(Service):
                 "OUTPUT_DIR": self.home_for_user("prometheus", "etc", "services"),
             }
         )
-
-    def register_mdns(self) -> None:
-        pass

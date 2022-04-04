@@ -23,8 +23,5 @@ class ShairportSync(Service):
     def setup(self) -> None:
         self.get_tar_archive()
 
-    def register_mdns(self) -> None:
-        pass
-
     def systemd_extra(self) -> Optional[Dict[str, str]]:
         return {"ExecStartPre": "/bin/sleep 10"}

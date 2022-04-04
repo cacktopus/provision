@@ -27,9 +27,6 @@ class Camera(Service):
             line="gpu_mem=64",
         ))
 
-    def mdns_service_name(self):
-        return self.ctx.record.env['camera']['INSTANCE']
-
     def systemd_args(self) -> ServiceConfig:
         return ServiceConfig(
             exec_start=self.prod_path("camera"),

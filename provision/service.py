@@ -225,7 +225,6 @@ class Service(Provision):
         args = self.systemd_args()
         self.systemd_new(args)
 
-        self.register_mdns()
         self.register_serf_tags()
         self.setup_sudo_for_build_restart()  # TODO: only needed for code we build from git
 
@@ -249,31 +248,6 @@ class Service(Provision):
     @property
     def metrics_port(self) -> Optional[int]:
         return self.port
-
-    def mdns_service_name(self) -> str:
-        return f"{self.name} on %h"
-
-    def register_mdns(self) -> None:
-        kv = {}
-
-        if self.metrics_port is not None:
-            kv["prometheus_metrics_port"] = self.metrics_port
-
-        txt_records = "\n".join(f"    <txt-record>{k}={v}</txt-record>" for (k, v) in kv.items())
-
-        self.template(
-            name="avahi.service",
-            location=f"/etc/avahi/services/{self.name}.service",
-            user="root",
-            group="root",
-            vars=dict(
-                service_name=self.mdns_service_name(),
-                service_type=self.name,
-                port=self.port,
-                txt_records=txt_records,
-            ),
-            mode=0o644,
-        )
 
     def register_serf_tags(self) -> None:
         service_tags = []
