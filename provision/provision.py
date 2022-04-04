@@ -39,6 +39,7 @@ def register_all() -> None:
         "provision.setup_user",
         "provision.shairport_sync",
         "provision.solar",
+        "provision.sync_static",
         "provision.system_setup",
         "provision.timesync",
         "provision.web",

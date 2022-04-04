@@ -112,6 +112,8 @@ class Settings:
 
     deploy_gateway: str = ""
 
+    sync_bwlimit: int = 5000  # kbps
+
     @property
     def all_tags(self) -> Set[str]:
         tags = set(self.common_tags)
