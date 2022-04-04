@@ -1,20 +1,12 @@
-from typing import Dict
-
 import provision.hashicorp_vault as hashicorp_vault
 
 from .service import Service
+from .systemd import ServiceConfig
 
 
 class Rtunneld(Service):
     name = "rtunneld"
-    description = "reverse ssh tunnel manager"
     deps = ["service-ready"]
-
-    # def extra_groups(self) -> List[str]:
-    #     return super().extra_groups() + ["i2c", "gpio", "audio"]
-    #
-    def command_line(self) -> str:
-        return self.exe()
 
     def setup(self) -> None:
         self.get_tar_archive()
@@ -33,4 +25,12 @@ class Rtunneld(Service):
             user=self.user,
             group=self.group,
             content=rsa,
+        )
+
+    def systemd_args(self) -> ServiceConfig:
+        return ServiceConfig(
+            exec_start=self.exe(),
+            description="reverse ssh tunnel manager",
+            type="simple",  # TODO: notify?
+            after=["network.target"],
         )
