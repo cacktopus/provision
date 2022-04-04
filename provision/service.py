@@ -173,6 +173,18 @@ class Provision:
             content=content,
         )
 
+    def enable_i2c(self):
+        # TODO: maybe this should be in a library and not attached to Service
+        self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
+            filename="/boot/config.txt",
+            line="dtparam=i2c_arm=on",
+        ))
+
+        self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
+            filename="/etc/modules",
+            line="i2c-dev",
+        ))
+
 
 class Service(Provision):
     @property

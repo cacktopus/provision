@@ -1,5 +1,6 @@
+from typing import List
+
 from provision.systemd import ServiceConfig
-from typing import List, Optional
 
 from .service import Service
 
@@ -14,6 +15,7 @@ class SetRTCTime(Service):
         return super().extra_groups() + ["i2c"]
 
     def setup(self) -> None:
+        self.enable_i2c()
         self.get_tar_archive(pkg_name="timesync")
 
     def systemd_args(self) -> ServiceConfig:

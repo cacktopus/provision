@@ -1,7 +1,7 @@
-from .systemd import ServiceConfig
-from typing import List, Optional
+from typing import List
 
 from .service import Service
+from .systemd import ServiceConfig
 
 
 class Timesync(Service):
@@ -12,6 +12,7 @@ class Timesync(Service):
         return super().extra_groups() + ["i2c"]
 
     def setup(self) -> None:
+        self.enable_i2c()
         self.get_tar_archive()
 
     def systemd_args(self) -> ServiceConfig:
