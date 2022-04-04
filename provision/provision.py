@@ -23,7 +23,6 @@ def register_all() -> None:
         "provision.grafana",
         "provision.head",
         "provision.heads_cli",
-        "provision.home",
         "provision.leds",
         "provision.logstream",
         "provision.node_exporter",
@@ -42,6 +41,7 @@ def register_all() -> None:
         "provision.solar",
         "provision.system_setup",
         "provision.timesync",
+        "provision.web",
     ]:
         mod = importlib.import_module(m)
 

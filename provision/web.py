@@ -5,8 +5,8 @@ from provision.systemd import ServiceConfig
 from .service import Service
 
 
-class Home(Service):
-    name = "home"
+class Web(Service):
+    name = "web"
     deps = ["service-ready"]
 
     def extra_groups(self) -> List[str]:
@@ -15,6 +15,10 @@ class Home(Service):
         ]
 
     def setup(self) -> None:
+        self.runner.run_remote_rpc("systemctl_disable", {
+            "service_name": "home"
+        })  # TODO: remove
+
         self.get_tar_archive()
         self._setup_sudo()
 
@@ -34,11 +38,11 @@ class Home(Service):
 
     def systemd_args(self) -> ServiceConfig:
         # TODO: perhaps use a separate group here
-        pre = "+/bin/bash -c 'chown home.home /sys/class/leds/led*/{brightness,trigger}'"
+        pre = "+/bin/bash -c 'chown web.web /sys/class/leds/led*/{brightness,trigger}'"
 
         return ServiceConfig(
             exec_start=self.exe(),
-            description="the home page (reverse proxy)",
+            description="web server (reverse proxy)",
             capabilities=["CAP_NET_BIND_SERVICE"],
             exec_start_pre=pre,
         )
