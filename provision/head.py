@@ -25,3 +25,7 @@ class Head(Service):
             type="simple",  # TODO: notify?
             after=["network.target"],
         )
+
+    def instance_name(self) -> str:
+        # consider moving this out of provision/serf and into the app itself
+        return self.ctx.record.env["head"]["INSTANCE"]

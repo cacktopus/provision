@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 from .service import Service
 from .systemd import ServiceConfig
@@ -34,3 +34,7 @@ class Camera(Service):
             type="simple",
             after=["network.target"],
         )
+
+    def instance_name(self) -> str:
+        # consider moving this out of provision/serf and into the app itself
+        return self.ctx.record.env["camera"]["INSTANCE"]

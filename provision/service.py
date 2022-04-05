@@ -229,6 +229,9 @@ class Service(Provision):
     def reload(self) -> Optional[str]:
         return None
 
+    def instance_name(self) -> str:
+        return ""
+
     def execute(self) -> List[Dict[str, Any]]:
         adduser(self.ctx, self.runner, self.user, self.extra_groups())
 
@@ -266,6 +269,10 @@ class Service(Provision):
 
         if self.port is not None:
             service_tags.append(f"sp:{self.port}")
+
+        instance_name = self.instance_name()
+        if instance_name:
+            service_tags.append(f"i:{instance_name}")
 
         cfg = {
             "tags": {
