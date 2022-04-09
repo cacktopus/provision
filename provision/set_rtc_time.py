@@ -16,16 +16,11 @@ class SetRTCTime(Service):
 
     def setup(self) -> None:
         self.enable_i2c()
-        self.get_tar_archive(pkg_name="timesync")
+        self.get_tar_archive()
 
     def systemd_args(self) -> ServiceConfig:
-        cmd = " ".join([
-            self.build_home("builds", "timesync", "prod", "timesync"),
-            "--set-rtc-time",
-        ])
-
         return ServiceConfig(
-            exec_start=cmd,
+            exec_start=self.exe(),
             description="Set system clock to rtc",
             type="oneshot",
             remain_after_exit="yes",
