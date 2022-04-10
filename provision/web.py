@@ -15,10 +15,6 @@ class Web(Service):
         ]
 
     def setup(self) -> None:
-        self.runner.run_remote_rpc("systemctl_disable", {
-            "service_name": "home"
-        })  # TODO: remove
-
         self.get_tar_archive()
         self._setup_sudo()
 

@@ -13,6 +13,7 @@ class PowerMonitor(Service):
 
     def setup(self) -> None:
         self.get_tar_archive()
+        self.enable_i2c()
 
     def systemd_args(self) -> ServiceConfig:
         return ServiceConfig(

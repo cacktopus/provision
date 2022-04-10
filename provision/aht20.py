@@ -15,17 +15,7 @@ class Aht20(Service):
 
     def setup(self) -> None:
         self.get_tar_archive()
-
-        # TODO: share this gpio enablement code
-        self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
-            filename="/boot/config.txt",
-            line="dtparam=i2c_arm=on",
-        ))
-
-        self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
-            filename="/etc/modules",
-            line="i2c-dev",
-        ))
+        self.enable_i2c()
 
     def systemd_args(self) -> ServiceConfig:
         return ServiceConfig(
