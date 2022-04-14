@@ -1,14 +1,15 @@
-from pwd import getpwnam
-
-import build_utils
 import os
 import platform
+import shutil
 import subprocess
 import tempfile
+from typing import List, Tuple, Dict, Optional
+
+import build_utils
 import util
 from build_utils import cd
 from grp import getgrnam
-from typing import List, Tuple, Dict, Optional
+from pwd import getpwnam
 from util import log, find_program
 
 
@@ -229,30 +230,6 @@ def delete_password(user: str) -> None:
         raise RuntimeError("Unexpected password status")
 
 
-# def run_as(user: str, func: Callable, **kwargs):
-#     # TODO: combine with other such things
-#     msg = dict(
-#         method=func.__name__,
-#         params=kwargs,
-#     )
-#
-#     step_payload = b64encode(pickle.dumps(msg, 0)).decode()
-#
-#     log("args", sys.argv)
-#
-#     parent_user = check(["id", "--user", "--name"])
-#     parent_home = os.path.expanduser(f"~{parent_user}")
-#
-#     remote_scripts = __file__
-#
-#     args = ["sudo", "-u", user, "python3", remote_scripts, "rpc-step", step_payload]
-#     log("abc123", " ".join(args))
-#
-#     home = os.path.expanduser(f"~{user}")
-#     with cd(home):
-#         subprocess.check_output(args)
-
-
 def add_known_host(user: str, key_line: str) -> None:
     gid = user_primary_group_id(user)
     uid = user_uid(user)
@@ -393,10 +370,12 @@ def get_info(user: str) -> Dict[str, str]:
     user_home = os.path.dirname(home)
 
     machine = check(["uname", "-m"])
+    kernel = check(["uname", "-r"])
 
     return dict(
         user_home=user_home,
         machine=machine,
+        kernel=kernel,
     )
 
 
@@ -477,3 +456,11 @@ def new_git_repo(path: str) -> None:
     if not os.path.exists(path):
         with util.umask(0o027):  # TODO: consider making this a parameter
             check(["git", "init", "--bare", path])
+
+
+def depmod() -> None:
+    check(["depmod"])
+
+
+def copyfile(src: str, dst: str) -> None:
+    shutil.copy2(src, dst)
