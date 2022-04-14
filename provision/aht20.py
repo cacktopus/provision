@@ -6,9 +6,7 @@ from .systemd import ServiceConfig
 
 class Aht20(Service):
     name = "aht20"
-    description = "aht20 temperature and humidity sensor"
     deps = ["service-ready"]
-    repo = "heads"
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["i2c"]
