@@ -26,10 +26,16 @@ def mutate():
 def _get_tar_archive(
         url: str,
         digest: str,
+        allowed_digests: List[str],
         public_keys: List[str],
         flags: str,
 ):
-    filename = fetch_archive(digest, url, public_keys)
+    filename = fetch_archive(
+        digest=digest,
+        url=url,
+        allowed_digests=allowed_digests,
+        public_keys=public_keys,
+    )
 
     check_call([
         "tar",
@@ -53,7 +59,13 @@ def _get_tar_archive(
         assert False, "unexpected file type"
 
 
-def get_tar_archive(app_name: str, url: str, digest: str, public_keys: List[str]):
+def get_tar_archive(
+        app_name: str,
+        url: str,
+        digest: str,
+        allowed_digests: List[str],
+        public_keys: List[str]
+):
     build_in_tmp_directory(
         app_name,
         digest,
@@ -61,13 +73,20 @@ def get_tar_archive(app_name: str, url: str, digest: str, public_keys: List[str]
             _get_tar_archive,
             url,
             digest,
+            allowed_digests,
             public_keys,
             "-xf"
         )
     )
 
 
-def get_tar_bz_archive(app_name: str, url: str, digest: str, public_keys: List[str]):
+def get_tar_bz_archive(
+        app_name: str,
+        url: str,
+        digest: str,
+        allowed_digests: List[str],
+        public_keys: List[str]
+):
     build_in_tmp_directory(
         app_name,
         digest,
@@ -75,6 +94,7 @@ def get_tar_bz_archive(app_name: str, url: str, digest: str, public_keys: List[s
             _get_tar_archive,
             url,
             digest,
+            allowed_digests,
             public_keys,
             "-xjf")
     )

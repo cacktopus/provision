@@ -74,16 +74,22 @@ class Provision:
         with open(local_filename, "rb") as f:
             digest = sha256(f.read()).hexdigest()
 
+        allowed_digests = []
+        with open(f"checksums") as fp:
+            for a in fp:
+                if len(a.strip()) == 0:
+                    continue  # skip empty lines
+                digest, _ = a.split()
+                allowed_digests.append(digest)
+
         params = {
             "app_name": pkg_name,
             "url": f"file:///home/static/builds/{pkg.filename}",
             "digest": digest,
+            "allowed_digests": allowed_digests,
             "public_keys": self.ctx.settings.verify_pubkeys,
         }
         self.runner.run_remote_rpc(cmd, params=params, user="build")
-
-    def get_zip_archive(self) -> None:
-        return self.get_archive("zip")
 
     def get_tar_archive(self, **kw) -> None:
         return self.get_archive("tar", **kw)

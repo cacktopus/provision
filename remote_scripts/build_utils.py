@@ -61,27 +61,37 @@ def hashfile(filename: str, hashfunc: Callable[[], Any] = hashlib.sha256) -> str
     return result
 
 
-def fetch_archive(digest: str, url: str, public_keys: List[str]) -> str:
+def fetch_archive(
+        digest: str,
+        url: str,
+        allowed_digests: List[str],
+        public_keys: List[str]
+) -> str:
     filename = url.split("/")[-1]
 
     check_call(["curl", "-L", "-O", url])
     assert os.path.isfile(filename)
 
-    check_call(["curl", "-L", "-O", url + ".minisig"])
-    assert os.path.isfile(filename + ".minisig")
-
-    pubkey_args = []
-    for p in public_keys:
-        pubkey_args.append("--public-key")
-        pubkey_args.append(p)
-
-    verify_cmd = ["/home/build/builds/minisign-verify/prod/minisign-verify"] + pubkey_args + [filename]
-    log(" ".join(verify_cmd))
-    check_call(verify_cmd)
-
-    os.unlink(filename + ".minisig")
-
     hash = hashfile(filename)
     log("computed hash:", hash)
     assert hash == digest
+
+    if hash in allowed_digests:
+        pass
+
+    else:
+        check_call(["curl", "-L", "-O", url + ".minisig"])
+        assert os.path.isfile(filename + ".minisig")
+
+        pubkey_args = []
+        for p in public_keys:
+            pubkey_args.append("--public-key")
+            pubkey_args.append(p)
+
+        verify_cmd = ["/home/build/builds/minisign-verify/prod/minisign-verify"] + pubkey_args + [filename]
+        log(" ".join(verify_cmd))
+        check_call(verify_cmd)
+
+        os.unlink(filename + ".minisig")
+
     return filename
