@@ -1,3 +1,4 @@
+import distutils.util
 from typing import List
 
 from .service import Service
@@ -14,17 +15,28 @@ class Leds(Service):
     def setup(self) -> None:
         self.get_tar_archive()
 
-        self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
-            filename="/boot/config.txt",
-            line="dtoverlay=gpio-ir,gpio_pin=4",  # TODO: allow config? (enable, pin#)
-        ))
+        if self.has_ir():
+            self.runner.run_remote_rpc("ensure_line_in_file", params=dict(
+                filename="/boot/config.txt",
+                line="dtoverlay=gpio-ir,gpio_pin=4",  # TODO: allow config? (enable, pin#)
+            ))
 
     def systemd_args(self) -> ServiceConfig:
-        return ServiceConfig(
-            exec_start_pre="+/usr/bin/ir-keytable -c -p nec",
+        config = ServiceConfig(
             exec_start="+" + self.exe(),  # run as root,
             description="led animations",
             type="simple",  # TODO: notify?
             after=["network.target"],
             env=self.ctx.settings.env['leds'],
         )
+
+        if self.has_ir():
+            config.exec_start_pre = "+/usr/bin/ir-keytable -c -p nec"
+
+        return config
+
+    def has_ir(self) -> bool:
+        env = self.ctx.record.env.get('leds', {})
+        enable = env.get('ENABLE_IR', "0")
+
+        return distutils.util.strtobool(enable)

@@ -74,7 +74,7 @@ def fetch_archive(
 
     hash = hashfile(filename)
     log("computed hash:", hash)
-    assert hash == digest
+    assert hash == digest, f"{hash} vs. {digest}"
 
     if hash in allowed_digests:
         pass

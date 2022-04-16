@@ -79,8 +79,7 @@ class Provision:
             for a in fp:
                 if len(a.strip()) == 0:
                     continue  # skip empty lines
-                digest, _ = a.split()
-                allowed_digests.append(digest)
+                allowed_digests.append(a.split()[0])
 
         params = {
             "app_name": pkg_name,
