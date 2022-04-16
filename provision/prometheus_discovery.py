@@ -10,9 +10,6 @@ class PrometheusDiscovery(Service):
     group = "prometheus"
     port = None
 
-    def command_line(self) -> str:
-        return
-
     def setup(self) -> None:
         self.get_tar_archive(pkg_name="system-tools")
 

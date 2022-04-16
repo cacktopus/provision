@@ -1,16 +1,18 @@
-from typing import Dict, List
-
 from .service import Service
+from .systemd import ServiceConfig
 
 
 class Logstream(Service):
     name = "logstream"
-    description = "log streaming microservice"
     deps = ["service-ready"]
-    repo = "heads"
-
-    def command_line(self) -> str:
-        return self.exe()
 
     def setup(self) -> None:
         self.get_tar_archive()
+
+    def systemd_args(self) -> ServiceConfig:
+        return ServiceConfig(
+            exec_start=self.exe(),
+            description="log streaming microservice",
+            type="simple",  # TODO: notify?
+            after=["network.target"],
+        )
