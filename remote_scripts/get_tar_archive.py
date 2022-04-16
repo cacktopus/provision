@@ -4,6 +4,7 @@ import os
 from contextlib import contextmanager
 from functools import partial
 from subprocess import check_call
+from typing import List
 
 from build_utils import build_in_tmp_directory, fetch_archive
 from util import log
@@ -22,8 +23,13 @@ def mutate():
     yield
 
 
-def _get_tar_archive(url: str, digest: str, flags: str):
-    filename = fetch_archive(digest, url)
+def _get_tar_archive(
+        url: str,
+        digest: str,
+        public_keys: List[str],
+        flags: str,
+):
+    filename = fetch_archive(digest, url, public_keys)
 
     check_call([
         "tar",
@@ -47,17 +53,28 @@ def _get_tar_archive(url: str, digest: str, flags: str):
         assert False, "unexpected file type"
 
 
-def get_tar_archive(app_name: str, url: str, digest: str):
+def get_tar_archive(app_name: str, url: str, digest: str, public_keys: List[str]):
     build_in_tmp_directory(
         app_name,
         digest,
-        partial(_get_tar_archive, url, digest, "-xf")
+        partial(
+            _get_tar_archive,
+            url,
+            digest,
+            public_keys,
+            "-xf"
+        )
     )
 
 
-def get_tar_bz_archive(app_name: str, url: str, digest: str):
+def get_tar_bz_archive(app_name: str, url: str, digest: str, public_keys: List[str]):
     build_in_tmp_directory(
         app_name,
         digest,
-        partial(_get_tar_archive, url, digest, "-xjf")
+        partial(
+            _get_tar_archive,
+            url,
+            digest,
+            public_keys,
+            "-xjf")
     )

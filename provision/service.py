@@ -78,6 +78,7 @@ class Provision:
             "app_name": pkg_name,
             "url": f"file:///home/static/builds/{pkg.filename}",
             "digest": digest,
+            "public_keys": self.ctx.settings.verify_pubkeys,
         }
         self.runner.run_remote_rpc(cmd, params=params, user="build")
 
