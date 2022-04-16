@@ -1,10 +1,11 @@
 import copy
+import glob
 import json
 import os
+from hashlib import sha256
 from typing import List, Dict, Optional, Any, Tuple
 
 import provision.packages as packages
-
 from .context import Context
 from .run_remote_script import Runner
 from .service_util import adduser, template
@@ -62,29 +63,23 @@ class Provision:
             "armv6l": "armv6",
         }[machine]
 
-        pkgs = []
-        with open(f"checksums") as fp:
-            for a in fp:
-                if len(a.strip()) == 0:
-                    continue  # skip empty lines
-                digest, filename = a.split()
-                pkg = packages.Package.parse(filename)
+        builds_dir = os.path.join(self.ctx.settings.static_files_path, "builds")
+        pattern = os.path.join(builds_dir, arch, f"{pkg_name}_*.tar.gz")
 
-                if pkg.name.replace("_", "-") != pkg_name.replace("_", "-"):
-                    continue
-
-                pkg.digest = digest
-                pkgs.append(pkg)
-
-        pkgs = [p for p in pkgs if p.arch == arch]
-
+        files = [os.path.relpath(f, builds_dir) for f in glob.glob(pattern)]  # compute relative path
+        pkgs = [packages.Package.parse(f) for f in files]
         pkg: packages.Package = max(pkgs, key=lambda p: p.version)
+        local_filename = os.path.join(builds_dir, pkg.filename)
 
-        self.runner.run_remote_rpc(cmd, params=dict(
-            app_name=pkg_name,
-            url=f"file:///home/static/builds/{pkg.filename}",
-            digest=pkg.digest,
-        ), user="build")
+        with open(local_filename, "rb") as f:
+            digest = sha256(f.read()).hexdigest()
+
+        params = {
+            "app_name": pkg_name,
+            "url": f"file:///home/static/builds/{pkg.filename}",
+            "digest": digest,
+        }
+        self.runner.run_remote_rpc(cmd, params=params, user="build")
 
     def get_zip_archive(self) -> None:
         return self.get_archive("zip")
