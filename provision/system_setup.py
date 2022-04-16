@@ -1,5 +1,3 @@
-import subprocess
-
 from .service import Provision
 
 
@@ -90,3 +88,11 @@ class SetupHost(Provision):
 
     def setup(self) -> None:
         self.runner.run_remote_rpc("setup_host", params=dict(hostname=self.ctx.host))
+
+
+class MinisignVerify(Provision):
+    name = "minisign-verify"
+    deps = ["sync-static"]
+
+    def setup(self) -> None:
+        self.get_tar_archive(pkg_name="minisign-verify")

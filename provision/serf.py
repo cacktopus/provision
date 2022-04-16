@@ -6,7 +6,7 @@ from .systemd import ServiceConfig
 
 class Serf(Service):
     name = "serf"
-    deps = ["sync-static"]
+    deps = ["sync-static", "minisign-verify"]
     port = None
 
     def systemd_args(self) -> ServiceConfig:
