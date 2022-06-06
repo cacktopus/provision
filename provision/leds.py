@@ -30,9 +30,6 @@ class Leds(Service):
             env=self.ctx.settings.env['leds'],
         )
 
-        if self.has_ir():
-            config.exec_start_pre = "+/usr/bin/ir-keytable -c -p nec"
-
         return config
 
     def has_ir(self) -> bool:
