@@ -239,7 +239,8 @@ class Service(Provision):
         self.setup()
 
         args = self.systemd_args()
-        self.systemd_new(args)
+        if args is not None:
+            self.systemd_new(args)
 
         self.register_serf_tags()
         self.setup_sudo_for_build_restart()  # TODO: only needed for code we build from git
