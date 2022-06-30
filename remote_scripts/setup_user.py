@@ -1,15 +1,16 @@
+from pwd import getpwnam
+
 import os
 import platform
 import shutil
 import subprocess
 import tempfile
+from grp import getgrnam
 from typing import List, Tuple, Dict, Optional
 
 import build_utils
 import util
 from build_utils import cd
-from grp import getgrnam
-from pwd import getpwnam
 from util import log, find_program
 
 
@@ -395,7 +396,12 @@ def install_deb(url: str, digest: str, pkg_name: str, version: str) -> None:
 
     with tempfile.TemporaryDirectory() as tmpdir:
         with cd(tmpdir):
-            filename = build_utils.fetch_archive(digest, url)
+            filename = build_utils.fetch_archive(
+                digest=digest,
+                url=url,
+                allowed_digests=[digest],
+                public_keys=[],
+            )
             check(
                 ["apt-get", "install", "./" + filename],
                 env={"DEBIAN_FRONTEND": "noninteractive"}
