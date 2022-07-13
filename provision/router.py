@@ -1,7 +1,7 @@
 from provision import hashicorp_vault
 
 from .service import Provision
-from .systemd import systemd, ServiceConfig
+from .systemd import ServiceConfig, OneshotConfig
 
 
 class Router(Provision):
@@ -72,13 +72,13 @@ class Router(Provision):
         )
 
         # TODO: put in firewall setup?
-        params = systemd(ServiceConfig(
+        params = OneshotConfig(
             name="iptables-masquerade",
+            description="iptables-masquerade",
             exec_start=f"/usr/sbin/iptables -t nat -A POSTROUTING -o {cfg.upstream_interface} -j MASQUERADE",
-            type="oneshot",
             remain_after_exit="yes",
             before=["network.target"],
-        ))
+        ).build_config()
 
         self.runner.run_remote_rpc("systemd", params=params)
         self.runner.run_remote_rpc("systemctl_unmask", params=dict(service_name="hostapd"))

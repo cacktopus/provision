@@ -1,7 +1,7 @@
 from typing import List
 
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Aht20(Service):
@@ -15,10 +15,8 @@ class Aht20(Service):
         self.get_tar_archive()
         self.enable_i2c()
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         return ServiceConfig(
             exec_start=self.exe(),
             description="aht20 temperature and humidity sensor",
-            type="simple",  # TODO: notify?
-            after=["network.target"],
         )

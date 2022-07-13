@@ -1,7 +1,7 @@
 from typing import List
 
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Boss(Service):
@@ -11,19 +11,15 @@ class Boss(Service):
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["systemd-journal"]
 
-    def working_dir(self) -> str:
-        return self.prod_path()
-
     def command_line(self) -> str:
         return self.exe()
 
     def setup(self) -> None:
         self.get_tar_archive()
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         return ServiceConfig(
             exec_start=self.exe(),
             description="the heads' boss",
-            type="simple",
-            after=["network.target"],
+            working_dir=self.prod_path(),
         )

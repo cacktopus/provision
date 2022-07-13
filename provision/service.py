@@ -9,7 +9,7 @@ import provision.packages as packages
 from .context import Context
 from .run_remote_script import Runner
 from .service_util import adduser, template
-from .systemd import ServiceConfig, systemd
+from .systemd import BaseConfig
 
 
 class Provision:
@@ -218,9 +218,6 @@ class Service(Provision):
     def exe(self) -> str:
         return self.prod_path(self.name)
 
-    def working_dir(self) -> str:
-        return self.user_home()
-
     def command_line(self) -> Optional[str]:
         raise NotImplementedError
 
@@ -247,19 +244,18 @@ class Service(Provision):
 
         return self.runner.execute()
 
-    def systemd_new(self, cfg: ServiceConfig):
+    def systemd_new(self, cfg: BaseConfig):
         c = copy.deepcopy(cfg)
         c.name = c.name or self.name
         c.user = c.user or self.user
         c.group = c.group or self.group  # TODO: or self.name?
         c.description = c.description or self.description
-        c.working_dir = c.working_dir or self.working_dir()
+        c.working_dir = c.working_dir or self.user_home()
         c.env = c.env | self.ctx.record.env.get(self.name, {})
-        params = systemd(c)
-        params["mode"] = 0o644
+        params = c.build_config()
         self.runner.run_remote_rpc("systemd", params=params)
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         raise NotImplementedError
 
     @property

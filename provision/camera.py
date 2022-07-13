@@ -1,7 +1,7 @@
 from typing import List
 
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Camera(Service):
@@ -10,9 +10,6 @@ class Camera(Service):
 
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["video", "gpio"]
-
-    def working_dir(self) -> str:
-        return self.prod_path()
 
     def setup(self) -> None:
         self.get_tar_archive()
@@ -27,12 +24,11 @@ class Camera(Service):
             line="gpu_mem=64",
         ))
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         return ServiceConfig(
             exec_start=self.prod_path("camera"),
             description="the eyes",
-            type="simple",
-            after=["network.target"],
+            working_dir=self.prod_path(),
         )
 
     def instance_name(self) -> str:

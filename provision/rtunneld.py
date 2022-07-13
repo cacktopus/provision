@@ -3,7 +3,7 @@ import json
 import provision.hashicorp_vault as hashicorp_vault
 
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Rtunneld(Service):
@@ -39,12 +39,10 @@ class Rtunneld(Service):
             content=json.dumps(cfg, indent=4),
         )
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         return ServiceConfig(
             exec_start=self.exe(),
             description="reverse ssh tunnel manager",
-            type="simple",  # TODO: notify?
-            after=["network.target"],
             env={
                 "CONFIG_FILE": self.user_home("etc", "rtunneld.yml")
             }

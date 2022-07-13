@@ -1,7 +1,7 @@
 from typing import List
 
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Timesync(Service):
@@ -15,11 +15,10 @@ class Timesync(Service):
         self.enable_i2c()
         self.get_tar_archive()
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         return ServiceConfig(
             exec_start=self.exe(),
             description="RTC and time syncing microservice",
             type="notify",
             capabilities=["CAP_SYS_TIME"],
-            after=["network.target"],
         )

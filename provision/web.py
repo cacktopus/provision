@@ -1,6 +1,6 @@
 from typing import List
 
-from provision.systemd import ServiceConfig
+from provision.systemd import ServiceConfig, BaseConfig
 
 from .service import Service
 
@@ -32,7 +32,7 @@ class Web(Service):
             content=content,
         )
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         # TODO: perhaps use a separate group here
         pre = "+/bin/bash -c 'chown web.web /sys/class/leds/led*/{brightness,trigger}'"
 

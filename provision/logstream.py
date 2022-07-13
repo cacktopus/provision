@@ -1,5 +1,5 @@
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Logstream(Service):
@@ -9,10 +9,8 @@ class Logstream(Service):
     def setup(self) -> None:
         self.get_tar_archive()
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         return ServiceConfig(
             exec_start=self.exe(),
             description="log streaming microservice",
-            type="simple",  # TODO: notify?
-            after=["network.target"],
         )

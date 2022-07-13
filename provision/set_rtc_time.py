@@ -1,7 +1,6 @@
 from typing import List
 
-from provision.systemd import ServiceConfig
-
+from provision.systemd import OneshotConfig, BaseConfig
 from .service import Service
 
 
@@ -18,11 +17,10 @@ class SetRTCTime(Service):
         self.enable_i2c()
         self.get_tar_archive()
 
-    def systemd_args(self) -> ServiceConfig:
-        return ServiceConfig(
+    def systemd_args(self) -> BaseConfig:
+        return OneshotConfig(
             exec_start=self.exe(),
             description="Set system clock to rtc",
-            type="oneshot",
             remain_after_exit="yes",
             capabilities=["CAP_SYS_TIME"],
             after=["hwclock.service", "local-fs.target"],

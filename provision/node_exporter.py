@@ -1,5 +1,5 @@
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class NodeExporter(Service):
@@ -9,7 +9,7 @@ class NodeExporter(Service):
     def setup(self) -> None:
         self.get_tar_archive()
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         start = " ".join([
             self.prod_path("node_exporter"),
             "--collector.wifi",
@@ -18,6 +18,4 @@ class NodeExporter(Service):
         return ServiceConfig(
             exec_start=start,
             description="system stats exporter for prometheus monitoring tool",
-            type="simple",
-            after=["network.target"],
         )

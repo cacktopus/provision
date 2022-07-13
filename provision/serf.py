@@ -1,7 +1,7 @@
 import json
 
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Serf(Service):
@@ -9,7 +9,7 @@ class Serf(Service):
     deps = ["sync-static", "minisign-verify"]
     port = None
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         start = " ".join([
             self.exe(),
             "agent",
@@ -19,8 +19,6 @@ class Serf(Service):
         return ServiceConfig(
             exec_start=start,
             description="hashicorp serf",
-            type="simple",
-            after=["network.target"],
         )
 
     def setup(self) -> None:

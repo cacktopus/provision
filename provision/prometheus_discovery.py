@@ -1,5 +1,5 @@
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class PrometheusDiscovery(Service):
@@ -13,7 +13,7 @@ class PrometheusDiscovery(Service):
     def setup(self) -> None:
         self.get_tar_archive(pkg_name="system-tools")
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         start = " ".join([
             self.build_home("builds", "system-tools", "prod", "system-tools"),
             "discover-prometheus",
@@ -22,8 +22,6 @@ class PrometheusDiscovery(Service):
         return ServiceConfig(
             exec_start=start,
             description="service discovery for prometheus",
-            type="simple",
-            after=["network.target"],
             env={
                 "OUTPUT_DIR": self.home_for_user("prometheus", "etc", "services"),
             }

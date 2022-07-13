@@ -2,7 +2,7 @@ import distutils.util
 from typing import List
 
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Leds(Service):
@@ -21,12 +21,10 @@ class Leds(Service):
                 line="dtoverlay=gpio-ir,gpio_pin=4",  # TODO: allow config? (enable, pin#)
             ))
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         config = ServiceConfig(
             exec_start="+" + self.exe(),  # run as root,
             description="led animations",
-            type="simple",  # TODO: notify?
-            after=["network.target"],
             env=self.ctx.settings.env['leds'],
         )
 

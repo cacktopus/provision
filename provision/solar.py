@@ -1,7 +1,7 @@
 from typing import List
 
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Solar(Service):
@@ -40,10 +40,8 @@ class Solar(Service):
             line="xr_usb_serial_common",
         )
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         return ServiceConfig(
             exec_start=self.exe(),
             description="solar monitoring microservice",
-            type="simple",  # TODO: notify?
-            after=["network.target"],
         )

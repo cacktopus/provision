@@ -1,7 +1,7 @@
 from typing import List
 
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Head(Service):
@@ -11,19 +11,15 @@ class Head(Service):
     def extra_groups(self) -> List[str]:
         return super().extra_groups() + ["i2c", "gpio", "audio"]
 
-    def working_dir(self) -> str:
-        return self.prod_path()
-
     def setup(self) -> None:
         self.get_tar_archive()
         self.enable_i2c()
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         return ServiceConfig(
             exec_start=self.exe(),
             description="this is the head",
-            type="simple",  # TODO: notify?
-            after=["network.target"],
+            working_dir=self.prod_path(),
         )
 
     def instance_name(self) -> str:

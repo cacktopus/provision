@@ -1,18 +1,12 @@
-from typing import Dict, Any
+from typing import Dict
 
 from .service import Service
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Grafana(Service):
     name = "grafana"
     deps = ["prometheus"]
-
-    def systemd_args(self) -> Dict[str, Any]:
-        args = super().systemd_args()
-        assert args is not None
-        args.update(working_dir=self.prod_path())
-        return args
 
     def template_vars(self) -> Dict[str, str]:
         return dict(
@@ -58,7 +52,7 @@ class Grafana(Service):
                 group=self.group,
             )
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         start = " ".join([
             self.prod_path("bin", "grafana-server"),
             "--homepath", self.prod_path(),
@@ -68,6 +62,5 @@ class Grafana(Service):
         return ServiceConfig(
             exec_start=start,
             description="grafana dashboards",
-            type="simple",
-            after=["network.target"],
+            working_dir=self.prod_path(),
         )

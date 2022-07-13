@@ -4,7 +4,7 @@ import yaml
 
 from .service import Service
 from .settings import Settings
-from .systemd import ServiceConfig
+from .systemd import ServiceConfig, BaseConfig
 
 
 class Prometheus(Service):
@@ -46,7 +46,7 @@ class Prometheus(Service):
             template_delimiters=("((", "))"),
         )
 
-    def systemd_args(self) -> ServiceConfig:
+    def systemd_args(self) -> BaseConfig:
         start = " ".join([
             self.exe(),
             "--config.file", self.user_home("etc", "prometheus.yml"),
@@ -56,8 +56,6 @@ class Prometheus(Service):
         return ServiceConfig(
             exec_start=start,
             description="prometheus monitoring tool",
-            type="simple",
-            after=["network.target"],
         )
 
 

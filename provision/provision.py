@@ -25,6 +25,7 @@ def register_all() -> None:
         "provision.heads_cli",
         "provision.leds",
         "provision.logstream",
+        "provision.lowred",
         "provision.node_exporter",
         "provision.opencv",
         "provision.packages",
