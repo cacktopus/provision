@@ -25,7 +25,7 @@ class Leds(Service):
         config = ServiceConfig(
             exec_start="+" + self.exe(),  # run as root,
             description="led animations",
-            env=self.ctx.settings.env['leds'],
+            env=self.ctx.record.env['leds'],
         )
 
         return config
