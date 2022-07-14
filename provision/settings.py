@@ -100,7 +100,6 @@ class Settings:
 
     router: Optional[Router] = None
 
-    env: Dict[str, Dict[str, str]] = attr.Factory(dict)
     whitelist_hosts: List[str] = attr.Factory(list)
 
     whitelist_tags: List[str] = attr.Factory(list)
