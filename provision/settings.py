@@ -95,7 +95,7 @@ class Settings:
     mainuser: str
     network: str
     serf: Serf
-    static_files_path: str
+    shared_files_path: str
     verify_pubkeys: List[str]
 
     router: Optional[Router] = None

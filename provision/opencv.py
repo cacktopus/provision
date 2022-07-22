@@ -19,7 +19,7 @@ class OpenCV(Provision):
 
         pkg_name = f"opencv_4.4.0-2_{arch}.deb"
 
-        pkg_file = os.path.join(self.ctx.settings.static_files_path, "builds", arch, pkg_name)
+        pkg_file = os.path.join(self.ctx.settings.shared_files_path, "builds", arch, pkg_name)
 
         with open(pkg_file, "rb") as f:
             digest = sha256(f.read()).hexdigest()

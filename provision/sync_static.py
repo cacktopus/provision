@@ -9,16 +9,23 @@ class SyncStatic(Provision):
 
     def setup(self) -> None:
         settings = self.ctx.settings
-        static = settings.static_files_path
+        static = settings.shared_files_path
         assert static
         record = self.ctx.record
         ip = record.initial_ip or record.host
+
+        self.ensure_dir(
+            path=self.home_for_user("static", "shared"),
+            mode=0o755,
+            user="static",
+            group="static",
+        )
 
         exclude = " ".join(
             f"--exclude '{pat}'" for pat in sorted(list(self.ctx.record.sync_exclude))
         )
 
-        cmd = f"rsync -a --progress --bwlimit {settings.sync_bwlimit} {static}/ {exclude} static@{ip}:"
+        cmd = f"rsync -a --progress --bwlimit {settings.sync_bwlimit} {static}/ {exclude} static@{ip}:shared/"
         print(f"running {cmd}")
 
         retcode = subprocess.call(cmd, shell=True)

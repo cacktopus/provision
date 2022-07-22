@@ -63,7 +63,7 @@ class Provision:
             "armv6l": "armv6",
         }[machine]
 
-        builds_dir = os.path.join(self.ctx.settings.static_files_path, "builds")
+        builds_dir = os.path.join(self.ctx.settings.shared_files_path, "builds")
         pattern = os.path.join(builds_dir, arch, f"{pkg_name}_*.tar.gz")
 
         files = [os.path.relpath(f, builds_dir) for f in glob.glob(pattern)]  # compute relative path
