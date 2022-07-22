@@ -3,6 +3,7 @@ from build_node import build_node
 from dhcpcd_conf import dhcpcd_conf
 from get_tar_archive import get_tar_archive
 from get_tar_archive import get_tar_bz_archive
+from setup_user import add_to_cmdline_txt
 from setup_user import copyfile
 from setup_user import depmod
 from setup_user import ensure_dir

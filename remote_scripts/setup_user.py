@@ -469,3 +469,18 @@ def depmod() -> None:
 
 def copyfile(src: str, dst: str) -> None:
     shutil.copy2(src, dst)
+
+
+def add_to_cmdline_txt(items: List[str]) -> None:
+    with open("/boot/cmdline.txt") as f:
+        content = f.read()
+
+    items = [i for i in items if i not in content]
+    if len(items) == 0:
+        return
+
+    to_add = " ".join(items)
+    result = f"{content.strip()} {to_add}\n"
+
+    with open("/boot/cmdline.txt", "w") as f:
+        f.write(result)

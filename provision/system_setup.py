@@ -88,6 +88,9 @@ class SetupHost(Provision):
 
     def setup(self) -> None:
         self.runner.run_remote_rpc("setup_host", params=dict(hostname=self.ctx.host))
+        self.runner.run_remote_rpc("add_to_cmdline_txt", params={
+            "items": ["ipv6.disable=1"],
+        })
 
 
 class MinisignVerify(Provision):
