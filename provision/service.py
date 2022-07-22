@@ -83,7 +83,7 @@ class Provision:
 
         params = {
             "app_name": pkg_name,
-            "url": f"file:///home/static/builds/{pkg.filename}",
+            "url": f"file:///home/static/shared/builds/{pkg.filename}",
             "digest": digest,
             "allowed_digests": allowed_digests,
             "public_keys": self.ctx.settings.verify_pubkeys,

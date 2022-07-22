@@ -25,7 +25,7 @@ class OpenCV(Provision):
             digest = sha256(f.read()).hexdigest()
 
         self.runner.run_remote_rpc("install_deb", params=dict(
-            url=f"file:///home/static/builds/{arch}/{pkg_name}",
+            url=f"file:///home/static/shared/builds/{arch}/{pkg_name}",
             digest=digest,
             pkg_name="opencv",
             version="4.4.0-2",

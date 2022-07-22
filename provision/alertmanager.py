@@ -9,7 +9,6 @@ from .hashicorp_vault import Client
 
 class Alertmanager(Service):
     name = "alertmanager"
-    description = "Alert Manager"
     deps = ["service-ready"]
 
     def template_vars(self) -> Dict[str, str]:
