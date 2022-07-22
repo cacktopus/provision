@@ -1,3 +1,6 @@
+import os
+from hashlib import sha256
+
 from .service import Provision
 
 
@@ -6,9 +9,25 @@ class OpenCV(Provision):
     deps = ["serf"]
 
     def setup(self) -> None:
+        machine = self.info['machine']
+
+        arch = {
+            "armv7l": "armhf",
+            "aarch64": "arm64",
+            "armv6l": "armv6",
+        }[machine]
+
+        pkg_name = f"opencv_4.4.0-2_{arch}.deb"
+
+        pkg_file = os.path.join(self.ctx.settings.static_files_path, "builds", arch, pkg_name)
+
+        with open(pkg_file, "rb") as f:
+            digest = sha256(f.read()).hexdigest()
+
         self.runner.run_remote_rpc("install_deb", params=dict(
-            url="https://theheads.sfo2.digitaloceanspaces.com/build/opencv_4.4.0-2_armhf.deb",
-            digest="3dd6ec5f4ff498b7da733ea978fcf02196707bbf8df71e8d02a0b5b4d21de37b",
+            url=f"file:///home/static/builds/{arch}/{pkg_name}",
+            digest=digest,
             pkg_name="opencv",
             version="4.4.0-2",
+            public_keys=self.ctx.settings.verify_pubkeys,
         ))

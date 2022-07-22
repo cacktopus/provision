@@ -1,11 +1,10 @@
-from pwd import getpwnam
-
 import os
 import platform
 import shutil
 import subprocess
 import tempfile
 from grp import getgrnam
+from pwd import getpwnam
 from typing import List, Tuple, Dict, Optional
 
 import build_utils
@@ -384,7 +383,7 @@ def systemctl_reload(service: str) -> None:
     check(["systemctl", "reload", service])
 
 
-def install_deb(url: str, digest: str, pkg_name: str, version: str) -> None:
+def install_deb(url: str, digest: str, pkg_name: str, version: str, public_keys: List[str]) -> None:
     rc, output = subprocess.getstatusoutput(f"dpkg-query --show -f '${{Version}}' {pkg_name}")
     if rc == 0:
         have = output.strip()
@@ -399,8 +398,8 @@ def install_deb(url: str, digest: str, pkg_name: str, version: str) -> None:
             filename = build_utils.fetch_archive(
                 digest=digest,
                 url=url,
-                allowed_digests=[digest],
-                public_keys=[],
+                allowed_digests=[],
+                public_keys=public_keys,
             )
             check(
                 ["apt-get", "install", "./" + filename],
