@@ -1,7 +1,7 @@
 from provision import hashicorp_vault
 
 from .service import Provision
-from .systemd import ServiceConfig, OneshotConfig
+from .systemd import OneshotConfig
 
 
 class Router(Provision):
@@ -13,15 +13,6 @@ class Router(Provision):
 
         vault_client = hashicorp_vault.Client()
         wpa_passphrase = vault_client.get(cfg.vault_wpa_passphrase_key)["wpa_passphrase"]
-
-        package_list = [
-            "hostapd",
-            "dnsmasq",
-            "netfilter-persistent",
-            "iptables-persistent",
-        ]
-
-        self.runner.run_remote_rpc("install_packages", params=dict(packages=package_list))
 
         self.template(
             name="hostapd.conf",
@@ -78,6 +69,7 @@ class Router(Provision):
             exec_start=f"/usr/sbin/iptables -t nat -A POSTROUTING -o {cfg.upstream_interface} -j MASQUERADE",
             remain_after_exit="yes",
             before=["network.target"],
+            wanted_by=["network.target"],
         ).build_config()
 
         self.runner.run_remote_rpc("systemd", params=params)
