@@ -51,7 +51,7 @@ class BaseConfig:
                 item("ExecStart", self.exec_start),
                 item("ExecStartPre", self.exec_start_pre),
                 item("ExecReload", self.exec_reload),
-                item("EnvironmentFile", f"/etc/systemd/system/{self.name}.env")
+                item("EnvironmentFile", f"/etc/env/{self.name}.env")
             ),
 
             section(

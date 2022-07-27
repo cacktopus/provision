@@ -239,7 +239,14 @@ class Service(Provision):
         if args is not None:
             env = args.env | self.ctx.record.env.get(self.name, {})
             env_file = "\n".join(f"{k}={v}" for k, v in sorted(env.items())) + "\n"
-            env_path = f"/etc/systemd/system/{self.name}.env"
+            env_path = f"/etc/env/{self.name}.env"
+
+            self.ensure_dir(
+                path="/etc/env",
+                mode=0o755,
+                user="root",
+                group="root",
+            )
 
             self.ensure_file(
                 path=env_path,
