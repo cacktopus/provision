@@ -17,7 +17,7 @@ class OpenCV(Provision):
             "armv6l": "armv6",
         }[machine]
 
-        pkg_name = f"opencv_4.4.0-2_{arch}.deb"
+        pkg_name = f"opencv_4.5.5-2_{arch}.deb"
 
         pkg_file = os.path.join(self.ctx.settings.shared_files_path, "builds", arch, pkg_name)
 
@@ -28,6 +28,6 @@ class OpenCV(Provision):
             url=f"file:///home/static/shared/builds/{arch}/{pkg_name}",
             digest=digest,
             pkg_name="opencv",
-            version="4.4.0-2",
+            version="4.5.5-2",
             public_keys=self.ctx.settings.verify_pubkeys,
         ))
