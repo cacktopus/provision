@@ -29,8 +29,6 @@ class BaseConfig:
     wanted_by: List[str] = attr.Factory(list)
 
     def build_config(self) -> Dict[str, Any]:
-        env = [f"Environment={k}={v}" for k, v in sorted(self.env.items())]
-
         service_content = config(
             section(
                 "Unit",
@@ -53,7 +51,7 @@ class BaseConfig:
                 item("ExecStart", self.exec_start),
                 item("ExecStartPre", self.exec_start_pre),
                 item("ExecReload", self.exec_reload),
-                *env,
+                item("EnvironmentFile", f"/etc/systemd/system/{self.name}.env")
             ),
 
             section(

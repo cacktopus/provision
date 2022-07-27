@@ -237,6 +237,18 @@ class Service(Provision):
 
         args = self.systemd_args()
         if args is not None:
+            env = args.env | self.ctx.record.env.get(self.name, {})
+            env_file = "\n".join(f"{k}={v}" for k, v in sorted(env.items())) + "\n"
+            env_path = f"/etc/systemd/system/{self.name}.env"
+
+            self.ensure_file(
+                path=env_path,
+                mode=0o644,
+                user="root",
+                group="root",
+                content=env_file,
+            )
+
             self.systemd_new(args)
 
         self.register_serf_tags()
@@ -251,7 +263,6 @@ class Service(Provision):
         c.group = c.group or self.group  # TODO: or self.name?
         c.description = c.description or self.description
         c.working_dir = c.working_dir or self.user_home()
-        c.env = c.env | self.ctx.record.env.get(self.name, {})
         params = c.build_config()
         self.runner.run_remote_rpc("systemd", params=params)
 
