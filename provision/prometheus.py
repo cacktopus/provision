@@ -56,6 +56,7 @@ class Prometheus(Service):
         return ServiceConfig(
             exec_start=start,
             description="prometheus monitoring tool",
+            exec_start_pre="/bin/sleep 60",
         )
 
 
