@@ -81,6 +81,7 @@ class ServiceConfig(BaseConfig):
 @attr.s(auto_attribs=True)
 class OneshotConfig(BaseConfig):
     type: str = "oneshot"
+    wanted_by: List[str] = attr.Factory(lambda: ["multi-user.target"])
 
 
 def section(name: str, *items: Optional[str]) -> Tuple[str, List[str]]:

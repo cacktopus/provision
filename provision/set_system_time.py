@@ -24,4 +24,5 @@ class SetSystemTime(Service):
             remain_after_exit="yes",
             capabilities=["CAP_SYS_TIME"],
             after=["hwclock.service", "local-fs.target"],
+            wanted_by=["basic.target"],
         )
