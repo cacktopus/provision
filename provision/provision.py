@@ -1,11 +1,11 @@
 import importlib
 import inspect
-
-import provision.actions as actions
 import time
+
 from fabric import Connection  # type: ignore
 from networkx import topological_sort  # type: ignore
 
+import provision.actions as actions
 from .context import Context
 from .info import Info
 from .service import Service, Provision
@@ -36,7 +36,7 @@ def register_all() -> None:
         "provision.rtc",
         "provision.rtunneld",
         "provision.serf",
-        "provision.set_rtc_time",
+        "provision.set_system_time",
         "provision.setup_user",
         "provision.shairport_sync",
         "provision.solar",

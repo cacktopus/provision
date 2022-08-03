@@ -4,8 +4,8 @@ from provision.systemd import OneshotConfig, BaseConfig
 from .service import Service
 
 
-class SetRTCTime(Service):
-    name = "set-rtc-time"
+class SetSystemTime(Service):
+    name = "set-system-time"
     user = "timesync"
     deps = ["service-ready"]
     port = None
