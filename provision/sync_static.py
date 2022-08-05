@@ -21,9 +21,12 @@ class SyncStatic(Provision):
             group="static",
         )
 
-        exclude = " ".join(
-            f"--exclude '{pat}'" for pat in sorted(list(self.ctx.record.sync_exclude))
-        )
+        if self.ctx.record.sync_exclude:
+            exclude = " ".join(
+                f"--exclude '{pat}'" for pat in sorted(list(self.ctx.record.sync_exclude))
+            )
+        else:
+            exclude = " "
 
         cmd = f"rsync -a --progress --bwlimit {settings.sync_bwlimit} {static}/ {exclude} static@{ip}:shared/"
         print(f"running {cmd}")
