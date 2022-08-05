@@ -28,7 +28,9 @@ class SyncStatic(Provision):
         else:
             exclude = " "
 
-        cmd = f"rsync -a --progress --bwlimit {settings.sync_bwlimit} {static}/ {exclude} static@{ip}:shared/"
+        delete = "--delete" if self.ctx.settings.sync_delete else ""
+
+        cmd = f"rsync -a --progress {delete} --bwlimit {settings.sync_bwlimit} {static}/ {exclude} static@{ip}:shared/"
         print(f"running {cmd}")
 
         retcode = subprocess.call(cmd, shell=True)
