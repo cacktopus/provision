@@ -35,3 +35,8 @@ class Leds(Service):
         enable = env.get('ENABLE_IR', "0")
 
         return distutils.util.strtobool(enable)
+
+    def instance_name(self) -> str:
+        # leds service will have the same instance name as the corresponding head, if present
+        head_env = self.ctx.record.env.get("head", {})
+        return head_env.get("INSTANCE", "")
